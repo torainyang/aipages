@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>To Unlock the Full Value of AI, Invest in Your People - PPT</title>
+  <meta name="viewport" content="width=1280, height=720, initial-scale=1.0" />
+  <!-- FontAwesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <style>
+    :root {
+      --primary-blue: #2B6AFF;
+      --secondary-blue: #40B8FF;
+      --bg: #ffffff;
+      --text-main: #222222;
+      --text-muted: #888888;
+      --border-soft: #e5e7eb;
+      --shadow-soft: 0 14px 30px rgba(15, 23, 42, 0.10);
+      --shadow-lighter: 0 8px 20px rgba(15, 23, 42, 0.05);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+      --transition-fast: 0.25s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top left, #f5f7ff 0, #ffffff 40%, #f9fafb 100%);
+      font-family: Arial, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-main);
+      overflow: hidden;
+    }
+
+    .deck {
+      position: relative;
+      width: 1280px;
+      height: 720px;
+      margin: 20px auto;
+      background: var(--bg);
+      border-radius: 32px;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top subtle progress bar */
+    .progress-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 100%;
+      background: linear-gradient(90deg, rgba(43,106,255,0.15), rgba(64,184,255,0.15));
+      overflow: hidden;
+      z-index: 5;
+    }
+    .progress-bar-inner {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+      transition: width var(--transition-fast);
+    }
+
+    .slides-container {
+      flex: 1;
+      position: relative;
+      padding: 20px 28px 26px 28px;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 16px 20px 24px 20px;
+      border-radius: 24px;
+      background: #ffffff;
+      box-shadow: var(--shadow-soft);
+      padding: 22px 26px 22px 26px;
+      display: none;
+      flex-direction: column;
+      justify-content: flex-start;
+      transition: opacity var(--transition-fast), transform var(--transition-fast);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .slide::-webkit-scrollbar {
+      width: 6px;
+    }
+    .slide::-webkit-scrollbar-track {
+      background: #f3f4ff;
+      border-radius: 999px;
+    }
+    .slide::-webkit-scrollbar-thumb {
+      background: rgba(43,106,255,0.5);
+      border-radius: 999px;
+    }
+
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide-enter-from-right {
+      opacity: 0;
+      transform: translateX(40px);
+    }
+
+    .slide-enter-from-left {
+      opacity: 0;
+      transform: translateX(-40px);
+    }
+
+    .slide-header {
+      margin-bottom: 10px;
+    }
+
+    .kicker {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-family: "KaiTi", "STKaiti", "Songti SC", serif;
+    }
+
+    .title {
+      font-size: 28px; /* 放大 */
+      line-height: 1.25;
+      font-weight: 700;
+      font-family: "KaiTi", "STKaiti", "Songti SC", serif;
+      color: #111827;
+    }
+
+    .title .highlight {
+      color: var(--primary-blue);
+      font-weight: 800;
+      font-family: "KaiTi", "STKaiti", "Songti SC", serif;
+    }
+
+    .subtitle {
+      font-size: 15px;  /* 放大 */
+      margin-top: 6px;
+      color: #4b5563;
+      max-width: 80%;
+      font-family: "KaiTi", "STKaiti", "Songti SC", serif;
+    }
+
+    .slide-body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      column-gap: 24px;
+      row-gap: 16px;
+      align-items: stretch;
+      margin-top: 8px;
+      padding-bottom: 6px;
+    }
+
+    .full-width .slide-body {
+      grid-template-columns: 1fr;
+    }
+
+    .left, .right {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .lead-in {
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(43,106,255,0.08), rgba(64,184,255,0.02));
+      border: 1px solid rgba(43,106,255,0.18);
+      padding: 8px 12px;
+      font-size: 13px;
+      color: #374151;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .lead-in i {
+      color: var(--primary-blue);
+      margin-top: 2px;
+    }
+
+    .lead-in strong {
+      font-family: "KaiTi", "STKaiti", "Songti SC", serif;
+    }
+
+    ul.bullets {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    ul.bullets li {
+      position: relative;
+      padding-left: 16px;
+      font-size: 14px; /* 放大 */
+      line-height: 1.5;
+      font-family: "KaiTi", "STKaiti", "Songti SC", serif;
+    }
+
+    ul.bullets li::before {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 7px;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .chip {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      color: #4b5563;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .chip span.value {
+      font-weight: 700;
+      color: var(--primary-blue);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    /* Chart-like cards */
+    .card {
+      border-radius: var(--radius-lg);
+      background: #f9fafb;
+      border: 1px solid var(--border-soft);
+      padding: 10px 12px;
+      box-shadow: var(--shadow-lighter);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-size: 14px;  /* 放大 */
+      font-weight: 700;
+      font-family: "KaiTi", "STKaiti", "Songti SC", serif;
+      color: #111827;
+    }
+
+    .card-tag {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(43,106,255,0.06);
+      color: var(--primary-blue);
+      border: 1px solid rgba(43,106,255,0.18);
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 4px 0;
+    }
+
+    .bar-label {
+      width: 130px;
+      font-size: 13px; /* 放大 */
+      color: #4b5563;
+      font-family: "KaiTi", "STKaiti", "Songti SC", serif;
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 8px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+      transition: width 0.6s ease;
+    }
+
+    .bar-value {
+      width: 60px;
+      text-align: right;
+      font-size: 13px; /* 放大 */
+      font-weight: 700;
+      color: var(--primary-blue);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    /* Process steps */
+    .process {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .process-step {
+      border-radius: 18px;
+      background: #f3f4ff;
+      border: 1px solid rgba(43,106,255,0.15);
+      padding: 8px 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .process-step::after {
+      content: "";
+      position: absolute;
+      inset: auto -10px -6px -10px;
+      height: 3px;
+      background: linear-gradient(90deg, rgba(43,106,255,0.2), rgba(64,184,255,0.2));
+      opacity: 0.7;
+    }
+
+    .step-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--primary-blue);
+      margin-bottom: 3px;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .step-title {
+      font-size: 13px; /* 放大 */
+      font-weight: 700;
+      font-family: "KaiTi", "STKaiti", "Songti SC", serif;
+      margin-bottom: 2px;
+    }
+
+    .step-desc {
+      font-size: 12px; /* 放大 */
+      color: #4b5563;
+      font-family: "KaiTi", "STKaiti", "Songti SC", serif;
+    }
+
+    /* 2x2 matrix / table */
+    .matrix {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .matrix-cell {
+      border-radius: 14px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      padding: 8px 10px;
+    }
+
+    .matrix-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-family: Georgia, "Times New Roman", serif;
+      margin-bottom: 3px;
+    }
+
+    .matrix-title {
+      font-size: 13px; /* 放大 */
+      font-weight: 700;
+      font-family: "KaiTi", "STKaiti", "Songti SC", serif;
+      margin-bottom: 2px;
+    }
+
+    .matrix-desc {
+      font-size: 12px; /* 放大 */
+      color: #4b5563;
+      font-family: "KaiTi", "STKaiti", "Songti SC", serif;
+    }
+
+    /* Simple table */
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px; /* 放大 */
+      margin-top: 4px;
+      font-family: "KaiTi", "STKaiti", "Songti SC", serif;
+    }
+
+    .table th,
+    .table td {
+      border: 1px solid #e5e7eb;
+      padding: 5px 7px;
+      text-align: left;
+    }
+
+    .table th {
+      background: #f3f4ff;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .table tr:nth-child(even) td {
+      background: #f9fafb;
+    }
+
+    .table .num {
+      text-align: right;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--primary-blue);
+      font-weight: 700;
+    }
+
+    /* Footer: navigation + page number */
+    .deck-footer {
+      position: relative;
+      height: 48px;
+      padding: 6px 34px 6px 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .page-indicator {
+      position: absolute;
+      right: 34px;
+      bottom: 10px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: Arial, sans-serif;
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 34px;
+    }
+
+    .nav-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #4b5563;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.06);
+      transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .nav-btn:hover {
+      background: #f3f4ff;
+      border-color: rgba(43,106,255,0.5);
+      color: var(--primary-blue);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.10);
+    }
+
+    .nav-dots {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 8px;
+    }
+
+    .nav-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      cursor: pointer;
+      transition: background var(--transition-fast), transform var(--transition-fast), width var(--transition-fast);
+    }
+
+    .nav-dot.active {
+      width: 18px;
+      background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+      transform: translateY(-1px);
+    }
+
+    .shortcut-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: Arial, sans-serif;
+    }
+
+    .shortcut-hint span {
+      border-radius: 6px;
+      border: 1px dashed #d1d5db;
+      padding: 2px 6px;
+      margin: 0 4px;
+      font-size: 10px;
+      background: #f9fafb;
+    }
+
+    /* Cover slide */
+    .cover-layout {
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+
+    .cover-main {
+      max-width: 70%;
+    }
+
+    .cover-title {
+      font-size: 34px; /* 放大 */
+      line-height: 1.25;
+      font-weight: 800;
+      font-family: "KaiTi", "STKaiti", "Songti SC", serif;
+      color: #0f172a;
+      margin-bottom: 10px;
+    }
+
+    .cover-title span {
+      color: var(--primary-blue);
+    }
+
+    .cover-meta {
+      font-size: 14px;  /* 放大 */
+      color: #4b5563;
+      margin-top: 4px;
+      font-family: "KaiTi", "STKaiti", "Songti SC", serif;
+    }
+
+    .cover-meta strong {
+      color: #111827;
+    }
+
+    .cover-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 11px;
+      border: 1px solid rgba(15, 23, 42, 0.1);
+      background: #f9fafb;
+      color: #4b5563;
+    }
+
+    .badge.primary {
+      background: linear-gradient(120deg, rgba(43,106,255,0.1), rgba(64,184,255,0.16));
+      border-color: rgba(43,106,255,0.4);
+      color: #1d4ed8;
+    }
+
+    .badge i {
+      color: var(--primary-blue);
+    }
+
+    /* Appendix styling */
+    .tagline {
+      font-size: 14px; /* 放大 */
+      color: #4b5563;
+      margin-top: 4px;
+      font-family: "KaiTi", "STKaiti", "Songti SC", serif;
+    }
+
+    .appendix-note {
+      font-size: 12px; /* 放大 */
+      color: #6b7280;
+      margin-top: 8px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: #f9fafb;
+      border: 1px dashed #e5e7eb;
+      font-family: "KaiTi", "STKaiti", "Songti SC", serif;
+    }
+
+    /* Small responsive fallback */
+    @media (max-width: 1280px) {
+      body {
+        overflow: auto;
+      }
+      .deck {
+        transform: scale(0.9);
+        transform-origin: top center;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="deck" id="deck">
+  <div class="progress-bar">
+    <div class="progress-bar-inner" id="progressBar"></div>
+  </div>
+
+  <div class="slides-container">
+    <!-- Slide 1: Cover (简洁版封面) -->
+    <section class="slide active full-width" data-slide="1">
+      <div class="cover-layout">
+        <div class="cover-main">
+          <div class="kicker">BCG · 人才与AI启用 · 文章结构化总结</div>
+          <h1 class="cover-title">
+            要<strong><span>释放AI全部价值</span></strong>，企业必须<br/>优先<strong><span>投资在你的人</span></strong>
+          </h1>
+          <p class="subtitle">
+            基于 BCG 文章《To Unlock the Full Value of AI, Invest in Your People》的结构化总结，
+            聚焦如何通过系统性能力建设，把“工具采用”转化为“可持续业务价值”。
+          </p>
+          <div class="cover-meta">
+            来源：BCG · 作者：Julie Bedard 等<br/>
+            日期：2025年11月10日
+          </div>
+          <div class="cover-badges">
+            <div class="badge primary"><i class="fa-solid fa-wand-magic-sparkles"></i> GenAI 时代的组织能力飞跃</div>
+            <div class="badge"><i class="fa-solid fa-users-gear"></i> 人才与行为变革</div>
+            <div class="badge"><i class="fa-solid fa-diagram-project"></i> AI 启用系统设计</div>
+            <div class="badge"><i class="fa-solid fa-chart-line"></i> 价值池与ROI导向</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 2: Executive Summary -->
+    <section class="slide full-width" data-slide="2">
+      <div class="slide-header">
+        <div class="kicker">Executive Summary · 总结</div>
+        <h1 class="title">
+          只有系统性<span class="highlight">投资员工能力和行为改变</span>，AI 才能真正转化为可持续业务价值
+        </h1>
+        <p class="subtitle">
+          文章核心观点：从“部署AI工具”转向“围绕价值池重塑工作 + 构建三阶段能力体系 + 角色定制学习 +
+          领导示范 + 信任与价值度量”，才能真正跨越“从试验到实质影响”的AI鸿沟。
+        </p>
+      </div>
+      <div class="slide-body">
+        <div class="left">
+          <div class="lead-in">
+            <i class="fa-solid fa-bridge"></i>
+            <div>
+              <strong>AI工具普及 ≠ AI 价值实现。</strong><br/>
+              真正的“桥梁”是：改变人如何思考、如何工作、如何在日常中与AI协作。
+            </div>
+          </div>
+          <ul class="bullets">
+            <li>
+              <strong>现状：AI已广泛试验，但大多数公司价值有限。</strong>
+              BCG 调研显示，只有约 5% 公司在 AI 上真正实现规模化价值；近 60% 报告“几乎没有影响”。
+            </li>
+            <li>
+              <strong>误区：盲目继续“上更多工具”。</strong>
+              许多企业看到效果不佳，选择叠加更多 AI 工具，而不是构建支撑行为改变的
+              <span class="highlight">能力与系统</span>。
+            </li>
+            <li>
+              <strong>关键机制：三阶段学习进程。</strong>
+              Foundational（基础认知）→ Applied（在真实流程中实践）→ Embedded
+              （嵌入制度、角色和激励，成为新习惯）。
+            </li>
+            <li>
+              <strong>聚焦点：围绕“价值池”而非“技术酷炫度”。</strong>
+              优先投资于能带来最大、最快业务回报的工作流，例如文中银行贷款流程重构案例。
+            </li>
+            <li>
+              <strong>组织要求：角色分层 + 领导示范 + 信任动机 + 价值导向度量。</strong>
+              从 Shapers 到 Frontline Contributors 全角色有清晰定位与学习旅程。
+            </li>
+          </ul>
+        </div>
+        <div class="right">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">从 “AI 采用” 到 “AI 价值” 的逻辑链条</div>
+              <span class="card-tag">核心逻辑图</span>
+            </div>
+            <div class="process">
+              <div class="process-step">
+                <div class="step-label">STEP 1</div>
+                <div class="step-title">识别价值池 & 起点</div>
+                <div class="step-desc">
+                  找出高价值业务场景，评估当前 AI 成熟度，为能力建设设定现实又有野心的目标。
+                </div>
+              </div>
+              <div class="process-step">
+                <div class="step-label">STEP 2</div>
+                <div class="step-title">构建三阶段能力体系</div>
+                <div class="step-desc">
+                  通过基础学习、在岗应用和嵌入制度，将“知道怎么用”进化为“习惯这么用”。
+                </div>
+              </div>
+              <div class="process-step">
+                <div class="step-label">STEP 3</div>
+                <div class="step-title">以价值池为单位衡量成果</div>
+                <div class="step-desc">
+                  用生产率、客户体验、上市速度等指标，判断是否真正解锁价值，而不止是工具使用率。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 3: Executive Summary – key execution table -->
+    <section class="slide full-width" data-slide="3">
+      <div class="slide-header">
+        <div class="kicker">Executive Summary · 关键执行抓手</div>
+        <h1 class="title">
+          将人才投资落地为行动，需要<span class="highlight">在五个维度上系统发力</span>
+        </h1>
+        <p class="subtitle">
+          本页单独展示文章中总结的五大执行支柱，可作为“总览表”在会议中讲解或截图使用。
+        </p>
+      </div>
+      <div class="slide-body">
+        <div class="left">
+          <div class="lead-in">
+            <i class="fa-solid fa-list-check"></i>
+            <div>
+              <strong>这张表可以直接当作执行“Checklist”。</strong><br/>
+              从哪里开始、重点做什么、用什么指标衡量，一页看清整体打法。
+            </div>
+          </div>
+          <div class="card" style="margin-top:6px;">
+            <div class="card-header">
+              <div class="card-title">执行要点一览（后续页逐一展开）</div>
+            </div>
+            <table class="table">
+              <thead>
+              <tr>
+                <th>主题</th>
+                <th>关键问题</th>
+                <th>示例指标</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>价值池 & 起点</td>
+                <td>在哪些工作流中，AI 最能放大价值？</td>
+                <td class="num">&gt;50% 生产率提升（贷款案例）</td>
+              </tr>
+              <tr>
+                <td>三阶段学习</td>
+                <td>员工是否从“听过”走向“常用”？</td>
+                <td class="num">20% → 90% AI 采纳率</td>
+              </tr>
+              <tr>
+                <td>角色分层</td>
+                <td>不同角色是否有差异化旅程？</td>
+                <td class="num">Shaper / Leader / Transformer / Frontline</td>
+              </tr>
+              <tr>
+                <td>领导 & 信任</td>
+                <td>领导是否示范？员工是否信任？</td>
+                <td class="num">信心 & 动机提升定性反馈</td>
+              </tr>
+              <tr>
+                <td>价值衡量</td>
+                <td>是否超越“使用率”看价值？</td>
+                <td class="num">时间节省、错误减少、决策加速</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 4: Context & AI impact gap -->
+    <section class="slide" data-slide="4">
+      <div class="slide-header">
+        <div class="kicker">Context · 现状与挑战</div>
+        <h1 class="title">
+          大多数企业已经<span class="highlight">尝试 AI</span>，却尚未跨越从“工具部署”到“价值释放”的影响力鸿沟
+        </h1>
+        <p class="subtitle">
+          AI 在业务领导者心中依然是首要优先级，但真正“跑通”的只是少数——问题不在于技术本身，而在于
+          <strong>人、工作方式和能力系统</strong> 尚未跟上。
+        </p>
+      </div>
+      <div class="slide-body">
+        <div class="left">
+          <div class="lead-in">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <div>
+              <strong>AI 采用 ≠ AI 影响力。</strong><br/>
+              很多公司“部署了AI”，却很难清晰说出：在哪个价值池上产生了可量化的业务回报。
+            </div>
+          </div>
+          <ul class="bullets">
+            <li>
+              <strong>试验多，效果少：</strong>BCG 研究显示：
+              <span class="highlight">只有约 5% 公司</span> 实现 AI 价值规模化，
+              <span class="highlight">近 60%</span> 自评几乎没有明显业务影响。
+            </li>
+            <li>
+              <strong>错误应对路径：</strong>
+              面对“影响有限”，不少组织选择继续“买更多AI工具、接入更多模型”，而非审视：
+              <em>员工是否真的在工作中以正确方式使用？</em>
+            </li>
+            <li>
+              <strong>核心缺口在“能力与行为”：</strong>
+              真正的瓶颈是：
+              <span class="highlight">技术流利度 + 人类技能 + 心态与制度</span> 没有形成闭环。
+            </li>
+            <li>
+              <strong>传统培训模式难以胜任：</strong>
+              一次性的大课或线上课程，只覆盖了“知道”，却无法支持“做到”、“坚持做”。
+            </li>
+          </ul>
+        </div>
+        <div class="right">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">AI 影响力鸿沟 · 可视化对比</div>
+              <span class="card-tag"><i class="fa-solid fa-chart-simple"></i> BCG 研究数据</span>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">生成规模化价值的公司</div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width:5%;"></div>
+              </div>
+              <div class="bar-value">5%</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">报告“几乎没有影响”的公司</div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width:60%;"></div>
+              </div>
+              <div class="bar-value">≈60%</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">处于“试验阶段”的公司</div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width:80%;"></div>
+              </div>
+              <div class="bar-value">多数</div>
+            </div>
+            <p style="font-size:12px;color:#6b7280;margin-top:6px;font-family:'KaiTi','STKaiti',serif;">
+              结论：必须跨越从“尝试部署 AI”到“在关键价值池上产生可衡量业务影响”的鸿沟。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 5: Three-part learning progression -->
+    <section class="slide" data-slide="5">
+      <div class="slide-header">
+        <div class="kicker">Learning Progression · 三阶段能力体系</div>
+        <h1 class="title">
+          通过<span class="highlight">基础—应用—嵌入</span>三阶段学习进程，将“知道 AI”变成“离不开 AI 的新习惯”
+        </h1>
+        <p class="subtitle">
+          BCG U 的实践显示：只有当学习从“认知理解”一路延伸到“制度与激励中被强化”，AI 才会在组织中产生
+          <strong>可持续行为改变</strong>。
+        </p>
+      </div>
+      <div class="slide-body">
+        <div class="left">
+          <div class="lead-in">
+            <i class="fa-solid fa-layer-group"></i>
+            <div>
+              <strong>传统培训卡在第一层。</strong><br/>
+              多数企业的 AI 培训停留在“讲知识、讲概念”的 Foundational 阶段，
+              没有真正走完 Applied 和 Embedded 两个关键台阶。
+            </div>
+          </div>
+          <table class="table">
+            <thead>
+            <tr>
+              <th>阶段</th>
+              <th>核心问题</th>
+              <th>典型形式</th>
+              <th>文章中的定位</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td><strong>1. Foundational</strong></td>
+              <td>员工是否理解 GenAI 的基本概念与潜力？</td>
+              <td>概念课、词汇表、框架、示例演示</td>
+              <td>提供“a-ha moment”，建立统一语言</td>
+            </tr>
+            <tr>
+              <td><strong>2. Applied</strong></td>
+              <td>是否在真实工作流中开始“会用”？</td>
+              <td>在岗实践、用例实验室、工作流共创</td>
+              <td>把“知道”变为“能做”，紧贴实际流程</td>
+            </tr>
+            <tr>
+              <td><strong>3. Embedded</strong></td>
+              <td>是否把 AI 使用变成“默认做法”？</td>
+              <td>更新岗位说明、流程规范、KPI与激励</td>
+              <td>让行为固化为制度与文化的一部分</td>
+            </tr>
+            </tbody>
+          </table>
+          <p style="font-size:12px;color:#6b7280;margin-top:6px;font-family:'KaiTi','STKaiti',serif;">
+            资源有限，因此必须优先在价值池最大的业务领域，把这三阶段能力建设做深做透。
+          </p>
+        </div>
+        <div class="right">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">三阶段学习 · Diagram</div>
+              <span class="card-tag">From Knowing → Doing → Habit</span>
+            </div>
+            <div class="process">
+              <div class="process-step">
+                <div class="step-label">FOUNDATIONAL</div>
+                <div class="step-title">认知启动 · 知其然</div>
+                <div class="step-desc">
+                  统一语言与理解，知道 AI 能做什么、不能做什么，打破“神化”或“恐惧”。
+                </div>
+              </div>
+              <div class="process-step">
+                <div class="step-label">APPLIED</div>
+                <div class="step-title">实战演练 · 会其用</div>
+                <div class="step-desc">
+                  把 AI 直接嵌入现有工作流：写文案、做分析、改代码、优化流程等。
+                </div>
+              </div>
+              <div class="process-step">
+                <div class="step-label">EMBEDDED</div>
+                <div class="step-title">制度固化 · 成习惯</div>
+                <div class="step-desc">
+                  在角色职责、流程 SOP、绩效与激励中，明确“期望你用 AI 完成这类任务”。
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="margin-top:8px;">
+            <div class="card-header">
+              <div class="card-title">为何必须走完三步？</div>
+            </div>
+            <ul class="bullets">
+              <li>只停在 Foundational：员工“听过、懂一点”，但回到岗位依旧按老方式工作。</li>
+              <li>做到 Applied：开始出现单点效率提升，但一旦管理者不督促，使用率会反复。</li>
+              <li>最终 Embedded：AI 使用成为<strong>默认方式</strong>，无需额外推动，价值才能持续累积。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 6: Value Pools – 概念 -->
+    <section class="slide" data-slide="6">
+      <div class="slide-header">
+        <div class="kicker">Value Pools · 价值池优先级</div>
+        <h1 class="title">
+          若想快速见效，必须<span class="highlight">围绕高价值池重构工作流</span>，而不是在全公司“撒胡椒面”
+        </h1>
+        <p class="subtitle">
+          文章主张先识别 AI 能产生最大回报的价值池，再基于当前能力起点，重新设计相关工作流，
+          让有限资源产生非线性回报。
+        </p>
+      </div>
+      <div class="slide-body">
+        <div class="left">
+          <div class="lead-in">
+            <i class="fa-solid fa-bullseye-pointer"></i>
+            <div>
+              <strong>问题不是“有没有 AI 项目”，而是“在哪些业务上真的创造价值”。</strong><br/>
+              因此，启用设计应以<strong>价值池为单位</strong>，而不是以“技术功能清单”为单位。
+            </div>
+          </div>
+          <ul class="bullets">
+            <li>
+              <strong>先做“价值池与工作流地图”。</strong>
+              不同业务、不同团队的 AI 成熟度并不相同；有效启用必须基于对当前起点的清晰诊断。
+            </li>
+            <li>
+              <strong>围绕价值池重构工作流，而非仅“加个 AI 工具”。</strong>
+              包括：简化流程、重设交接点、重新定义角色分工。
+            </li>
+            <li>
+              <strong>用业务指标验证成效。</strong>
+              用时间、成本、质量、客户体验等指标来衡量是否真正解锁价值池。
+            </li>
+          </ul>
+        </div>
+        <div class="right">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">价值池导向的启用路径 · Diagram</div>
+              <span class="card-tag">“从哪里开始”到“如何落地”</span>
+            </div>
+            <div class="process">
+              <div class="process-step">
+                <div class="step-label">1 · AS-IS</div>
+                <div class="step-title">评估当前 AI 成熟度</div>
+                <div class="step-desc">
+                  针对关键业务线，评估现有 AI 使用深度：
+                  是试验、局部采用，还是已形成规模化价值？
+                </div>
+              </div>
+              <div class="process-step">
+                <div class="step-label">2 · VALUE POOLS</div>
+                <div class="step-title">定义高潜价值池</div>
+                <div class="step-desc">
+                  聚焦能带来最大 ROI 的流程（如贷款、营销、供应链），并明确“理想未来状态”。
+                </div>
+              </div>
+              <div class="process-step">
+                <div class="step-label">3 · WORKFLOW</div>
+                <div class="step-title">重构工作方式</div>
+                <div class="step-desc">
+                  简化流程，嵌入 AI Agent，重新划分人与 AI 的分工，并同步更新角色和 KPI。
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="margin-top:8px;">
+            <div class="card-header">
+              <div class="card-title">价值池思路的三个关键问题</div>
+            </div>
+            <ul class="bullets">
+              <li>哪些价值池足够大、足够痛，值得率先投入 AI 能力建设？</li>
+              <li>我们在这些价值池上的 AI 成熟度起点分别是什么？</li>
+              <li>要把这些价值池做成样板，需要哪些角色、技能与行为改变？</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 7: Value Pools – 银行贷款案例 -->
+    <section class="slide" data-slide="7">
+      <div class="slide-header">
+        <div class="kicker">Value Pools · 银行贷款案例</div>
+        <h1 class="title">
+          端到端嵌入 GenAI 的贷款流程，验证了<span class="highlight">以价值池为单位重构工作流</span>的巨大杠杆
+        </h1>
+        <p class="subtitle">
+          欧洲某大型零售银行将贷款业务设为优先价值池，通过端到端嵌入 GenAI 和 AI Agent，在短时间内实现显著的效率与体验提升。
+        </p>
+      </div>
+      <div class="slide-body">
+        <div class="left">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">银行贷款流程重构 · 关键结果（文中具体数据）</div>
+            </div>
+            <table class="table">
+              <thead>
+              <tr>
+                <th>指标</th>
+                <th>变化</th>
+                <th>说明</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>整体生产率</td>
+                <td class="num">&gt;50% 提升</td>
+                <td>端到端贷款工作流的总效率显著提高</td>
+              </tr>
+              <tr>
+                <td>人工处理时间</td>
+                <td class="num">≈70% 减少</td>
+                <td>大量重复性核查与录入被 GenAI &amp; AI Agent 接管</td>
+              </tr>
+              <tr>
+                <td>审批周期</td>
+                <td class="num">数天 → &lt;30 分钟</td>
+                <td>部分贷款从几天审批缩短到 30 分钟以内</td>
+              </tr>
+              <tr>
+                <td>员工体验</td>
+                <td class="num">质性提升</td>
+                <td>腾出时间做高价值工作，客户互动更聚焦决策与建议</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="right">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">案例启示 · 如何讲好“样板间”故事</div>
+            </div>
+            <ul class="bullets">
+              <li>从单点工具试验，升级为围绕价值池的<strong>端到端再设计</strong>。</li>
+              <li>用具体业务指标（时间、成本、体验）来验证 AI 启用是否真正成功。</li>
+              <li>成功案例反过来成为后续能力建设与故事传播的“样板间”。</li>
+              <li>对管理层：形成可视化的 ROI 证据；对一线员工：形成可感知的体验改善。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 8: Role-specific capabilities (4 archetypes & FMCG) -->
+    <section class="slide" data-slide="8">
+      <div class="slide-header">
+        <div class="kicker">Roles & Archetypes · 角色分层</div>
+        <h1 class="title">
+          要让 AI 在全公司扩散，需围绕四类<span class="highlight">角色原型</span>设计差异化能力旅程
+        </h1>
+        <p class="subtitle">
+          AI 变革是“全员运动”，但每类角色参与方式不同。BCG U 使用四种 AI 原型
+          （Shapers / Leaders / Transformers / Frontline Contributors）设计学习路径。
+        </p>
+      </div>
+      <div class="slide-body">
+        <div class="left">
+          <div class="lead-in">
+            <i class="fa-solid fa-user-group"></i>
+            <div>
+              <strong>统一内容 ≠ 有效启用。</strong><br/>
+              真正有效的 AI 学习设计，是根据“谁在做什么决策、在什么场景用 AI”，定制不同的旅程。
+            </div>
+          </div>
+          <div class="matrix">
+            <div class="matrix-cell">
+              <div class="matrix-label">ARCHETYPE 1</div>
+              <div class="matrix-title">Shapers · 战略塑造者</div>
+              <div class="matrix-desc">
+                高层管理者，负责制定 AI 愿景与战略，把 AI 嵌入业务战略而非孤立 IT 项目。
+              </div>
+            </div>
+            <div class="matrix-cell">
+              <div class="matrix-label">ARCHETYPE 2</div>
+              <div class="matrix-title">Leaders · 组织领导者</div>
+              <div class="matrix-desc">
+                中层与团队管理者，负责创造 AI 扩散的条件，如资源配置、团队目标与绩效体系。
+              </div>
+            </div>
+            <div class="matrix-cell">
+              <div class="matrix-label">ARCHETYPE 3</div>
+              <div class="matrix-title">Transformers · 变革推动者</div>
+              <div class="matrix-desc">
+                工作流与项目负责人，负责重构流程，将 AI 融入日常运作（如运营、营销、研发）。
+              </div>
+            </div>
+            <div class="matrix-cell">
+              <div class="matrix-label">ARCHETYPE 4</div>
+              <div class="matrix-title">Frontline Contributors · 前线执行者</div>
+              <div class="matrix-desc">
+                在一线直接使用 AI 工具完成任务的员工，如销售、客服、开发工程师等。
+              </div>
+            </div>
+          </div>
+          <p style="font-size:12px;color:#6b7280;margin-top:6px;font-family:'KaiTi','STKaiti',serif;">
+            当每一类角色都拥有与其决策和工作场景匹配的 AI 流利度与信心时，
+            整个组织便会出现明显的<span class="highlight">“动能效应（momentum）”</span>。
+          </p>
+        </div>
+        <div class="right">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">FMCG 头部企业 AI Accelerator 案例</div>
+              <span class="card-tag">跨职能能力建设</span>
+            </div>
+            <ul class="bullets">
+              <li>
+                行业：全球快消（FMCG），竞争格局受 GenAI 深刻重塑（营销、供应链、研发、产品创新全面受影响）。
+              </li>
+              <li>
+                起点：公司已有零散 AI 试验，效果分散且难以规模化。
+              </li>
+              <li>
+                决策：高层下注于快速构建全公司 AI 能力，打造定制版
+                <strong>AI Accelerator</strong> 项目。
+              </li>
+            </ul>
+            <div class="chip-row">
+              <div class="chip"><i class="fa-solid fa-user-tie"></i> Strategic Persona：高层领导</div>
+              <div class="chip"><i class="fa-solid fa-sitemap"></i> Implementation Persona：管理层 &amp; 一线</div>
+            </div>
+          </div>
+          <div class="card" style="margin-top:8px;">
+            <div class="card-header">
+              <div class="card-title">差异化学习旅程设计（文中描述）</div>
+            </div>
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Persona</th>
+                <th>学习重点</th>
+                <th>形式</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td><strong>Strategic</strong>（高层）</td>
+                <td>构建统一叙事、示范 AI 使用、引领变革</td>
+                <td>线上直播、大师课、案例讨论、沉浸式实验室</td>
+              </tr>
+              <tr>
+                <td><strong>Implementation</strong>（管理 &amp; 一线）</td>
+                <td>将 AI 嵌入日常工作流，如营销、供应链、研发等</td>
+                <td>情景模拟、用例研讨、在岗实验</td>
+              </tr>
+              </tbody>
+            </table>
+            <p style="font-size:12px;color:#6b7280;margin-top:6px;font-family:'KaiTi','STKaiti',serif;">
+              项目通过公司内部真实案例和同事故事，增强学习的<strong>真实性与代入感</strong>，
+              帮助员工看到“AI 变革正在身边发生”。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 9: Large-scale journeys & biopharma adoption -->
+    <section class="slide" data-slide="9">
+      <div class="slide-header">
+        <div class="kicker">Scale & Behavior Change · 规模化采用</div>
+        <h1 class="title">
+          通过<span class="highlight">大规模、分层定制的学习旅程</span>，企业可以在短期内显著提升 AI 采纳率与信心
+        </h1>
+        <p class="subtitle">
+          某全球生物制药企业案例：通过围绕四大 AI 原型为 10 万+ 员工设计学习旅程，将 AI 工具采用率从
+          <strong>约 20% 提升至近 90%</strong>。
+        </p>
+      </div>
+      <div class="slide-body">
+        <div class="left">
+          <div class="lead-in">
+            <i class="fa-solid fa-chart-line"></i>
+            <div>
+              <strong>定制化与规模化，两者缺一不可。</strong><br/>
+              既要按角色分层定制，又要覆盖足够人群，才能形成跨业务单元的“网络效应”。
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">生物制药公司 AI 能力建设 · 关键设计</div>
+              <span class="card-tag">10万+ 员工，四类原型</span>
+            </div>
+            <ul class="bullets">
+              <li>
+                员工规模：<span class="highlight">超 100,000 人</span>，覆盖全球多职能。
+              </li>
+              <li>
+                划分四大原型：Shapers、Leaders、Transformers、Frontline Contributors，对应不同需求。
+              </li>
+              <li>
+                领导层：提供愿景设定支持与“榜样行为（role modeling）”手册。
+              </li>
+              <li>
+                前线员工：尤其是一线人员，参与动手模拟与用例实验室，直接在真实工作中应用 GenAI。
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="right">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">AI 采用率跃升 · 可视化</div>
+              <span class="card-tag"><i class="fa-solid fa-arrow-trend-up"></i> Adoption Curve</span>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">启用计划前</div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width:20%;"></div>
+              </div>
+              <div class="bar-value">≈20%</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">启用计划后</div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width:90%;"></div>
+              </div>
+              <div class="bar-value">≈90%</div>
+            </div>
+            <p style="font-size:12px;color:#6b7280;margin-top:6px;font-family:'KaiTi','STKaiti',serif;">
+              这些数字不仅代表工具被更多人使用，更重要的是
+              <strong>行为和信心的结构性转变</strong>。
+            </p>
+          </div>
+          <div class="card" style="margin-top:8px;">
+            <div class="card-header">
+              <div class="card-title">行为改变链路 · Diagram</div>
+            </div>
+            <div class="process">
+              <div class="process-step">
+                <div class="step-label">STEP 1</div>
+                <div class="step-title">好奇心 → 参与</div>
+                <div class="step-desc">
+                  借助真实用例和同伴故事，唤起“也想试一试”的兴趣。
+                </div>
+              </div>
+              <div class="process-step">
+                <div class="step-label">STEP 2</div>
+                <div class="step-title">参与 → 行为持续</div>
+                <div class="step-desc">
+                  通过在岗实验、反馈与辅导形成稳定使用习惯。
+                </div>
+              </div>
+              <div class="process-step">
+                <div class="step-label">STEP 3</div>
+                <div class="step-title">行为持续 → 业务收益</div>
+                <div class="step-desc">
+                  形成生产率提升、质量改善、创新加速等可见成果。
+                </div>
+              </div>
+            </div>
+            <p style="font-size:12px;color:#6b7280;margin-top:4px;font-family:'KaiTi','STKaiti',serif;">
+              精心设计的学习旅程，可以将“好奇心”持续转化为“组织级行为改变”。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 10: Leaders unified vision & modeling -->
+    <section class="slide" data-slide="10">
+      <div class="slide-header">
+        <div class="kicker">Leadership · 领导力与统一愿景</div>
+        <h1 class="title">
+          成功的 AI 变革要求领导层<span class="highlight">共享同一种语言和愿景</span>，并持续示范期望行为
+        </h1>
+        <p class="subtitle">
+          当业务领导与技术领导“说不同的语言”时，AI 讨论往往停留在“点状解决方案”，而不是“业务转型”。
+        </p>
+      </div>
+      <div class="slide-body">
+        <div class="left">
+          <div class="lead-in">
+            <i class="fa-solid fa-hands-holding-circle"></i>
+            <div>
+              <strong>“我们以为领导知道就会做”是错误假设。</strong><br/>
+              正如文中引用的 BCG 教练 Kaye Foster 所说：领导更可能回到被强化的旧行为，而不是培训中学到的新行为。
+            </div>
+          </div>
+          <ul class="bullets">
+            <li>
+              <strong>挑战：</strong>
+              高管缺乏技术流利度，技术团队难以用“业务价值语言”沟通，导致讨论偏向工具细节。
+            </li>
+            <li>
+              <strong>干预：</strong>
+              通过 CEO 支持的沉浸式学习峰会，将技术教育与业务战略、领导力和执行结合。
+            </li>
+            <li>
+              <strong>过程：</strong>
+              高管围绕实际用例展开讨论，直面在激烈竞争压力下，如何在大型传统组织中推进转型。
+            </li>
+          </ul>
+        </div>
+        <div class="right">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">领导统一愿景 · 效果</div>
+              <span class="card-tag">“No AI Strategy, Only Business Strategy Powered by AI”</span>
+            </div>
+            <ul class="bullets">
+              <li>业务与技术领导拥有<strong>共同语言</strong>，能以统一视角审视 AI 投资决策。</li>
+              <li>高管在技术层面更流利，在业务目标上更清晰：讨论从“工具功能”转向“如何规模化价值”。</li>
+              <li>形成共识：<span class="highlight">“不存在独立的 AI 战略，只有由 AI 赋能的业务战略。”</span></li>
+            </ul>
+          </div>
+          <div class="card" style="margin-top:8px;">
+            <div class="card-header">
+              <div class="card-title">领导示范的关键行为（文中总结）</div>
+            </div>
+            <div class="matrix">
+              <div class="matrix-cell">
+                <div class="matrix-label">行为 1</div>
+                <div class="matrix-title">显性实践</div>
+                <div class="matrix-desc">
+                  领导亲自使用 AI 处理部分工作，并分享经验与教训，降低团队心理门槛。
+                </div>
+              </div>
+              <div class="matrix-cell">
+                <div class="matrix-label">行为 2</div>
+                <div class="matrix-title">明确期望</div>
+                <div class="matrix-desc">
+                  在团队目标和角色定义中，明确“希望你用 AI 来做哪些事情”。
+                </div>
+              </div>
+              <div class="matrix-cell">
+                <div class="matrix-label">行为 3</div>
+                <div class="matrix-title">对齐激励</div>
+                <div class="matrix-desc">
+                  更新绩效与激励，奖励尝试、分享与扩散 AI 用例，而不仅仅是短期输出。
+                </div>
+              </div>
+              <div class="matrix-cell">
+                <div class="matrix-label">行为 4</div>
+                <div class="matrix-title">跨界协作</div>
+                <div class="matrix-desc">
+                  鼓励业务、技术、运营等跨职能合作，围绕价值池而非部门边界推进 AI 项目。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 11: Trust & Motivation – 员工顾虑与信任设计 -->
+    <section class="slide" data-slide="11">
+      <div class="slide-header">
+        <div class="kicker">Trust & Motivation · 员工视角</div>
+        <h1 class="title">
+          若不先解决员工<span class="highlight">信任与情绪</span>问题，再好的 AI 方案也难以落地
+        </h1>
+        <p class="subtitle">
+          AI 推出常伴随焦虑、怀疑与不安；成功项目往往正视这些情绪，通过结构化的信任建设，把“威胁感”转化为“自豪感”。
+        </p>
+      </div>
+      <div class="slide-body">
+        <div class="left">
+          <div class="lead-in">
+            <i class="fa-solid fa-face-thinking"></i>
+            <div>
+              <strong>“真正的挑战不是技术，而是信任。”</strong><br/>
+              文中引用 BCG 教练 Brad Strock 观点：如果不先建立信任，任何 AI 项目都无法成功。
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">员工常见顾虑（文章归纳）</div>
+              <span class="card-tag">风险感知与情绪</span>
+            </div>
+            <table class="table">
+              <thead>
+              <tr>
+                <th>顾虑类型</th>
+                <th>典型问题</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>工作安全感</td>
+                <td>“AI 会不会取代我？我会不会被淘汰？”</td>
+              </tr>
+              <tr>
+                <td>质量与可靠性</td>
+                <td>“AI 的结果靠谱吗？出错谁负责？”</td>
+              </tr>
+              <tr>
+                <td>责任与合规</td>
+                <td>“怎样才算负责任地用 AI？”</td>
+              </tr>
+              <tr>
+                <td>能力焦虑</td>
+                <td>“我会不会学不会？会不会跟不上节奏？”</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="right">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">信任建设 · 情绪侧与结构侧</div>
+            </div>
+            <div class="matrix">
+              <div class="matrix-cell">
+                <div class="matrix-label">情绪侧</div>
+                <div class="matrix-title">面对问题</div>
+                <div class="matrix-desc">
+                  主动承认恐惧与怀疑的合理性，创造安全空间讨论“最坏担忧”，用开放对话减少想象中的风险。
+                </div>
+              </div>
+              <div class="matrix-cell">
+                <div class="matrix-label">结构侧</div>
+                <div class="matrix-title">提供支撑</div>
+                <div class="matrix-desc">
+                  用明确规则、培训与示范，告诉员工“可以怎么安全地用 AI”，并在流程上预留人工复核环节。
+                </div>
+              </div>
+            </div>
+            <p style="font-size:12px;color:#6b7280;margin-top:6px;font-family:'KaiTi','STKaiti',serif;">
+              真正成功的 AI 项目，不是回避情绪，而是将情绪视为变革的一部分去设计与引导。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 12: Trust & Motivation – 科技公司工程团队案例 -->
+    <section class="slide" data-slide="12">
+      <div class="slide-header">
+        <div class="kicker">Trust & Motivation · 案例：软件工程团队</div>
+        <h1 class="title">
+          通过先赋能管理者、再设计<span class="highlight">采用冲刺</span>，可以把怀疑转化为主动拥抱 GenAI
+        </h1>
+        <p class="subtitle">
+          全球科技公司软件工程团队案例表明：如果先让管理者有信心、有语言，再通过结构化“采用冲刺”支持一线开发者，
+          可以显著提升采用率和内在动机。
+        </p>
+      </div>
+      <div class="slide-body">
+        <div class="left">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">全球科技公司软件工程团队案例</div>
+              <span class="card-tag">与 BCG X 合作的 GenAI 启用项目</span>
+            </div>
+            <ul class="bullets">
+              <li>
+                <strong>起点：</strong>开发者对 GenAI 持怀疑态度，对自身角色未来感到不安，表现为对相关项目兴趣低、参与弱。
+              </li>
+              <li>
+                <strong>干预 1：</strong>先为管理者提升 GenAI 流利度与变革管理技能，
+                让他们能设定清晰预期、辅导团队并以身作则。
+              </li>
+              <li>
+                <strong>干预 2：</strong>设计“采用冲刺（adoption sprints）”，包括动手实验、提示词评审、小组实验室等。
+              </li>
+              <li>
+                <strong>结果：</strong>试点团队不仅 AI 工具采用率更高，还报告更强信心和内在动机，将 AI 从“威胁”转为“赋能”。
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="right">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">采用冲刺 · 简化设计逻辑</div>
+            </div>
+            <div class="process">
+              <div class="process-step">
+                <div class="step-label">PHASE 1</div>
+                <div class="step-title">设定边界与期望</div>
+                <div class="step-desc">
+                  管理者阐明项目目标、可接受的风险边界，并公开承诺“这是共同学习的旅程”。
+                </div>
+              </div>
+              <div class="process-step">
+                <div class="step-label">PHASE 2</div>
+                <div class="step-title">高频、小步快跑的实验</div>
+                <div class="step-desc">
+                  通过短周期实验、提示词评审、代码对比等方式，让开发者在真实任务中实践 GenAI。
+                </div>
+              </div>
+              <div class="process-step">
+                <div class="step-label">PHASE 3</div>
+                <div class="step-title">固化最佳实践</div>
+                <div class="step-desc">
+                  提炼高质量用例与提示词，纳入团队知识库，并在流程与工具中固化。
+                </div>
+              </div>
+            </div>
+            <p style="font-size:12px;color:#6b7280;margin-top:6px;font-family:'KaiTi','STKaiti',serif;">
+              关键信息：先让“带队的人”有信心，再用结构化冲刺给“一线做事的人”安全的试错空间。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 13: Measure what matters: value -->
+    <section class="slide" data-slide="13">
+      <div class="slide-header">
+        <div class="kicker">Measurement &amp; Value · 度量体系</div>
+        <h1 class="title">
+          AI 成功不应只看<span class="highlight">采用率</span>，而应围绕<span class="highlight">价值池解锁程度</span>构建度量体系
+        </h1>
+        <p class="subtitle">
+          正如文中 BCG 教练 Marty Gilbert 所言：“最大的错误，是把采用当成目标。真正的目标是让技术对使用它的人有价值。”
+        </p>
+      </div>
+      <div class="slide-body">
+        <div class="left">
+          <div class="lead-in">
+            <i class="fa-solid fa-ruler-combined"></i>
+            <div>
+              <strong>从传统学习指标，转向“行为与价值”指标。</strong><br/>
+              在项目设计之初就明确业务结果，再逆推所需的技能、行为与学习体验。
+            </div>
+          </div>
+          <table class="table">
+            <thead>
+            <tr>
+              <th>维度</th>
+              <th>典型问题</th>
+              <th>示例指标（文中示意）</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>业务结果</td>
+              <td>是否改善了业务关键指标？</td>
+              <td>上市速度、成本节省、客户体验、错误率下降等</td>
+            </tr>
+            <tr>
+              <td>行为改变</td>
+              <td>工作方式是否可观察地改变？</td>
+              <td>提示词质量、质量审查方式、协作模式等</td>
+            </tr>
+            <tr>
+              <td>技能掌握</td>
+              <td>员工是否掌握必要技能？</td>
+              <td>基于测验与项目评估的能力验证</td>
+            </tr>
+            <tr>
+              <td>学习体验</td>
+              <td>学习是否被认为有价值？</td>
+              <td>参与度、满意度、NPS 等反馈</td>
+            </tr>
+            </tbody>
+          </table>
+          <p style="font-size:12px;color:#6b7280;margin-top:6px;font-family:'KaiTi','STKaiti',serif;">
+            BCG U 会先定义最重要的业务结果，然后在项目执行中反向追踪从“体验 → 知识 → 行为 → 结果”的完整链条。
+          </p>
+        </div>
+        <div class="right">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">金融服务集团 GenAI 启用案例 · 指标示例</div>
+              <span class="card-tag">文章中的量化结果</span>
+            </div>
+            <ul class="bullets">
+              <li>对象：数百名员工，目标是提升 GenAI 在项目管理等场景中的实际应用。</li>
+              <li>度量维度不仅包括采用率，还包括：</li>
+            </ul>
+            <div class="bar-row">
+              <div class="bar-label">生成新用例的学习者</div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width:98%;"></div>
+              </div>
+              <div class="bar-value">98%</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">将学习应用于项目管理</div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width:80%;"></div>
+              </div>
+              <div class="bar-value">80%</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">更频繁使用 AI 工作</div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width:85%;"></div>
+              </div>
+              <div class="bar-value">85%</div>
+            </div>
+            <p style="font-size:12px;color:#6b7280;margin-top:6px;font-family:'KaiTi','STKaiti',serif;">
+              这些指标表明的是<strong>能力和行为的深层变化</strong>，而不仅是表面的“登录次数”或“工具激活量”。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 14: Next-gen AI enablement engine -->
+    <section class="slide" data-slide="14">
+      <div class="slide-header">
+        <div class="kicker">AI Enablement Engine · 启用引擎</div>
+        <h1 class="title">
+          通过构建企业级<span class="highlight">AI 启用引擎</span>，组织才能真正从“AI 采用”迈向“AI 竞争优势”
+        </h1>
+        <p class="subtitle">
+          GenAI 时代的挑战，要求企业搭建一个覆盖学习旅程、行为干预、技术与变革情报、以及价值度量的
+          <strong>下一代 AI 启用系统</strong>。
+        </p>
+      </div>
+      <div class="slide-body">
+        <div class="left">
+          <div class="lead-in">
+            <i class="fa-solid fa-gear"></i>
+            <div>
+              <strong>AI 启用不应是“一次性项目”，而是“常驻引擎”。</strong><br/>
+              该引擎的目标，是让组织持续具备将新 AI 能力转化为业务价值的能力。
+            </div>
+          </div>
+          <div class="matrix">
+            <div class="matrix-cell">
+              <div class="matrix-label">模块 1</div>
+              <div class="matrix-title">个性化学习旅程</div>
+              <div class="matrix-desc">
+                按角色、职能与 AI 成熟度定制的 Foundational / Applied / Embedded 旅程，并随组织成熟动态演化。
+              </div>
+            </div>
+            <div class="matrix-cell">
+              <div class="matrix-label">模块 2</div>
+              <div class="matrix-title">行为与工作方式干预</div>
+              <div class="matrix-desc">
+                在岗位说明、流程与激励中，明确期望行为，提供 nudge、模板与支持，使新行为易于采纳。
+              </div>
+            </div>
+            <div class="matrix-cell">
+              <div class="matrix-label">模块 3</div>
+              <div class="matrix-title">技术 &amp; 变革情报工具</div>
+              <div class="matrix-desc">
+                通过使用数据与变革分析，识别瓶颈（如使用低、体验差），并实时校准启用策略。
+              </div>
+            </div>
+            <div class="matrix-cell">
+              <div class="matrix-label">模块 4</div>
+              <div class="matrix-title">端到端价值度量</div>
+              <div class="matrix-desc">
+                从学习体验到知识掌握、行为改变再到 ROI 的闭环数据体系，用“价值池解锁度”衡量成功。
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">“AI 启用引擎” 概念图</div>
+              <span class="card-tag">简化系统框架</span>
+            </div>
+            <div class="process">
+              <div class="process-step">
+                <div class="step-label">INPUT</div>
+                <div class="step-title">业务价值池 &amp; 用例</div>
+                <div class="step-desc">
+                  明确优先场景和预期业务成果，形成引擎“燃料”。
+                </div>
+              </div>
+              <div class="process-step">
+                <div class="step-label">ENGINE</div>
+                <div class="step-title">学习 + 行为 + 技术 + 度量</div>
+                <div class="step-desc">
+                  四大模块协同运转，持续把新能力转化为行为和结果。
+                </div>
+              </div>
+              <div class="process-step">
+                <div class="step-label">OUTPUT</div>
+                <div class="step-title">可持续 AI 业务影响</div>
+                <div class="step-desc">
+                  形成更高生产率、更优体验、更快创新与更强竞争优势。
+                </div>
+              </div>
+            </div>
+            <p style="font-size:12px;color:#6b7280;margin-top:6px;font-family:'KaiTi','STKaiti',serif;">
+              通过这样的启用引擎，组织才能真正“越过 AI 采用阶段”，建立
+              <strong>可复制、可扩展的 AI 价值创造能力</strong>。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 15: Appendix -->
+    <section class="slide full-width" data-slide="15">
+      <div class="slide-header">
+        <div class="kicker">Appendix · 附录（延伸思考 &amp; 框架整理）</div>
+        <h1 class="title">
+          文章启示企业应<span class="highlight">把“AI 项目”升级为“AI 启用能力”</span>，并围绕价值池构建长期机制
+        </h1>
+        <p class="subtitle">
+          本页在不新增外部数据的前提下，对文中要点进行结构化收束，并整理可供内部讨论的若干问题清单。
+        </p>
+      </div>
+      <div class="slide-body">
+        <div class="left">
+          <div class="tagline">
+            <strong>一、从文章中提炼出的“自查问题”清单（适用于管理团队工作坊）</strong>
+          </div>
+          <ul class="bullets">
+            <li>在我们公司，<strong>最重要的 AI 价值池</strong>是哪些具体工作流？是否清晰、是否对齐？</li>
+            <li>这几个工作流，目前分别处在文章所说的哪个阶段：试验、局部采用，还是规模化价值？</li>
+            <li>我们是否已为不同角色（高层、管理者、流程负责人、一线员工）设计差异化的 AI 学习旅程？</li>
+            <li>我们的培训是否真的走向 Applied &amp; Embedded？哪些环节还停留在 Foundational？</li>
+            <li>领导层是否形成统一的 AI 叙事？他们是否在日常中可见地使用和支持 AI？</li>
+            <li>我们目前用什么指标衡量 AI 成功？这些指标是否反映了价值池层面的业务成果？</li>
+          </ul>
+        </div>
+        <div class="right">
+          <div class="tagline">
+            <strong>二、可视化总结 · 一张图看懂文章主线</strong>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">文章主线 · 高度浓缩版 Diagram</div>
+            </div>
+            <div class="process">
+              <div class="process-step">
+                <div class="step-label">PROBLEM</div>
+                <div class="step-title">AI 影响力缺口</div>
+                <div class="step-desc">
+                  大多数公司已有 AI 试验，但只有约 5% 实现规模化价值，近 60% 几乎没有明显影响。
+                </div>
+              </div>
+              <div class="process-step">
+                <div class="step-label">INSIGHT</div>
+                <div class="step-title">关键在“人和工作方式”</div>
+                <div class="step-desc">
+                  需要从“上更多工具”转向“改变人如何用工具”，构建三阶段学习与角色化启用。
+                </div>
+              </div>
+              <div class="process-step">
+                <div class="step-label">SOLUTION</div>
+                <div class="step-title">企业级 AI 启用引擎</div>
+                <div class="step-desc">
+                  以价值池为中心，整合学习旅程、行为干预、技术/变革情报与价值度量，形成长期能力。
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="appendix-note">
+            说明：本 PPT 严格基于 BCG 原文内容进行结构化整理与可视化呈现，未新增外部数据或虚构案例。
+            若用于对外分享或正式材料，请在适当位置保留对原文与 BCG 的出处标注。
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="deck-footer">
+    <div class="nav-controls">
+      <button class="nav-btn" id="prevBtn" aria-label="上一页">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <button class="nav-btn" id="nextBtn" aria-label="下一页">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+      <div class="nav-dots" id="navDots"></div>
+    </div>
+    <div class="shortcut-hint">
+      使用键盘<span>←</span><span>→</span>切换页
+    </div>
+    <div class="page-indicator" id="pageIndicator">第 1 / 15 页</div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const total = slides.length;
+    let current = 0;
+
+    const progressBar = document.getElementById('progressBar');
+    const pageIndicator = document.getElementById('pageIndicator');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const navDotsContainer = document.getElementById('navDots');
+
+    // Init dots
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('div');
+      dot.className = 'nav-dot' + (idx === 0 ? ' active' : '');
+      dot.dataset.index = idx;
+      dot.addEventListener('click', () => goToSlide(idx, idx > current ? 'right' : 'left'));
+      navDotsContainer.appendChild(dot);
+    });
+
+    function updateUI(direction) {
+      slides.forEach((slide, idx) => {
+        slide.classList.remove('active', 'slide-enter-from-right', 'slide-enter-from-left');
+        if (idx === current) {
+          slide.classList.add('active');
+          if (direction === 'right') {
+            slide.classList.add('slide-enter-from-right');
+          } else if (direction === 'left') {
+            slide.classList.add('slide-enter-from-left');
+          }
+        }
+      });
+
+      const pct = ((current + 1) / total) * 100;
+      progressBar.style.width = pct + '%';
+      pageIndicator.textContent = `第 ${current + 1} / ${total} 页`;
+
+      Array.from(navDotsContainer.children).forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === current);
+      });
+    }
+
+    function goToSlide(index, direction) {
+      if (index < 0 || index >= total || index === current) return;
+      current = index;
+      updateUI(direction);
+    }
+
+    prevBtn.addEventListener('click', () => goToSlide(current - 1, 'left'));
+    nextBtn.addEventListener('click', () => goToSlide(current + 1, 'right'));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+        goToSlide(current + 1, 'right');
+      } else if (e.key === 'ArrowLeft') {
+        goToSlide(current - 1, 'left');
+      }
+    });
+
+    window.addEventListener('load', () => {
+      updateUI();
+    });
+  })();
+</script>
+</body>
+</html>

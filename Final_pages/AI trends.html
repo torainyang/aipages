@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025-2030 AI 战略演进路线图</title>
+    <style>
+        :root {
+            --bg-color: #030b17;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(0, 242, 255, 0.2);
+            --text-main: #ffffff;
+            --text-sub: #a0aec0;
+            --accent-cyan: #00f2ff;
+            --accent-blue: #007bff;
+            --accent-purple: #7b2cbf;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at 50% -20%, #1a365d 0%, var(--bg-color) 70%);
+            color: var(--text-main);
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .slide-container {
+            width: 95vw;
+            height: 90vh;
+            background: rgba(10, 20, 40, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Header */
+        header {
+            margin-bottom: 30px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin: 0;
+            background: linear-gradient(90deg, #fff, var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            margin-top: 10px;
+            font-size: 16px;
+            color: var(--text-sub);
+        }
+
+        /* Main Grid Content */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr; /* Three Time Phases */
+            grid-template-rows: auto 1fr;
+            gap: 20px;
+            flex-grow: 1;
+            position: relative;
+        }
+
+        /* Column Headers */
+        .col-header {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(0, 242, 255, 0.3);
+        }
+
+        /* Cards Container */
+        .phase-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+        }
+
+        /* Arrows between columns */
+        .phase-column:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            right: -18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 30px;
+            font-weight: lighter;
+        }
+
+        /* Information Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 14px;
+            line-height: 1.5;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            background: rgba(0, 242, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 242, 255, 0.1);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+        }
+
+        /* Categories (Color Coding) */
+        .cat-infra { border-left: 3px solid #ff4757; } /* 算力与量子 */
+        .cat-agent { border-left: 3px solid #2ed573; } /* Agent与模型 */
+        .cat-phy { border-left: 3px solid #ffa502; }   /* 物理/自动驾驶 */
+        .cat-soc { border-left: 3px solid #1e90ff; }   /* 社会/经济 */
+
+        .card-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: #fff;
+        }
+
+        .card-desc {
+            color: var(--text-sub);
+            font-size: 12px;
+        }
+
+        /* Timeline Bar at Bottom */
+        .timeline-bar {
+            margin-top: 30px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan), var(--accent-purple));
+            position: relative;
+            border-radius: 2px;
+        }
+
+        .timeline-bar::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -6px;
+            width: 0; 
+            height: 0; 
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 15px solid var(--accent-purple);
+        }
+
+        .footer-note {
+            text-align: right;
+            font-size: 10px;
+            color: rgba(255,255,255,0.3);
+            margin-top: 10px;
+        }
+
+        /* Floating Tags */
+        .tag {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .tag-infra { background: rgba(255, 71, 87, 0.2); color: #ff4757; }
+        .tag-agent { background: rgba(46, 213, 115, 0.2); color: #2ed573; }
+        .tag-phy { background: rgba(255, 165, 2, 0.2); color: #ffa502; }
+        .tag-soc { background: rgba(30, 144, 255, 0.2); color: #1e90ff; }
+
+    </style>
+</head>
+<body>
+
+<div class="slide-container">
+    <header>
+        <h1>从 Agent 爆发到 AGI 黎明：2025-2030 智能经济演进图谱</h1>
+        <div class="subtitle">修正版 (基于 2025.11 现状) | 核心驱动：量子纠错突破 · Agentic Workflow · 具身智能</div>
+    </header>
+
+    <div class="content-grid">
+        <!-- 2025 Column -->
+        <div class="phase-column">
+            <div class="col-header">2025 (现在)</div>
+            
+            <div class="card cat-infra">
+                <span class="tag tag-infra">基础设施</span>
+                <span class="card-title">量子优势确立 (Willow)</span>
+                <span class="card-desc">Google Willow 芯片验证数学可行性；AI 开始辅助量子纠错与线路优化。</span>
+            </div>
+
+            <div class="card cat-agent">
+                <span class="tag tag-agent">模型与Agent</span>
+                <span class="card-title">Agentic Workflow 元年</span>
+                <span class="card-desc">从 Chatbot 转向“数字员工”。垂直领域（编程、医疗）出现超人级生产力。</span>
+            </div>
+
+            <div class="card cat-phy">
+                <span class="tag tag-phy">物理世界</span>
+                <span class="card-title">L4 自动驾驶出海落地</span>
+                <span class="card-desc">Robotaxi 在阿布扎比等地开启无安全员商业运营；端侧模型爆发 (On-Device AI)。</span>
+            </div>
+
+            <div class="card cat-soc">
+                <span class="tag tag-soc">商业应用</span>
+                <span class="card-title">多模态内容与助手普及</span>
+                <span class="card-desc">AI 视频/3D生成成为标配；个性化 AI 助手开始接管简单任务。</span>
+            </div>
+        </div>
+
+        <!-- 2027 Column -->
+        <div class="phase-column">
+            <div class="col-header">2027 (深化期)</div>
+            
+            <div class="card cat-infra">
+                <span class="tag tag-infra">基础设施</span>
+                <span class="card-title">专用量子模拟商用</span>
+                <span class="card-desc">量子计算在材料筛选、药物分子领域实现“指数级加速”并产生商业收入。</span>
+            </div>
+
+            <div class="card cat-agent">
+                <span class="tag tag-agent">模型与Agent</span>
+                <span class="card-title">多智能体蜂群 (Swarm)</span>
+                <span class="card-desc">AI 之间自我组网协作。解决“幻觉”问题，建立可信 AI 治理宪章。</span>
+            </div>
+
+            <div class="card cat-phy">
+                <span class="tag tag-phy">物理世界</span>
+                <span class="card-title">L4 规模化 & L3 标配化</span>
+                <span class="card-desc">Robotaxi 覆盖主要一线城市；高速公路物流实现无人化。</span>
+            </div>
+
+            <div class="card cat-soc">
+                <span class="tag tag-soc">商业应用</span>
+                <span class="card-title">人机共生工作流</span>
+                <span class="card-desc">人类主要负责定义目标与审核，AI 执行 80% 流程。合成内容成为互联网主体。</span>
+            </div>
+        </div>
+
+        <!-- 2030 Column -->
+        <div class="phase-column">
+            <div class="col-header">2030 (愿景)</div>
+            
+            <div class="card cat-infra">
+                <span class="tag tag-infra">基础设施</span>
+                <span class="card-title">后硅基计算范式</span>
+                <span class="card-desc">量子-经典混合计算平台成熟；核能数据中心支撑行星级算力网络。</span>
+            </div>
+
+            <div class="card cat-agent">
+                <span class="tag tag-agent">模型与Agent</span>
+                <span class="card-title">AGI 与物理世界耦合</span>
+                <span class="card-desc">具备自主意识特征的通用智能；不仅理解数字世界，更能操控物理实体。</span>
+            </div>
+
+            <div class="card cat-phy">
+                <span class="tag tag-phy">物理世界</span>
+                <span class="card-title">具身智能网络 (Embodied AI)</span>
+                <span class="card-desc">通用人形机器人走进家庭/工厂；物理终端形成“智能体网络”。</span>
+            </div>
+
+            <div class="card cat-soc">
+                <span class="tag tag-soc">商业应用</span>
+                <span class="card-title">合成经济 (Synthetic Economy)</span>
+                <span class="card-desc">AI 成为主要的消费者与生产者；传统雇佣关系与商业模式被彻底重塑。</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="timeline-bar"></div>
+    <div style="display: flex; justify-content: space-between; color: var(--text-sub); margin-top: 5px; font-weight: bold;">
+        <span>2025</span>
+        <span>2027</span>
+        <span>2030</span>
+    </div>
+
+    <div class="footer-note">Updated: Nov 30, 2025 | Source Analysis: OpenAI, McKinsey, Google Quantum AI</div>
+</div>
+
+</body>
+</html>

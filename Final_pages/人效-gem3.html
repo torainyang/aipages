@@ -1,0 +1,2634 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>AI时代人效重构 · 全路径 × 大厂案例版</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        :root {
+            --bg-deep: #050816;
+            --panel-bg: rgba(17, 25, 40, 0.92);
+            --panel-soft: rgba(23, 35, 55, 0.9);
+            --accent-blue: #3b82f6;
+            --accent-cyan: #22d3ee;
+            --accent-green: #22c55e;
+            --accent-purple: #a855f7;
+            --accent-red: #ef4444;
+            --border-subtle: rgba(148, 163, 184, 0.4);
+            --text-main: #e5e7eb;
+            --text-muted: #9ca3af;
+            --text-soft: #6b7280;
+            --radius-lg: 18px;
+            --radius-xl: 26px;
+            --shadow-soft: 0 22px 50px rgba(0,0,0,0.55);
+            --shadow-sm: 0 10px 30px rgba(15, 23, 42, 0.7);
+            
+            /* 宽屏适配参数 */
+            --slide-w: 94%; 
+            --slide-max-w: 1600px;
+            --slide-h: 720px;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: radial-gradient(circle at 0% 0%, #1d283a 0, #020617 45%, #000 100%);
+            color: var(--text-main);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: -20%;
+            background:
+                radial-gradient(circle at 20% 0%, rgba(59,130,246,0.25) 0, transparent 55%),
+                radial-gradient(circle at 80% 100%, rgba(56,189,248,0.25) 0, transparent 60%);
+            opacity: 0.65;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .deck-root {
+            display: flex;
+            height: 100vh;
+            padding: 16px 18px;
+            gap: 14px;
+            color: var(--text-main);
+        }
+
+        /* 左侧导航栏 */
+        .sidebar {
+            width: 260px;
+            min-width: 220px;
+            max-width: 280px;
+            background: linear-gradient(150deg, rgba(15,23,42,0.95), rgba(15,23,42,0.86));
+            border-radius: 22px;
+            padding: 18px 16px 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(148,163,184,0.35);
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(26px);
+            flex-shrink: 0;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .logo-circle {
+            width: 26px;
+            height: 26px;
+            border-radius: 999px;
+            background: conic-gradient(from 160deg, #22d3ee, #3b82f6, #a855f7, #22c55e, #22d3ee);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 18px rgba(56,189,248,0.7);
+            position: relative;
+        }
+
+        .logo-circle::after {
+            content: "";
+            width: 16px;
+            height: 16px;
+            border-radius: inherit;
+            background: radial-gradient(circle at 30% 20%, #e5e7eb 0, #111827 55%);
+        }
+
+        .sidebar-title {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .sidebar-title-main {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .sidebar-title-sub {
+            font-size: 12px;
+            color: var(--text-soft);
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: radial-gradient(circle at 50% 0, rgba(148,163,184,0.6), transparent);
+            margin: 4px 0 10px;
+        }
+
+        .sidebar-section-label {
+            font-size: 11px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            margin-bottom: 6px;
+        }
+
+        .nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex: 1;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(148,163,184,0.7) transparent;
+        }
+
+        .nav-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .nav-list::-webkit-scrollbar-thumb {
+            background: rgba(148,163,184,0.7);
+            border-radius: 999px;
+        }
+
+        .nav-item {
+            margin-bottom: 4px;
+        }
+
+        .nav-button {
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            text-align: left;
+            font-size: 12px;
+            padding: 6px 9px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            cursor: pointer;
+            transition: all 0.18s ease-out;
+        }
+
+        .nav-button:hover {
+            background: rgba(30,64,175,0.7);
+            color: #e5e7eb;
+            transform: translateX(1px);
+        }
+
+        .nav-button span.index {
+            font-size: 10px;
+            opacity: 0.7;
+            min-width: 18px;
+        }
+
+        .nav-button span.text {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-button.active {
+            background: radial-gradient(circle at 0 0, rgba(56,189,248,0.4), transparent 60%),
+                        linear-gradient(120deg, rgba(37,99,235,0.95), rgba(6,182,212,0.96));
+            color: #f9fafb;
+            box-shadow: 0 0 0 1px rgba(191,219,254,0.3), 0 8px 20px rgba(15,23,42,0.8);
+        }
+
+        .nav-button.active span.index {
+            opacity: 1;
+            font-weight: 600;
+        }
+
+        .sidebar-footer {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px dashed rgba(75,85,99,0.7);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .sidebar-meta {
+            font-size: 11px;
+            color: var(--text-soft);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-tag {
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 999px;
+            border: 1px solid rgba(59,130,246,0.7);
+            color: #bfdbfe;
+            background: radial-gradient(circle at 0 0, rgba(59,130,246,0.5), transparent 60%);
+        }
+
+        /* 右侧主区域 */
+        .main-panel {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden; 
+        }
+
+        .slide-frame {
+            position: relative;
+            width: var(--slide-w);
+            max-width: var(--slide-max-w);
+            aspect-ratio: 16 / 9;
+            max-height: calc(100vh - 32px);
+            border-radius: var(--radius-xl);
+            background: radial-gradient(circle at 0 0, rgba(56,189,248,0.25), transparent 65%),
+                        radial-gradient(circle at 100% 100%, rgba(59,130,246,0.25), transparent 65%),
+                        rgba(15,23,42,0.96);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(148,163,184,0.45);
+            backdrop-filter: blur(24px);
+            display: flex;
+        }
+
+        .slides-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            padding: 28px 46px 30px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(40px) scale(0.99);
+            transition: opacity 0.28s ease-out, transform 0.32s ease-out;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(0) scale(1);
+        }
+
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 18px;
+            margin-bottom: 14px;
+            flex-shrink: 0; 
+        }
+
+        .slide-title-block {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .slide-kicker {
+            font-size: 11px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+        }
+
+        .slide-title {
+            font-size: 26px;
+            font-weight: 650;
+            letter-spacing: 0.02em;
+        }
+
+        .slide-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 2px;
+            max-width: 580px;
+        }
+
+        .slide-meta {
+            text-align: right;
+            font-size: 11px;
+            color: var(--text-soft);
+        }
+
+        .slide-meta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 9px;
+            border-radius: 999px;
+            background: rgba(15,23,42,0.9);
+            border: 1px solid rgba(148,163,184,0.5);
+        }
+
+        .pill-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: radial-gradient(circle at 30% 30%, #e5e7eb 0, #22d3ee 55%, #0f172a 100%);
+            box-shadow: 0 0 12px rgba(34,211,238,0.85);
+        }
+
+        /* 通用卡片布局 */
+        .slide-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            height: 100%;
+            padding-bottom: 30px; 
+            min-height: 0;
+        }
+
+        .slide-body.single-column {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        /* ----------------------------------------------- */
+        /* 第二页：全景矩阵专属样式 (The Matrix Layout) */
+        /* ----------------------------------------------- */
+        
+        .matrix-container {
+            display: grid;
+            /* 5列等宽，横向排列 */
+            grid-template-columns: repeat(5, 1fr); 
+            gap: 12px;
+            height: 100%;
+            padding-bottom: 24px;
+            min-height: 0;
+            overflow-x: auto; 
+        }
+
+        .matrix-column {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background: linear-gradient(145deg, rgba(15,23,42,0.9), rgba(15,23,42,0.7));
+            border: 1px solid rgba(51,65,85,0.7);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        /* 前提列：特殊高亮 */
+        .matrix-column.premise {
+            background: linear-gradient(160deg, rgba(59,130,246,0.15), rgba(15,23,42,0.9));
+            border: 1px solid rgba(59,130,246,0.5);
+            box-shadow: 0 0 20px rgba(59,130,246,0.1) inset;
+        }
+
+        .matrix-header {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(148,163,184,0.2);
+            background: rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .matrix-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .matrix-tag {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-soft);
+            font-family: monospace;
+        }
+
+        /* 路径列表区域 */
+        .matrix-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(148,163,184,0.3) transparent;
+        }
+
+        .matrix-list::-webkit-scrollbar {
+            width: 3px;
+        }
+        .matrix-list::-webkit-scrollbar-thumb {
+            background: rgba(148,163,184,0.3);
+            border-radius: 4px;
+        }
+
+        /* 路径微型卡片 */
+        .path-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.35;
+            transition: all 0.2s ease-out;
+            cursor: default;
+        }
+
+        .path-card:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(148,163,184,0.3);
+            transform: translateX(2px);
+            color: #f3f4f6;
+        }
+
+        /* 前提列的卡片 hover 效果 */
+        .matrix-column.premise .path-card:hover {
+            border-color: rgba(59,130,246,0.6);
+            background: rgba(59,130,246,0.1);
+        }
+
+        .path-code {
+            display: inline-block;
+            font-family: "SF Mono", monospace;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin-bottom: 2px;
+            opacity: 0.9;
+        }
+
+        .matrix-column.premise .path-code {
+            color: var(--accent-blue);
+        }
+
+        .path-text {
+            display: block;
+        }
+
+        /* ----------------------------------------------- */
+        /* 通用卡片样式 */
+        /* ----------------------------------------------- */
+
+        .card {
+            height: 100%;
+            background: linear-gradient(145deg, rgba(15,23,42,0.95), rgba(15,23,42,0.88));
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(51,65,85,0.9);
+            padding: 14px 16px 14px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+            overflow: hidden; 
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: -40%;
+            background: radial-gradient(circle at 0 0, rgba(56,189,248,0.08), transparent 60%);
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card-tag {
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 999px;
+            background: rgba(15,23,42,0.9);
+            border: 1px solid rgba(148,163,184,0.6);
+            color: #e5e7eb;
+        }
+
+        .card-body {
+            font-size: 13px;
+            color: var(--text-muted);
+            z-index: 1;
+            overflow-y: auto;
+            flex: 1;
+            padding-right: 4px; 
+            scrollbar-width: thin;
+            scrollbar-color: rgba(148,163,184,0.3) transparent;
+        }
+
+        .card-body::-webkit-scrollbar {
+            width: 4px;
+        }
+        .card-body::-webkit-scrollbar-thumb {
+            background: rgba(148,163,184,0.3);
+            border-radius: 4px;
+        }
+
+        .card-body p {
+            margin: 0 0 4px;
+        }
+
+        .bullets {
+            list-style: none;
+            padding-left: 0;
+            margin: 4px 0 0;
+        }
+
+        .bullets li {
+            position: relative;
+            padding-left: 14px;
+            margin-bottom: 3px;
+            line-height: 1.32;
+        }
+
+        .bullets li::before {
+            content: "";
+            position: absolute;
+            left: 2px;
+            top: 7px;
+            width: 4px;
+            height: 4px;
+            border-radius: 999px;
+            background: radial-gradient(circle at 30% 30%, #e5e7eb 0, #60a5fa 65%, #0f172a 100%);
+            opacity: 0.9;
+        }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 2px;
+        }
+
+        .badge {
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 999px;
+            border: 1px solid rgba(148,163,184,0.65);
+            color: #e5e7eb;
+            background: radial-gradient(circle at 0 0, rgba(148,163,184,0.4), transparent 60%);
+        }
+
+        .badge.blue { border-color: rgba(59,130,246,0.8); }
+        .badge.green { border-color: rgba(34,197,94,0.8); }
+        .badge.purple { border-color: rgba(168,85,247,0.8); }
+        .badge.cyan { border-color: rgba(34,211,238,0.9); }
+        .badge.red { border-color: rgba(248,113,113,0.9); }
+
+        .case-list {
+            list-style: none;
+            padding-left: 0;
+            margin: 2px 0 0;
+            font-size: 12px;
+        }
+
+        .case-list li {
+            margin-bottom: 4px;
+            padding-left: 10px;
+            border-left: 2px solid rgba(59,130,246,0.7);
+        }
+
+        .case-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-soft);
+            margin-bottom: 2px;
+        }
+
+        .highlight {
+            color: #e5e7eb;
+            font-weight: 500;
+        }
+
+        /* 封面 / 特殊页 */
+        .slide-cover .slide-body {
+            display: flex;
+            flex-direction: row;
+            gap: 26px;
+            align-items: center; 
+            justify-content: center; 
+        }
+
+        .cover-left {
+            text-align: center; 
+            max-width: 800px; 
+        }
+
+        .cover-tagline {
+            display: none; 
+        }
+
+        .cover-title-main {
+            font-size: 56px; 
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            line-height: 1.2;
+        }
+
+        .cover-title-main span {
+            background: linear-gradient(120deg, #38bdf8, #a855f7, #22c55e);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        /* 隐藏封面其他元素 */
+        .cover-subtitle, .cover-badges, .cover-meta, .cover-right {
+            display: none; 
+        }
+
+        /* 底部控制条 */
+        .controls {
+            position: absolute;
+            bottom: 14px;
+            left: 22px;
+            right: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: var(--text-soft);
+            z-index: 10;
+        }
+
+        .controls-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .key-hints span {
+            border-radius: 6px;
+            border: 1px solid rgba(148,163,184,0.7);
+            padding: 2px 5px;
+            font-size: 10px;
+            margin-right: 4px;
+        }
+
+        .controls-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pager {
+            font-size: 11px;
+        }
+
+        .pager strong {
+            color: #e5e7eb;
+        }
+
+        .btn {
+            border-radius: 999px;
+            border: 1px solid rgba(148,163,184,0.7);
+            background: rgba(15,23,42,0.9);
+            color: #e5e7eb;
+            font-size: 11px;
+            padding: 4px 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.16s ease-out;
+        }
+
+        .btn:hover {
+            background: linear-gradient(120deg, rgba(37,99,235,0.98), rgba(34,211,238,0.98));
+            color: #f9fafb;
+            box-shadow: 0 0 0 1px rgba(191,219,254,0.4), 0 10px 24px rgba(15,23,42,0.85);
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(15,23,42,0.7);
+        }
+
+        .btn svg {
+            width: 11px;
+            height: 11px;
+        }
+
+        .slide-transition-enter {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px) scale(0.98); }
+            to { opacity: 1; transform: translateX(0) scale(1); }
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 1200px) {
+            .deck-root {
+                padding: 8px;
+            }
+            .sidebar {
+                display: none;
+            }
+            .slide-frame {
+                border-radius: 0;
+                width: 100%;
+                max-width: 100%;
+                max-height: 100vh;
+            }
+            .slide {
+                padding: 22px 18px 24px;
+            }
+            /* 小屏幕下矩阵变为水平滚动，保证可读性 */
+            .matrix-container {
+                gap: 8px;
+                grid-template-columns: repeat(5, 240px); /* 强制宽度，触发滚动 */
+            }
+            .slide-body {
+                grid-template-columns: minmax(0, 1fr);
+            }
+            .cover-left, .cover-right {
+                flex: 1;
+            }
+            .slide-cover .slide-body {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide-title {
+                font-size: 20px;
+            }
+            .slide-subtitle {
+                font-size: 12px;
+            }
+            .card-body {
+                font-size: 12px;
+            }
+            .cover-title-main {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="deck-root">
+    <!-- 左侧导航 -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-circle"></div>
+            <div class="sidebar-title">
+                <div class="sidebar-title-main">AI Org Efficiency</div>
+                <div class="sidebar-title-sub">Business × Org × Role × Talent × Mechanism</div>
+            </div>
+        </div>
+        <div class="sidebar-divider"></div>
+
+        <div class="sidebar-section-label">目录 · Outline</div>
+        <ul class="nav-list" id="navList"></ul>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-meta">
+                <span>← → 切换页面</span>
+                <span class="sidebar-tag">AI-first org</span>
+            </div>
+            <div class="sidebar-meta">
+                <span>Draft for internal discussion</span>
+                <span>2025</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 右侧主区域 -->
+    <main class="main-panel">
+        <div class="slide-frame">
+            <div class="slides-wrapper" id="slidesWrapper">
+
+                <!-- 1 封面 (Modified: Only Main Title) -->
+                <section class="slide slide-cover" data-title="封面 · AI时代人效重构">
+                    <!-- 隐藏顶部栏 -->
+                    <div class="slide-header" style="opacity:0;"></div> 
+
+                    <div class="slide-body">
+                        <div class="cover-left">
+                            <div class="cover-title-main">
+                                AI 时代的人效重构
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2 总览 · 全景矩阵 (Modified: B1-B3, M1-M4) -->
+                <section class="slide" data-title="总览 · 全景矩阵">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">Overview</div>
+                            <div class="slide-title">人效重构：全景作战地图</div>
+                            <div class="slide-subtitle">
+                                业务聚焦是前提（Premise），四大杠杆（Levers）协同发力，形成结构化解法。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Strategic Matrix</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="matrix-container">
+                        
+                        <!-- 1. 业务聚焦 (Premise) - Revised to 3 Paths -->
+                        <div class="matrix-column premise">
+                            <div class="matrix-header">
+                                <div class="matrix-title">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="color:#60a5fa"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg>
+                                    <span>前提：业务聚焦</span>
+                                </div>
+                                <div class="matrix-tag">Business Focus</div>
+                            </div>
+                            <div class="matrix-list">
+                                <div class="path-card">
+                                    <span class="path-code">B1</span>
+                                    <span class="path-text">关停 / 出售低效业务</span>
+                                </div>
+                                <div class="path-card">
+                                    <span class="path-code">B2</span>
+                                    <span class="path-text">集中资源到 AI + 主战场</span>
+                                </div>
+                                <div class="path-card">
+                                    <span class="path-code">B3</span>
+                                    <span class="path-text">业务组合优化，提升ROI</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. 组织架构 -->
+                        <div class="matrix-column">
+                            <div class="matrix-header">
+                                <div class="matrix-title">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                                    <span>杠杆1：组织架构</span>
+                                </div>
+                                <div class="matrix-tag">Structure</div>
+                            </div>
+                            <div class="matrix-list">
+                                <div class="path-card">
+                                    <span class="path-code">O1</span>
+                                    <span class="path-text">平台能力集中化</span>
+                                </div>
+                                <div class="path-card">
+                                    <span class="path-code">O2</span>
+                                    <span class="path-text">以客户为中心的整合与协同</span>
+                                </div>
+                                <div class="path-card">
+                                    <span class="path-code">O3</span>
+                                    <span class="path-text">压缩管理层级</span>
+                                </div>
+                                <div class="path-card">
+                                    <span class="path-code">O4</span>
+                                    <span class="path-text">端到端业务单元化</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. 岗位重构 -->
+                        <div class="matrix-column">
+                            <div class="matrix-header">
+                                <div class="matrix-title">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                    <span>杠杆2：岗位重构</span>
+                                </div>
+                                <div class="matrix-tag">Roles</div>
+                            </div>
+                            <div class="matrix-list">
+                                <div class="path-card">
+                                    <span class="path-code">R1</span>
+                                    <span class="path-text">岗位职责 AI 前置化</span>
+                                </div>
+                                <div class="path-card">
+                                    <span class="path-code">R2</span>
+                                    <span class="path-text">去协调岗 / 中间人</span>
+                                </div>
+                                <div class="path-card">
+                                    <span class="path-code">R3</span>
+                                    <span class="path-text">岗位合并扩大 Scope</span>
+                                </div>
+                                <div class="path-card">
+                                    <span class="path-code">R4</span>
+                                    <span class="path-text">新建 AI 应用类岗位</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4. 人才结构 -->
+                        <div class="matrix-column">
+                            <div class="matrix-header">
+                                <div class="matrix-title">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                    <span>杠杆3：人才结构</span>
+                                </div>
+                                <div class="matrix-tag">Talent Mix</div>
+                            </div>
+                            <div class="matrix-list">
+                                <div class="path-card">
+                                    <span class="path-code">T1</span>
+                                    <span class="path-text">瘦身 + 结构性补强</span>
+                                </div>
+                                <div class="path-card">
+                                    <span class="path-code">T2</span>
+                                    <span class="path-text">提升 IC 密度</span>
+                                </div>
+                                <div class="path-card">
+                                    <span class="path-code">T3</span>
+                                    <span class="path-text">去 title 泡沫</span>
+                                </div>
+                                <div class="path-card">
+                                    <span class="path-code">T4</span>
+                                    <span class="path-text">区域人力迁移</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 5. 机制驱动 (Reordered) -->
+                        <div class="matrix-column">
+                            <div class="matrix-header">
+                                <div class="matrix-title">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                                    <span>杠杆4：机制驱动</span>
+                                </div>
+                                <div class="matrix-tag">Mechanism</div>
+                            </div>
+                            <div class="matrix-list">
+                                <div class="path-card">
+                                    <span class="path-code">M1</span>
+                                    <span class="path-text">内部市场化与细粒度P&L</span>
+                                </div>
+                                <div class="path-card">
+                                    <span class="path-code">M2</span>
+                                    <span class="path-text">预算 × HC 强绑定</span>
+                                </div>
+                                <div class="path-card">
+                                    <span class="path-code">M3</span>
+                                    <span class="path-text">常态化“去低效”</span>
+                                </div>
+                                <div class="path-card">
+                                    <span class="path-code">M4</span>
+                                    <span class="path-text">AI应用纳入考核</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- 3 背景 -->
+                <section class="slide" data-title="背景 · 为什么必须动人效">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">Context</div>
+                            <div class="slide-title">为什么现在必须动“人效”？</div>
+                            <div class="slide-subtitle">
+                                外部环境、资本市场、AI 技术三重挤压，不动人效，AI 就只能停留在展示层面。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Reality Check</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">外部现实：高估值时代结束</div>
+                                <span class="card-tag">Business Pressure</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="bullets">
+                                    <li>资本市场从“看故事”回到“看利润 / 现金流 / 人均产出”。</li>
+                                    <li>Google / Meta / Amazon 多轮裁员，本质是重调“人效结构”和成本曲线。</li>
+                                    <li>国内平台公司同步转向“高质量收入”和自由现金流。</li>
+                                </ul>
+                                <p style="margin-top:4px;">不重构人效结构，AI 投入就难以在财务报表上闭环。</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">技术现实：AI 已经能重写岗位与流程</div>
+                                <span class="card-tag">Tech Pressure</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="bullets">
+                                    <li>Copilot / Gemini / 内部大模型可以接管 30–60% 重复性脑力劳动。</li>
+                                    <li>岗位和流程不重写，AI 就永远停留在试点小玩具。</li>
+                                    <li>真正的红利来自“AI + 业务 + 组织”的组合，而不是单点 PoC。</li>
+                                </ul>
+                                <p style="margin-top:4px;">这轮人效重构，本质上是“用 AI 重写组织的生产函数”。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ===== 业务聚焦 B 段 (Revised) ===== -->
+                <!-- 4 业务聚焦总览 -->
+                <section class="slide" data-title="业务聚焦 · 3条路径概览">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">I · Business Focus</div>
+                            <div class="slide-title">业务聚焦：先把盘子收回来</div>
+                            <div class="slide-subtitle">
+                                如果业务摊子本身是错的，再怎么调整组织和岗位，人效都只是“局部止疼药”。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Business Lens</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">业务聚焦 · 3 条核心路径</div>
+                                <span class="card-tag">Paths B1–B3</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="bullets">
+                                    <li><span class="highlight">B1：</span>关停 / 出售低效业务。</li>
+                                    <li><span class="highlight">B2：</span>集中资源到 AI + 主战场。</li>
+                                    <li><span class="highlight">B3：</span>业务组合优化，提升 ROI。</li>
+                                </ul>
+                                <p style="margin-top:4px;">相比“摊大饼”，现在的逻辑是“缩拳头”，只打必胜之仗。</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">适用条件 · 典型症状</div>
+                                <span class="card-tag">When</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="bullets">
+                                    <li>业务线过多，但真正赚钱的就一两块。</li>
+                                    <li>集团层面利润和估值承压，需要“挤泡沫”。</li>
+                                    <li>AI / Infra 投入缺乏预算和 HC，只能零敲碎打。</li>
+                                </ul>
+                                <p style="margin-top:4px;">一句话：主战场要吃饱，边缘战场就别再烧钱养人了。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5 业务 B1 (Redesigned) -->
+                <section class="slide" data-title="业务聚焦 · B1 关停低效业务">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">I-1 · Business</div>
+                            <div class="slide-title">B1：关停 / 出售低效业务</div>
+                            <div class="slide-subtitle">
+                                坚决剥离“负资产”，停止为虚荣指标买单。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Exit Strategy</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>坚决剥离长期亏损、非核心、无战略协同的业务单元。</li>
+                                    <li>停止为单纯的规模指标（GMV/DAU）而牺牲利润。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>业务线过于庞杂，管理带宽被严重稀释。</li>
+                                    <li>存在长期（>3年）亏损且看不到扭亏路径的“僵尸业务”。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">Meta / ByteDance</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">Meta：</span>“Year of Efficiency” 砍掉 Portal 硬件线，停止低优元宇宙项目，释放资源。
+                                    </li>
+                                    <li>
+                                        <span class="highlight">ByteDance：</span>大幅收缩朝夕光年（游戏）业务，剥离与主航道不协同的资产。
+                                    </li>
+                                </ul>
+                                <p style="margin-top:4px;">不是亏损才砍，而是“不够战略/不够确定”的统统要让路。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6 业务 B2 (Redesigned) -->
+                <section class="slide" data-title="业务聚焦 · B2 集中资源">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">I-2 · Business</div>
+                            <div class="slide-title">B2：集中资源到 AI + 主战场</div>
+                            <div class="slide-subtitle">
+                                将释放出的 Budget 和 HC，强制划拨给增长引擎。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Focus Strategy</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>将关停业务释放出的资金与人力（HC），强制划拨给 AI 基础设施及核心盈利业务（现金牛）。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>核心战场面临激烈竞争（如电商、云），急需弹药。</li>
+                                    <li>AI 转型喊得响，但实际落地缺乏预算和算力支持。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">Google / Microsoft</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">Google：</span>裁减 Assistant / Core 团队，重组工程资源全力保障 Gemini 开发。
+                                    </li>
+                                    <li>
+                                        <span class="highlight">Microsoft：</span>锁定 "Cloud + AI" 为绝对核心，非核心业务预算冻结或缩减。
+                                    </li>
+                                </ul>
+                                <p style="margin-top:4px;">实质上是给“好奇心驱动的项目”踩刹车，把预算腾出来给 AI 和基础设施。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 7 业务 B3 (Redesigned) -->
+                <section class="slide" data-title="业务聚焦 · B3 业务组合优化">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">I-3 · Business</div>
+                            <div class="slide-title">B3：业务组合优化，提升 ROI</div>
+                            <div class="slide-subtitle">
+                                用财务视角（ROIC / 利润率）重新评估所有业务，追求高质量增长。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Portfolio Optimization</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>建立以 ROIC (投入资本回报率) 为核心的评价体系，动态调整业务组合。</li>
+                                    <li>对于“高投入低产出”业务进行合并或缩编。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>集团整体由“规模优先”转向“利润优先”。</li>
+                                    <li>部分业务看似增长快，实则“卖一单亏一单”，且无留存价值。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">Tencent / Meituan</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">Tencent：</span>长期坚持“高质量增长”，主动缩减低毛利收入，聚焦视频号广告等高利业务。
+                                    </li>
+                                    <li>
+                                        <span class="highlight">Meituan：</span>严格审视新业务（如优选）的亏损额，从“不惜代价”转向“降本减亏”。
+                                    </li>
+                                </ul>
+                                <p style="margin-top:4px;">指标不改，人效讨论就会变成人手讨论；改了指标，业务自然会逼组织精简和 AI 化。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ===== 组织架构 O 段 (Updated O2) ===== -->
+                <!-- 8 组织总览 -->
+                <section class="slide" data-title="组织架构 · 4条路径概览">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">II · Org Architecture</div>
+                            <div class="slide-title">组织架构：从“复杂分散”到“高效聚焦”</div>
+                            <div class="slide-subtitle">
+                                四条主路径：平台集中化 / 客户为中心整合 / 压层级 / 端到端业务单元化。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Org Design</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">四条路径摘要</div>
+                                <span class="card-tag">Paths O1–O4</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="bullets">
+                                    <li><span class="highlight">O1 · 平台能力集中化：</span>AI / 数据 / 推荐 / 基建统一平台。</li>
+                                    <li><span class="highlight">O2 · 以客户为中心的整合与协同：</span>消除断点，整合旅程。</li>
+                                    <li><span class="highlight">O3 · 压缩管理层级：</span>减少中层“缓冲带”，提高 IC 占比。</li>
+                                    <li><span class="highlight">O4 · 端到端业务单元化：</span>跨职能 squad 对一整块 P&L 负责。</li>
+                                </ul>
+                                <p style="margin-top:4px;">组织不调，人效提升永远是“头疼医头、脚疼医脚”。</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">适用场景快速判断</div>
+                                <span class="card-tag">When</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="bullets">
+                                    <li>各 BU 都在搞自己的推荐 / 广告 / AI → O1。</li>
+                                    <li>同一客户被多个 BU 重复触达、体验割裂 → O2。</li>
+                                    <li>决策慢、owner 少、meetings 多 → O3+O4。</li>
+                                </ul>
+                                <p style="margin-top:4px;">可以在内部做一页“症状对照表”，选 1–2 条路径优先试点。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 9 O1 平台集中化 -->
+                <section class="slide" data-title="组织架构 · O1 平台集中化">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">II-1 · Org</div>
+                            <div class="slide-title">O1：平台能力集中化（AI / 推荐 / 数据 / 基建）</div>
+                            <div class="slide-subtitle">
+                                所有 AI-first 大厂的共识动作：先把“技术中台”做对。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Platformization</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>将散落在产品 / BU 内部的 AI、数据、推荐、基础工程能力集中为统一平台团队。</li>
+                                    <li>统一技术栈、统一 roadmap、统一人才与预算棋盘。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>不同 BU 重复建设推荐 / 广告 / 画像等能力。</li>
+                                    <li>平台团队长期被拉扯，优先级冲突严重。</li>
+                                    <li>AI 项目 “各搞各的”，集团缺乏主干规划。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">Microsoft / Meta</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">Microsoft：</span>设立 Microsoft AI 和 CoreAI Platform，
+                                        统一支撑 Copilot、Office、Windows、Azure、GitHub 等产品线的 AI 能力。
+                                    </li>
+                                    <li>
+                                        <span class="highlight">Meta：</span>将 AI Infra / GenAI 等集中管理，
+                                        统一为 Feed / Ads / Reels 等业务提供底层模型和算力能力。</li>
+                                </ul>
+                                <p style="margin-top:4px;">一句话：AI 是平台，不是“每个 BU 的装修风格”。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 10 O2 客户旅程整合 (Updated Title & Content) -->
+                <section class="slide" data-title="组织架构 · O2 以客户为中心的整合与协同">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">II-2 · Org</div>
+                            <div class="slide-title">O2：以客户为中心的整合与协同</div>
+                            <div class="slide-subtitle">
+                                从“内部方便管理”转向“外部体验一体化”，并消除断点。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Customer Journey & Synergy</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>按“拉新–激活–留存–复购”全旅程重组团队，避免职能切分过细。</li>
+                                    <li>**消除协同瓶颈**：识别流程高耗能点（断点），通过合并职能或BP实心化，减少跨部门握手。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>同一客户被多个团队重复触达，体验割裂。</li>
+                                    <li>简单需求需3个以上部门开会推动，“内部推诿”时间超过“解决问题”时间。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">Meituan / Amazon</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">Meituan：</span>将到店、到家整合，打通商户供给，避免内部BD互搏，统一了商户的“入驻-营销”旅程。
+                                    </li>
+                                    <li>
+                                        <span class="highlight">Amazon：</span>推行 "Single-threaded Leadership" (STL)，消除对其他团队的依赖（Dependencies），让团队拥有完成目标所需的所有资源（闭环）。
+                                    </li>
+                                </ul>
+                                <p style="margin-top:4px;">真正的协同不是“开会协调”，而是“设计不依赖别人的组织结构”。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 11 O3 压层级 -->
+                <section class="slide" data-title="组织架构 · O3 压缩管理层级">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">II-3 · Org</div>
+                            <div class="slide-title">O3：压缩管理层级，减少中层“缓冲带”</div>
+                            <div class="slide-subtitle">
+                                让信息和决策少绕几个弯，少过几道“审批关”。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Flattening</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>控制组织高度，减少 Manager / Director 层级，提升一线 IC 占比。</li>
+                                    <li>让决策尽量在“前线”做，而不是层层上报。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>层级 ≥5，信息传递明显滞后。</li>
+                                    <li>中层“汇报 + 协调”多，一线真正做事的人不够。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">Meta / ByteDance</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">Meta：</span>在效率之年多轮优化中层管理岗位，
+                                        让更多 IC 直接对接 senior leader 和关键项目。</li>
+                                    <li>
+                                        <span class="highlight">ByteDance：</span>部分 BU 下调 VP / Director 密度，
+                                        强调“直连前台”的负责人和小团队。</li>
+                                </ul>
+                                <p style="margin-top:4px;">少点“转述的人”，多点“解决问题的人”。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 12 O4 端到端 -->
+                <section class="slide" data-title="组织架构 · O4 端到端业务单元">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">II-4 · Org</div>
+                            <div class="slide-title">O4：端到端业务单元（E2E Business Pods）</div>
+                            <div class="slide-subtitle">
+                                一个跨职能小队，拿一整条链路和一整块 P&L，对结果负责到底。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>E2E Ownership</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>围绕明确的业务指标（GMV / 收入 / 渗透率）组建跨职能 squad。</li>
+                                    <li>Squad 内集齐产品、技术、运营、数据等角色，对指标负责到底。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>跨部门推项目，会议很多但没人真正拍板。</li>
+                                    <li>典型场景：“大家都参与，没人负责”。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">Amazon / TikTok Shop</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">Amazon：</span>2-Pizza Teams 模式，单团队 end-to-end 负责某一块业务，
+                                        减少对大中台的依赖，提高响应速度。</li>
+                                    <li>
+                                        <span class="highlight">TikTok Shop：</span>按品类 / 区域设立 Anchor 团队，对 GMV、商家生态、内容转化负责，
+                                        由该团队推动算法、流量、运营的一体化。</li>
+                                </ul>
+                                <p style="margin-top:4px;">“一队一盘账”，人少但责任清，推进速度就上来了。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ===== 岗位 R 段 ===== -->
+                <!-- 13 岗位总览 -->
+                <section class="slide" data-title="岗位 · 4条路径总览">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">III · Roles</div>
+                            <div class="slide-title">岗位重构：先重写“人每天在干什么”</div>
+                            <div class="slide-subtitle">
+                                不改岗位定义，AI 永远只是加班助手；改了岗位，AI 才能变成人效放大器。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Role Architecture</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">岗位四大路径</div>
+                                <span class="card-tag">Paths R1–R4</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="bullets">
+                                    <li><span class="highlight">R1：</span>岗位职责 AI 前置化（Copilot-first / Gemini-first）。</li>
+                                    <li><span class="highlight">R2：</span>去协调岗，让“谁负责”比“谁协调”更重要。</li>
+                                    <li><span class="highlight">R3：</span>岗位合并，扩大 Scope，减少碎片化分工。</li>
+                                    <li><span class="highlight">R4：</span>新设 AI 应用类岗位，打通模型与业务间的最后一公里。</li>
+                                </ul>
+                                <p style="margin-top:4px;">这一块是 HR 能直接下手的，改 JD、改 competency、改招聘标准。</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标实践速览</div>
+                                <span class="card-tag">Reference</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="bullets">
+                                    <li>Microsoft：在销售、开发、支持岗位 JD 中写明 Copilot 使用要求。</li>
+                                    <li>Amazon：多轮裁撤 Program Manager / 纯协调岗，提升 IC 占比。</li>
+                                    <li>Meituan / JD：整合高度重叠的运营 / 供应链岗位。</li>
+                                    <li>ByteDance：设置 AI Ops / Applied AI PM 等岗位专职推动落地。</li>
+                                </ul>
+                                <p style="margin-top:4px;">后面 4 页按路径拆开讲，每条配典型公司。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 14 R1 AI前置 -->
+                <section class="slide" data-title="岗位 · R1 岗位职责 AI 前置化">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">III-1 · Roles</div>
+                            <div class="slide-title">R1：岗位职责 AI 前置化（Copilot-first）</div>
+                            <div class="slide-subtitle">
+                                不再是“会用就加分”，而是“不会用就不合格”。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>AI-first Roles</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>在 JD 中写清楚：该岗位需熟练使用某类 AI 工具完成日常工作。</li>
+                                    <li>绩效中有“AI 使用率 / 产出”维度，而不仅是传统 output。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>文本、代码、分析工作量大，可被 AI 明显接管一部分。</li>
+                                    <li>团队已经采购/自研 AI 工具，但实际使用率低。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">Microsoft / Google</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">Microsoft：</span>销售、客服、开发等岗位，内部明确要求
+                                        使用 Copilot 减少准备时间、调研时间，将更多时间投向客户价值和复杂问题。</li>
+                                    <li>
+                                        <span class="highlight">Google：</span>在市场 / 运营 / UX 团队推广 Gemini 辅助文案、分析和实验设计，
+                                        新入职培训中加入 AI 工具模块。</li>
+                                </ul>
+                                <p style="margin-top:4px;">落地动作：改 JD、改 onboarding、绩效打分时问一句“这件事 AI 能不能做一半？”。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 15 R2 去协调岗 -->
+                <section class="slide" data-title="岗位 · R2 去协调岗">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">III-2 · Roles</div>
+                            <div class="slide-title">R2：去协调岗（少点“转发的人”）</div>
+                            <div class="slide-subtitle">
+                                该给职位的是责任，不是邮箱里转发邮件的权利。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>De-coordination</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>识别“纯协调 / 纯汇报型”岗位，合并到真正对结果负责的角色里。</li>
+                                    <li>用 AI / 协作工具替代部分“信息搬运”工作。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>会议很多、邮件很长，但没人能拍板。</li>
+                                    <li>项目中有大量“项目助理 / PMO”只做记录和催进度。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">Amazon / Meituan</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">Amazon：</span>多轮效率提升中，Program Manager / PMO 岗位是重灾区，
+                                        通过加强 E2E 团队 owner 职责，减少“只协调不决策”的层。</li>
+                                    <li>
+                                        <span class="highlight">Meituan：</span>在本地生活各业务线，弱化纯协调中台，
+                                        将原本的协调职责下沉到具体品类 / 区域负责人。</li>
+                                </ul>
+                                <p style="margin-top:4px;">人效视角：每一个 FTE 都应该能清楚说出自己负责的指标，而不是“我负责协调谁谁谁”。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 16 R3 岗位合并 -->
+                <section class="slide" data-title="岗位 · R3 岗位合并扩 Scope">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">III-3 · Roles</div>
+                            <div class="slide-title">R3：岗位合并，扩大 Scope，减少碎片化分工</div>
+                            <div class="slide-subtitle">
+                                分得太细，人就变成“流程中的螺丝钉”；合得合理，人就有完整的产出所有权。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Role Expansion</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>合并高度重叠的岗位职责，减少同一链路被过度拆分。</li>
+                                    <li>让单个岗位负责更完整的一段价值链（例如从分析到执行）。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>一个简单需求要多个岗位串联才能完成。</li>
+                                    <li>人均产出低，很多 FTE 在做“半截活”。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">Amazon / JD</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">Amazon：</span>在部分业务中，将原本分散的 Marketing / Merchandising / Analytics
+                                        等岗位合并为更综合的业务 owner 角色。</li>
+                                    <li>
+                                        <span class="highlight">JD：</span>在供应链与商品运营条线，
+                                        尝试合并部分“只做分析”或“只做执行”的岗位，形成一体化的品类运营岗。</li>
+                                </ul>
+                                <p style="margin-top:4px;">配合 AI 工具，综合岗位的上限更高，低价值重复工作可以被 AI 吸收。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 17 R4 新建AI岗位 -->
+                <section class="slide" data-title="岗位 · R4 新建 AI 应用类岗位">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">III-4 · Roles</div>
+                            <div class="slide-title">R4：新建 AI 应用类岗位（AI PO / AI Ops / Applied AI PM）</div>
+                            <div class="slide-subtitle">
+                                模型到业务之间，必须有人专职接力，而不是指望每个岗位自然觉悟。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>AI Application Roles</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>设立专职岗位，负责把 AI 能力产品化、工作流化、指标化，而不是只做技术 PoC。</li>
+                                    <li>典型角色：AI Product Owner / Applied AI PM / AI Ops / LLM Engineer（偏业务）。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>有模型、有平台，但业务团队落地进展缓慢。</li>
+                                    <li>技术和业务之间语言不通，需要“翻译 + 推动”角色。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">Microsoft / ByteDance</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">Microsoft：</span>在 Copilot 和内部 AI 转型中设立 Applied AI PM / AI Product Owner，
+                                        负责界定用例、打通数据与流程、推动各业务线落地。</li>
+                                    <li>
+                                        <span class="highlight">ByteDance：</span>在 TikTok / 电商等业务设 AI Ops 类岗位，
+                                        专注于设计 Prompt、调参、监控效果，把模型效果转化为 GMV / 广告收入。</li>
+                                </ul>
+                                <p style="margin-top:4px;">这类岗位是“AI 转型项目组”从临时组织走向常态化职能的标志。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ===== 人才结构 T 段 ===== -->
+                <!-- 18 人才总览 -->
+                <section class="slide" data-title="人才结构 · 4条路径总览">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">IV · Talent Mix</div>
+                            <div class="slide-title">人才结构：瘦身 + 补强 + 区域 + 去泡沫</div>
+                            <div class="slide-subtitle">
+                                不只是裁多少人的问题，而是谁留下、在哪儿留、留着干什么的问题。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Talent Structure</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">人才结构四条路径</div>
+                                <span class="card-tag">Paths T1–T4</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="bullets">
+                                    <li><span class="highlight">T1：</span>瘦身 + 结构性补强 + **推行人才年轻化**。</li>
+                                    <li><span class="highlight">T2：</span>提升 IC 密度，减少中层管理占比。</li>
+                                    <li><span class="highlight">T3：</span>去 title 泡沫，控高薪低产出岗位。</li>
+                                    <li><span class="highlight">T4：</span>区域人力迁移，向低成本 / 高潜城市转移。</li>
+                                </ul>
+                                <p style="margin-top:4px;">这部分既是 HRBP 和高管一起“排兵布阵”的硬活，也是对外解释裁员逻辑的底层支撑。</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标实践速览</div>
+                                <span class="card-tag">Reference</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="bullets">
+                                    <li>Google / Meta：裁传统工程 / 产品岗，补 GenAI / Infra 岗。</li>
+                                    <li>Amazon：多轮裁员中对 Manager 层比例做文章，提升 IC 权重。</li>
+                                    <li>Tencent / ByteDance：控制 title 膨胀，强调真实贡献，基干年轻化。</li>
+                                    <li>Google / 大型互联网：运营 / 支持岗位向印度、东南亚等转移。</li>
+                                </ul>
+                                <p style="margin-top:4px;">后面四页按路径拆开讲。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 19 T1 瘦身+补强 (Updated with Young Talent) -->
+                <section class="slide" data-title="人才结构 · T1 瘦身 + 补强">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">IV-1 · Talent</div>
+                            <div class="slide-title">T1：瘦身 + 结构性补强</div>
+                            <div class="slide-subtitle">
+                                坦白讲，不是简单“少养几个人”，而是把人从低价值工作挪到高价值工作上。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Selective Rebuild</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>有计划地减掉低产出 / 低战略关联岗位。</li>
+                                    <li>同步增加 AI / 平台 / 基础设施 / 关键业务岗位。</li>
+                                    <li>**推行人才年轻化**：严格控制高职级（社招高P）招聘，把 HC 留给高潜力的年轻人（Digital Native）。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>组织平均年龄逐年上升，创新活力下降。</li>
+                                    <li>高P通胀严重，许多高薪岗位产出边际递减。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">Google / Tencent</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">Google：</span>裁减传统应用和硬件团队的 HC，同期为 GenAI、云、安全等关键领域大规模增招，逐步用低成本的初级全职岗位替代昂贵的高级合同工。
+                                    </li>
+                                    <li>
+                                        <span class="highlight">Tencent：</span>推动“基干年轻化”，让更多95后高潜人才担任 Team Leader，解决中层管理干部“养老”问题。
+                                    </li>
+                                </ul>
+                                <p style="margin-top:4px;">内部话术：不是“减人”，而是“把人挪到更对的地方，换上更有活力的人”。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 20 T2 提升IC密度 -->
+                <section class="slide" data-title="人才结构 · T2 提升 IC 密度">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">IV-2 · Talent</div>
+                            <div class="slide-title">T2：提升 IC 密度，减少“带队的人”</div>
+                            <div class="slide-subtitle">
+                                带队的人太多，真正干活的自然少，人效必然低。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>IC-heavy</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>通过晋升策略、HC 控制和裁撤方案，主动降低 Manager : IC 比例。</li>
+                                    <li>鼓励 senior IC 路径，而不是全部往管理岗挤。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>组织中“头比兵多”的部门明显。</li>
+                                    <li>技术 / 产品 / 运营团队中，管理岗比例过高。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">Amazon / Meta</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">Amazon：</span>裁员中明显倾向于减少 Manager 岗位，
+                                        同时加大对高绩效 IC 的留任和激励。</li>
+                                    <li>
+                                        <span class="highlight">Meta：</span>在效率之年中，将中层裁减作为重要抓手，
+                                        鼓励技术和产品中的 senior IC 承担更直接的业务责任。</li>
+                                </ul>
+                                <p style="margin-top:4px;">不要把所有高潜人才都推去当 manager，有的人就是更适合当“战斗机”。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 21 T3 去title泡沫 -->
+                <section class="slide" data-title="人才结构 · T3 去 title 泡沫">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">IV-3 · Talent</div>
+                            <div class="slide-title">T3：去 title 泡沫，控高薪低产出岗位</div>
+                            <div class="slide-subtitle">
+                                Title 不等于产出，过度 title 化只会把组织拉向虚高的成本结构。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>De-bloating</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>控制 title 膨胀和“虚高职级”，将薪酬与实际贡献度拉回对应区间。</li>
+                                    <li>减少“高 title 低 hands-on”的岗位。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>晋升通道长期偏宽松，头衔密度过高。</li>
+                                    <li>高薪岗位中，有较多实际只承担中级职责的人。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">Tencent / ByteDance</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases（抽象化）</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">Tencent：</span>多次在内部强调“真正的专家 + owner”，
+                                        调整部分晋升标准，将“管理头衔”转向“技术 / 业务影响力”。</li>
+                                    <li>
+                                        <span class="highlight">ByteDance：</span>控制高职级岗位数量，鼓励高 title 人员接受更清晰的绩效问责，
+                                        不再容忍“挂名高职级但产出平平”的现象。</li>
+                                </ul>
+                                <p style="margin-top:4px;">对外话术可以用“组织去泡沫”“回归真实生产力”来解释。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 22 T4 区域迁移 -->
+                <section class="slide" data-title="人才结构 · T4 区域人力迁移">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">IV-4 · Talent</div>
+                            <div class="slide-title">T4：区域人力迁移（向低成本 / 高潜城市转移）</div>
+                            <div class="slide-subtitle">
+                                不是什么岗位都要堆在一线城市，更不需要全部“坐总部”。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Location Strategy</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>将部分支持类 / 运营类 / 标准化开发岗位迁往成本更低、人才更稳定的地区。</li>
+                                    <li>总部保留核心决策和关键创新岗位。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>一线城市人力成本偏高，流动性大。</li>
+                                    <li>部分工作对物理距离和时区依赖不强。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">Google / 腾讯等</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases（抽象化）</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">Google：</span>将大量支持和运营岗位布局在印度等地，
+                                        用差异化成本结构支撑全球业务。</li>
+                                    <li>
+                                        <span class="highlight">Tencent / 国内大厂：</span>非核心研发和运营岗位向成都、武汉、西安等城市迁移，
+                                        降低成本，提升团队稳定性。</li>
+                                </ul>
+                                <p style="margin-top:4px;">要配合远程协作与 AI 工具，否则容易变成“低成本但低效率”。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ===== 机制 M 段 ===== -->
+                <!-- 23 机制总览 (Revised Order) -->
+                <section class="slide" data-title="机制 · 4条路径总览">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">V · Mechanisms</div>
+                            <div class="slide-title">机制：把人效重构固化到“系统偏好”里</div>
+                            <div class="slide-subtitle">
+                                靠一两轮专项行动维持不了长期人效，必须用机制把行为锁死。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Operating Model</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">四条机制路径</div>
+                                <span class="card-tag">Paths M1–M4</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="bullets">
+                                    <li><span class="highlight">M1：</span>内部市场化与细粒度P&L。</li>
+                                    <li><span class="highlight">M2：</span>预算与 HC 强绑定，Zero-based HC。</li>
+                                    <li><span class="highlight">M3：</span>常态化“去低效”与**强制轮岗/活水**。</li>
+                                    <li><span class="highlight">M4：</span>AI应用纳入考核。</li>
+                                </ul>
+                                <p style="margin-top:4px;">没有这些机制，人效专项做完，一两年组织就会重新长胖。</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标实践速览</div>
+                                <span class="card-tag">Reference</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="bullets">
+                                    <li>JD / Haier：内部服务明码标价，经营单元自负盈亏。</li>
+                                    <li>Meta：新增 HC 审批极严，挂钩效率叙事。</li>
+                                    <li>Alibaba / ByteDance：强制轮岗或活水机制防止板结。</li>
+                                    <li>Microsoft：AI 使用率纳入 KPI。</li>
+                                </ul>
+                                <p style="margin-top:4px;">后面 4 页按机制拆开讲。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 24 M1 内部市场化 (Reordered to M1) -->
+                <section class="slide" data-title="机制 · M1 内部市场化与细粒度P&L">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">V-1 · Mechanism</div>
+                            <div class="slide-title">M1：内部市场化与细粒度P&L</div>
+                            <div class="slide-subtitle">
+                                Internal Settlement：亲兄弟明算账，通过市场化定价解决供需错配。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Internal Settlement</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>将公司拆解为无数个小的经营单元，每个单元拥有独立的损益表（P&L）。</li>
+                                    <li>内部服务（如技术中台、物流、流量）不再免费，而是明码标价进行结算。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>公司中台部门日益庞大，业务部门抱怨中台响应慢，中台抱怨业务部门需求乱。</li>
+                                    <li>资源（服务器、带宽、人力）浪费严重，缺乏成本意识。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">JD / Haier</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases（抽象化）</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">JD (Big Boss)：</span>将经营权责下放到最小的采销/物流单元（2000+个），拥有独立的人事权和财权，内部服务（如仓储费用）按单结算，倒逼中后台提升效率。
+                                    </li>
+                                    <li>
+                                        <span class="highlight">Haier (人单合一)：</span>将组织拆解为数千个“自主经营体”，每个经营体都要有自己的“用户”和“损益表”，不存在无价值的职能部门。
+                                    </li>
+                                </ul>
+                                <p style="margin-top:4px;">这能最快解决“大企业病”：不创造价值的部门，连内部订单都拿不到。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 25 M2 预算×HC (Reordered to M2) -->
+                <section class="slide" data-title="机制 · M2 预算 × HC 绑定">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">V-2 · Mechanism</div>
+                            <div class="slide-title">M2：预算 × HC 强绑定（Zero-based HC）</div>
+                            <div class="slide-subtitle">
+                                HC 不是“要就给”，而是要和业务回报、AI 产出一起讲清楚。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>HC Discipline</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>新增 HC 必须绑定明确业务目标和 ROI 逻辑。</li>
+                                    <li>年度预算时从“零开始”审视 HC，而不是简单在去年基础上加减。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>历史扩张期遗留了很多“顺手批的 HC”。</li>
+                                    <li>业务线对 HC 把控意识弱，“缺啥都要人”。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">Meta 等</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases（抽象化）</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">Meta：</span>效率之年之后，对新增 HC 的审批极为谨慎，
+                                        将“效率叙事”写入对内对外沟通，实际上就是给 HC 上了一道总闸。</li>
+                                    <li>
+                                        <span class="highlight">多家美股科技公司：</span>在财报和对投资人沟通中频繁提到“headcount discipline”，
+                                        用实际动作证明不再轻易扩张 HC。</li>
+                                </ul>
+                                <p style="margin-top:4px;">这条路径可以和 CFO 联手推进，把人效讨论从“情绪问题”变成“财务问题”。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 26 M3 常态化去低效 (Reordered to M3 & Updated) -->
+                <section class="slide" data-title="机制 · M3 常态化去低效">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">V-3 · Mechanism</div>
+                            <div class="slide-title">M3：常态化“去低效”与强制轮岗</div>
+                            <div class="slide-subtitle">
+                                不养长期边缘人群，防止组织板结，让“死水”流起来。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Cadence & Mobility</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>通过季度 / 半年度绩效节奏，持续优化低绩效和不匹配岗位人员。</li>
+                                    <li>**强制轮岗与内部活水**：建立内部人才市场，规定关键岗位任职年限，打破部门壁垒，防止利益板结。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>跨部门协作难，存在明显的“山头主义”和“部门墙”。</li>
+                                    <li>老员工躺平，新员工进不来，组织失去活力。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">Alibaba / ByteDance</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases（抽象化）</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">Alibaba：</span>长期坚持中高层强制轮岗制度，避免山头主义，培养复合型人才。
+                                    </li>
+                                    <li>
+                                        <span class="highlight">ByteDance：</span>推行完全开放的内部活水机制，员工无需原部门审批即可转岗，通过高频流动保持组织活性。
+                                    </li>
+                                </ul>
+                                <p style="margin-top:4px;">这不仅是淘汰，更是通过“流动”来激活“沉淀层”。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 27 M4 AI考核 (Reordered to M4) -->
+                <section class="slide" data-title="机制 · M4 AI应用纳入考核">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">V-4 · Mechanism</div>
+                            <div class="slide-title">M4：AI应用纳入考核</div>
+                            <div class="slide-subtitle">
+                                不考核，就别指望 AI 真用得起来；考核也不能只看工具打开次数。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>AI KPI</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">定义 & 适用条件</div>
+                                <span class="card-tag">What & When</span>
+                            </div>
+                            <div class="card-body">
+                                <p><span class="highlight">定义：</span></p>
+                                <ul class="bullets">
+                                    <li>在团队 / BU 级别设定 AI 使用率、AI 贡献的效率提升/成本下降指标。</li>
+                                    <li>不仅统计“打开次数”，更要看“由 AI 完成的任务占比”和“人均产出提升”。</li>
+                                </ul>
+                                <p style="margin-top:4px;"><span class="highlight">适用条件：</span></p>
+                                <ul class="bullets">
+                                    <li>内部已经铺设 AI 工具，但使用率低、用得浅。</li>
+                                    <li>业务线对 AI 感兴趣，但缺乏量化目标。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">对标案例</div>
+                                <span class="card-tag">Microsoft 等</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="case-label">实践 · Cases（抽象化）</div>
+                                <ul class="case-list">
+                                    <li>
+                                        <span class="highlight">Microsoft：</span>在内部推行 Copilot 时，
+                                        对部分部门设定 AI 使用和节省时间等指标，作为衡量转型成效的一部分。</li>
+                                </ul>
+                                <p style="margin-top:4px;">可以先在几个“AI 友好”业务单元试水，不适合一刀切全公司 KPI。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 28 总结 -->
+                <section class="slide" data-title="总结 · 组合打法与落地节奏">
+                    <div class="slide-header">
+                        <div class="slide-title-block">
+                            <div class="slide-kicker">Wrap-up</div>
+                            <div class="slide-title">组合打法：不同场景下的人效重构路线</div>
+                            <div class="slide-subtitle">
+                                真正有效的不是单条路径，而是基于业务场景选 3–5 条组合拳，12–18 个月打出结果。
+                            </div>
+                        </div>
+                        <div class="slide-meta">
+                            <div class="slide-meta-badge">
+                                <span class="pill-dot"></span>
+                                <span>Execution Roadmap</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">典型场景 × 路径组合</div>
+                                <span class="card-tag">Scenario Playbook</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="bullets">
+                                    <li>
+                                        <span class="highlight">场景 A · 盈利压力大：</span>
+                                        B1/B3 + O1 + T1 + M1  
+                                        → 关停低效 + 组合优化 + 平台集中 + 瘦身 + 内部市场化。
+                                    </li>
+                                    <li>
+                                        <span class="highlight">场景 B · 协同内耗重：</span>
+                                        O1/O2/O4 + R2 + M3  
+                                        → 整合平台 + 端到端 squad + 去协调岗 + 轮岗活水。
+                                    </li>
+                                    <li>
+                                        <span class="highlight">场景 C · AI 转型为主线：</span>
+                                        B2 + O1 + R1/R4 + M4  
+                                        → 集中资源到 AI + 平台集中化 + 岗位 AI 前置 + AI KPI。
+                                    </li>
+                                </ul>
+                                <p style="margin-top:4px;">先给每个 BU 贴上 1–2 个主场景标签，再谈路径选择，而不是“一刀切改革”。</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">建议落地节奏（12–18 个月）</div>
+                                <span class="card-tag">Roadmap</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="bullets">
+                                    <li><span class="highlight">Q1：</span>统一人效基线；识别适合本公司的 6–8 条路径；锁定 2–3 个试点 BU。</li>
+                                    <li><span class="highlight">Q2：</span>业务聚焦落地首轮；组织/岗位微调；AI 前置和 AI 使用 KPI 在试点跑起来。</li>
+                                    <li><span class="highlight">Q3：</span>放大有效路径到更多 BU；将 AI 使用与人均产出挂钩；建立 M1 结算机制。</li>
+                                    <li><span class="highlight">Q4：</span>固化机制；复盘组织感受与财务结果，进入常态化迭代。</li>
+                                </ul>
+                                <p style="margin-top:4px;">目标是：一年内让“人均产出 + 组织体验”同时可感知提升，而不是只在 PPT 上好看。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- 控制条 -->
+            <div class="controls">
+                <div class="controls-left">
+                    <div class="key-hints">
+                        <span>←</span><span>→</span> 切换页面
+                    </div>
+                </div>
+                <div class="controls-right">
+                    <div class="pager" id="pager">1 / 28</div>
+                    <button class="btn" id="prevBtn">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M9.78 3.22a.75.75 0 0 1 0 1.06L6.06 8l3.72 3.72a.75.75 0 1 1-1.06 1.06L4.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"/></svg>
+                        上一页
+                    </button>
+                    <button class="btn" id="nextBtn">
+                        下一页
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M6.22 12.78a.75.75 0 0 1 0-1.06L9.94 8 6.22 4.28a.75.75 0 1 1 1.06-1.06l4.25 4.25c.3.3.3.76 0 1.06L7.28 12.78a.75.75 0 0 1-1.06 0Z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+(function() {
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const pager = document.getElementById('pager');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const navList = document.getElementById('navList');
+
+    let currentIndex = 0; // 0-based
+
+    // 初始化侧边导航
+    slides.forEach((slide, i) => {
+        const title = slide.getAttribute('data-title') || ('Slide ' + (i + 1));
+
+        const li = document.createElement('li');
+        li.className = 'nav-item';
+
+        const btn = document.createElement('button');
+        btn.className = 'nav-button';
+        btn.dataset.targetIndex = String(i);
+
+        const idxSpan = document.createElement('span');
+        idxSpan.className = 'index';
+        idxSpan.textContent = String(i + 1).padStart(2, '0');
+
+        const textSpan = document.createElement('span');
+        textSpan.className = 'text';
+        textSpan.textContent = title;
+
+        btn.appendChild(idxSpan);
+        btn.appendChild(textSpan);
+        li.appendChild(btn);
+        navList.appendChild(li);
+    });
+
+    const navButtons = Array.from(document.querySelectorAll('.nav-button'));
+
+    function setActiveSlide(idx) {
+        if (idx < 0 || idx >= slides.length) return;
+
+        // 清空所有 slide/nav 的 active
+        slides.forEach(s => {
+            s.classList.remove('active', 'slide-transition-enter');
+        });
+        navButtons.forEach(b => b.classList.remove('active'));
+
+        // 设置当前
+        slides[idx].classList.add('active', 'slide-transition-enter');
+        if (navButtons[idx]) {
+            navButtons[idx].classList.add('active');
+        }
+
+        // 确保侧边栏滚动到可见区域
+        if (navButtons[idx]) {
+            navButtons[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        currentIndex = idx;
+        pager.textContent = (idx + 1) + ' / ' + slides.length;
+    }
+
+    // 初始化：第 1 页
+    setActiveSlide(0);
+
+    // 导航点击
+    navButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const target = parseInt(btn.dataset.targetIndex || '0', 10);
+            setActiveSlide(target);
+        });
+    });
+
+    // 上一页/下一页按钮
+    prevBtn.addEventListener('click', () => setActiveSlide(currentIndex - 1));
+    nextBtn.addEventListener('click', () => setActiveSlide(currentIndex + 1));
+
+    // 键盘事件
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+            setActiveSlide(currentIndex + 1);
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+            setActiveSlide(currentIndex - 1);
+        } else if (e.key === 'Home') {
+            setActiveSlide(0);
+        } else if (e.key === 'End') {
+            setActiveSlide(slides.length - 1);
+        }
+    });
+})();
+</script>
+
+</body>
+</html>

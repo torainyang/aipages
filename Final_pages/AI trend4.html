@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025-2030 AGI 演进全景图（打印版）</title>
+    <style>
+        :root {
+            /* 打印友好配色 */
+            --bg-main: #ffffff;
+            --panel-bg: #f7f9fb;
+            --border-color: #d0d7de;
+            --text-main: #333333;
+            --text-dim: #666666;
+
+            /* 点缀色 */
+            --accent-green: #0c8c6a;
+            --accent-blue: #1d6fa5;
+            --accent-purple: #7b3fa1;
+            --accent-orange: #c04900;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: "SF Pro Display", "Roboto", "Helvetica Neue", sans-serif;
+            margin: 0;
+            padding: 20px;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 顶部标题区 */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+            color: #000;
+        }
+
+        .meta-info {
+            font-size: 12px;
+            color: var(--text-dim);
+            text-align: right;
+        }
+
+        /* 主体布局：三列时间轴 */
+        .timeline-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            flex-grow: 1;
+        }
+
+        .stage-col {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .stage-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            background: #eef2f5;
+        }
+
+        .year-label {
+            font-size: 22px;
+            font-weight: 800;
+            color: #000;
+            display: block;
+        }
+
+        .openai-badge {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            border: 1px solid;
+        }
+
+        .lvl-2 { color: var(--accent-green); border-color: var(--accent-green); }
+        .lvl-3 { color: var(--accent-blue); border-color: var(--accent-blue); }
+        .lvl-4 { color: var(--accent-purple); border-color: var(--accent-purple); }
+
+        .stage-desc {
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        /* 内容泳道 */
+        .swimlanes {
+            padding: 12px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .module {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid #bbb;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .module-title {
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .module-list {
+            margin: 0;
+            padding-left: 16px;
+            font-size: 11px;
+            color: #555;
+            line-height: 1.55;
+        }
+
+        /* 颜色标签 */
+        .border-algo { border-color: var(--accent-green); }
+        .text-algo { color: var(--accent-green); }
+
+        .border-quantum { border-color: var(--accent-blue); }
+        .text-quantum { color: var(--accent-blue); }
+
+        .border-phy { border-color: var(--accent-orange); }
+        .text-phy { color: var(--accent-orange); }
+
+        .border-biz { border-color: var(--accent-purple); }
+        .text-biz { color: var(--accent-purple); }
+
+        /* 箭头 */
+        .arrow-connector {
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            color: #bbb;
+            font-size: 22px;
+        }
+
+        @media print {
+            body { padding: 0; }
+            .timeline-container { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>2025-2030 智能经济演进路线图（打印优化版）</h1>
+        <div style="font-size: 14px; color: var(--text-dim); margin-top:5px;">
+            基于 OpenAI AGI 分级标准的情景推演（含不确定性）
+        </div>
+    </div>
+    <div class="meta-info">
+        时间：2025.11.30<br>
+        数据：基于当前现实进展的修订版
+    </div>
+</header>
+
+<div class="timeline-container">
+
+    <!-- 第一阶段：2025 -->
+    <div class="stage-col">
+        <div class="stage-header">
+            <span class="year-label">2025 (Now)</span>
+            <div class="openai-badge lvl-2">Level 1.5–2：向 Reasoners 过渡</div>
+            <div class="stage-desc">
+                部分复杂任务达到人类推理水平；垂直领域出现专家级表现。整体仍处于 Level 1→2 的过渡期。
+            </div>
+        </div>
+
+        <div class="swimlanes">
+
+            <div class="module border-algo">
+                <div class="module-title text-algo">🧠 模型与算法</div>
+                <ul class="module-list">
+                    <li><strong>推理模型普及：</strong> 类 o1 模型用于复杂任务，支持慢思考与分步骤推理。</li>
+                    <li><strong>垂直超人：</strong> 部分医疗影像任务达到资深医生水平；代码从补全走向端到端生成。</li>
+                    <li><strong>多模态主流：</strong> 跨模态推理成为默认能力。</li>
+                </ul>
+            </div>
+
+            <div class="module border-quantum">
+                <div class="module-title text-quantum">⚡ 算力与量子（现实进展）</div>
+                <ul class="module-list">
+                    <li><strong>量子加速试点：</strong> Willow 芯片在极窄科学任务上实现可验证量子优势。</li>
+                    <li><strong>AI for Science：</strong> AI 用于量子误差校正及芯片设计。</li>
+                    <li><strong>端侧模型：</strong> 3B 本地稳定运行，7B 在先锋社区可用但未普及。</li>
+                </ul>
+            </div>
+
+            <div class="module border-phy">
+                <div class="module-title text-phy">🚗 物理世界</div>
+                <ul class="module-list">
+                    <li><strong>L4 出海落地：</strong> 阿布扎比 / 武汉区域化无人运营。</li>
+                    <li><strong>数字学徒：</strong> 能执行订票、整理等线性任务，仍需人工兜底。</li>
+                </ul>
+            </div>
+
+            <div class="module border-biz">
+                <div class="module-title text-biz">💼 商业生态</div>
+                <ul class="module-list">
+                    <li>Copilot 成为知识工作者的默认界面。</li>
+                    <li>3D / 营销 / 游戏内容生成进入生产管线。</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="arrow-connector">➜</div>
+    </div>
+
+    <!-- 第二阶段：2026-2028 -->
+    <div class="stage-col">
+        <div class="stage-header">
+            <span class="year-label">2026 - 2028</span>
+            <div class="openai-badge lvl-3">Level 3：Agents（智能体）</div>
+            <div class="stage-desc">
+                AI 在受控场景中开始执行端到端任务；复杂任务协同与可靠性成为核心突破方向。
+            </div>
+        </div>
+
+        <div class="swimlanes">
+
+            <div class="module border-algo">
+                <div class="module-title text-algo">🤖 智能体网络（Swarm）</div>
+                <ul class="module-list">
+                    <li><strong>类元学习：</strong> 少样本学会新工具，但仍依赖人工接口。</li>
+                    <li><strong>多智能体协同：</strong> 定位问题→提出修复方案由 AI 完成，最终合入需人工审核。</li>
+                    <li><strong>可靠性工程：</strong> “慢思考 + 工具 + 形式化验证”用于控制风险。</li>
+                </ul>
+            </div>
+
+            <div class="module border-quantum">
+                <div class="module-title text-quantum">⚛️ 量子商用试点</div>
+                <ul class="module-list">
+                    <li><strong>混合算力：</strong> CPU+GPU+QPU 用于科研与高价值行业。</li>
+                    <li><strong>联合设计：</strong> 新药 / 电池材料出现量子+AI 联合加速。</li>
+                </ul>
+            </div>
+
+            <div class="module border-phy">
+                <div class="module-title text-phy">🌍 具身智能前夜</div>
+                <ul class="module-list">
+                    <li><strong>L4 扩区运营：</strong> 一线城市形成规模化运营圈。</li>
+                    <li><strong>通用机器人雏形：</strong> 在工厂/仓储执行更多非结构化任务。</li>
+                </ul>
+            </div>
+
+            <div class="module border-biz">
+                <div class="module-title text-biz">💰 人机共生成果</div>
+                <ul class="module-list">
+                    <li>学习路径真正千人千面。</li>
+                    <li>企业核心流程逐步由智能体交互驱动。</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="arrow-connector">➜</div>
+    </div>
+
+    <!-- 第三阶段：2030+ -->
+    <div class="stage-col">
+        <div class="stage-header">
+            <span class="year-label">2030+ (Vision)</span>
+            <div class="openai-badge lvl-4">Level 4-5：Innovators & Organizers</div>
+            <div class="stage-desc">
+                属于远景假设（非时间表）。探讨 AGI 在创新与组织运行中的潜在角色。
+            </div>
+        </div>
+
+        <div class="swimlanes">
+
+            <div class="module border-algo">
+                <div class="module-title text-algo">✨ AGI 创新能力（愿景）</div>
+                <ul class="module-list">
+                    <li>在部分前沿领域提出并验证科学假设。</li>
+                    <li>具备受控的自我代码重构能力（在安全边界内）。</li>
+                </ul>
+            </div>
+
+            <div class="module border-quantum">
+                <div class="module-title text-quantum">🌌 后硅基时代（愿景）</div>
+                <ul class="module-list">
+                    <li>量子+AGI 深度混合处理指数级复杂问题。</li>
+                    <li>全球算力-能源网络自动优化。</li>
+                </ul>
+            </div>
+
+            <div class="module border-phy">
+                <div class="module-title text-phy">🦾 物理智能体网络</div>
+                <ul class="module-list">
+                    <li>物联网终端具备自治协商能力。</li>
+                    <li>物流高度自动化，从干线到末端。</li>
+                </ul>
+            </div>
+
+            <div class="module border-biz">
+                <div class="module-title text-biz">🌐 合成经济（愿景）</div>
+                <ul class="module-list">
+                    <li>出现 AI 驱动的半自治组织（监管下运行）。</li>
+                    <li>商业模式从“人找服务”转向“AI 代理人撮合”。</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

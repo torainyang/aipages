@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025-2030 AGI 演进全景图 (OpenAI 框架版)</title>
+    <style>
+        :root {
+            --bg-deep: #ffffff; /* 白底 */
+            --panel-bg: #f7f9fc; /* 淡灰白卡片背景 */
+            --border-color: rgba(0, 0, 0, 0.08);
+            --accent-green: #10a37f;
+            --accent-blue: #2980b9;
+            --accent-purple: #8e44ad;
+            --accent-orange: #d35400;
+            --text-main: #222222;
+            --text-dim: #666666;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: "SF Pro Display", "Roboto", "Helvetica Neue", sans-serif;
+            margin: 0;
+            padding: 20px;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 顶部标题区 */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+            background: linear-gradient(90deg, #000, #3b6ea5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .meta-info {
+            font-size: 12px;
+            color: var(--text-dim);
+            text-align: right;
+        }
+
+        /* 主体布局：三列时间轴 */
+        .timeline-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            flex-grow: 1;
+        }
+
+        /* 每一列（阶段） */
+        .stage-col {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .stage-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(0,0,0,0.02);
+        }
+
+        .year-label {
+            font-size: 24px;
+            font-weight: 800;
+            color: #000;
+            display: block;
+        }
+
+        .openai-badge {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .lvl-2 { background: rgba(16, 163, 127, 0.1); color: var(--accent-green); border: 1px solid var(--accent-green); }
+        .lvl-3 { background: rgba(41, 128, 185, 0.1); color: var(--accent-blue); border: 1px solid var(--accent-blue); }
+        .lvl-4 { background: rgba(142, 68, 173, 0.1); color: var(--accent-purple); border: 1px solid var(--accent-purple); }
+
+        .stage-desc {
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        /* 内容泳道 */
+        .swimlanes {
+            padding: 10px;
+            overflow-y: auto;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .module {
+            background: #ffffff;
+            border-left: 3px solid #cccccc;
+            padding: 10px;
+            border-radius: 0 6px 6px 0;
+            transition: transform 0.2s;
+        }
+        
+        .module:hover {
+            background: #f2f6ff;
+            transform: translateX(2px);
+        }
+
+        .module-title {
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .module-list {
+            margin: 0;
+            padding-left: 15px;
+            font-size: 11px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .module-list li {
+            margin-bottom: 4px;
+        }
+
+        /* 泳道配色 */
+        .border-algo { border-color: var(--accent-green); }
+        .text-algo { color: var(--accent-green); }
+
+        .border-quantum { border-color: var(--accent-blue); }
+        .text-quantum { color: var(--accent-blue); }
+
+        .border-phy { border-color: var(--accent-orange); }
+        .text-phy { color: var(--accent-orange); }
+
+        .border-biz { border-color: var(--accent-purple); }
+        .text-biz { color: var(--accent-purple); }
+
+        .arrow-connector {
+            position: absolute;
+            right: -16px;
+            top: 50%;
+            z-index: 10;
+            color: #cccccc;
+            font-size: 24px;
+        }
+
+        @media (max-width: 1200px) {
+            .module-list { font-size: 10px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div>
+        <h1>2025-2030 智能经济演进路线图</h1>
+        <div style="font-size: 14px; color: var(--text-dim); margin-top:5px;">
+            基于 OpenAI AGI 分级标准 (Level 1-5) 的情景推演与节奏假设（含不确定性）
+        </div>
+    </div>
+    <div class="meta-info">
+        当前时间: 2025.11.30<br>
+        数据基准: 截至当前现实进展的修订版
+    </div>
+</header>
+
+<div class="timeline-container">
+
+    <!-- 第一阶段：2025 (现在) -->
+    <div class="stage-col">
+        <div class="stage-header">
+            <span class="year-label">2025 (Now)</span>
+            <div class="openai-badge lvl-2">Level 1.5–2: 向 Reasoners 过渡中</div>
+            <div class="stage-desc">
+                领先模型在部分复杂任务上逼近人类级推理，在若干垂直领域超过专家平均水平；
+                整体生态仍处于 Level 1 → Level 2 的过渡阶段，人类依然负责目标设定与最终裁决。
+            </div>
+        </div>
+        <div class="swimlanes">
+            <div class="module border-algo">
+                <div class="module-title text-algo">🧠 模型与算法</div>
+                <ul class="module-list">
+                    <li><strong>Reasoning Model 启动：</strong> 类 o1 推理模型在头部场景快速渗透，支持“慢思考”（Chain-of-Thought）与分步求解。</li>
+                    <li><strong>垂直领域“超人”：</strong> 在部分医疗影像等任务上，AI 准确率已达到或超过资深医生水平；代码补全升级为端到端代码生成，进入“AI 结对编程”阶段。</li>
+                    <li><strong>多模态融合：</strong> 视觉 + 语言模型成为标配，头部模型支持跨模态长文本推理与复杂任务分解。</li>
+                </ul>
+            </div>
+            
+            <div class="module border-quantum">
+                <div class="module-title text-quantum">⚡ 算力与量子（现实进展版）</div>
+                <ul class="module-list">
+                    <li><strong>实用量子优势试点：</strong> Google Willow 等量子芯片在极窄科学计算任务上实现可验证的量子加速，但仍局限于科研与少量行业合作。</li>
+                    <li><strong>AI for Science：</strong> AI 主要用于辅助量子误差校正与芯片设计，而非大规模商用 QPU 融合进通用云计算。</li>
+                    <li><strong>边缘算力：</strong> 高端手机与 AI PC 已能稳定运行 3B 级多模态模型，7B 级推理模型在前沿玩家社区开始可用，但尚未成为大众默认配置。</li>
+                </ul>
+            </div>
+
+            <div class="module border-phy">
+                <div class="module-title text-phy">🚗 物理世界（现实落地）</div>
+                <ul class="module-list">
+                    <li><strong>L4 破局出海：</strong> Robotaxi 在阿布扎比、武汉等特定区域实现无安全员商用，依然依托划定运营区、远程安全接管与高密度基础设施。</li>
+                    <li><strong>任务型 Agent：</strong> “数字学徒”出现，可执行订票、数据清洗等线性工作流，但仍需人工监控与兜底，不属于完全“丢任务不管”。</li>
+                </ul>
+            </div>
+
+            <div class="module border-biz">
+                <div class="module-title text-biz">💼 商业与生态</div>
+                <ul class="module-list">
+                    <li><strong>Copilot 标配化：</strong> 办公软件全线集成 AI 助手，成为知识工作者的“第二界面”。</li>
+                    <li><strong>内容生成变革：</strong> 游戏动态剧情、3D 资产和营销物料生成进入生产管线，创意流程被系统性重构。</li>
+                </ul>
+            </div>
+        </div>
+        <div class="arrow-connector">➜</div>
+    </div>
+
+    <!-- 第二阶段：2026-2028 -->
+    <div class="stage-col">
+        <div class="stage-header">
+            <span class="year-label">2026 - 2028</span>
+            <div class="openai-badge lvl-3">Level 3: Agents（智能体）</div>
+            <div class="stage-desc">
+                不仅能思考，还能行动。系统在更多受控场景下代表用户执行长周期、多步骤的复杂任务，
+                可靠性、合规性成为核心约束条件。
+            </div>
+        </div>
+        <div class="swimlanes">
+            <div class="module border-algo">
+                <div class="module-title text-algo">🤖 智能体网络（Swarm）</div>
+                <ul class="module-list">
+                    <li><strong>类元学习 Agent：</strong> 通过少量示例与自然语言说明快速学会使用新工具，在有限域内呈现“类元学习”能力，但仍依赖人工设计的接口与反馈信号。</li>
+                    <li><strong>多智能体协作：</strong> “像蚂蚁一样分工”，开发组、测试组 Agent 在受控环境中自主协同定位问题并提出修复方案，最终合入主干依然需要人工审核与批准。</li>
+                    <li><strong>可靠性突破：</strong> 通过“慢思考 + 工具调用 + 形式化验证”组合，大幅降低关键行业中的幻觉率，达到金融、医疗等领域的可用门槛。</li>
+                </ul>
+            </div>
+
+            <div class="module border-quantum">
+                <div class="module-title text-quantum">⚛️ 专用量子商用</div>
+                <ul class="module-list">
+                    <li><strong>混合计算架构：</strong> 头部云厂商面向科研与特定行业推出 CPU+GPU+QPU 混合服务，QPU 主要用于少数高价值科学与金融计算场景，而非通用算力。</li>
+                    <li><strong>特定领域突破：</strong> 新药研发、电池材料筛选等方向出现“量子加速 + AI 设计”的联合方案，开始贡献可量化商业价值。</li>
+                </ul>
+            </div>
+
+            <div class="module border-phy">
+                <div class="module-title text-phy">🌍 具身智能前夜</div>
+                <ul class="module-list">
+                    <li><strong>L4 规模化：</strong> 多个一线城市形成规模化 L4 运营圈，在高频通勤干线与重点区域实现高占比无人驾驶；L3 在中高端车型上逐步普及，受法规与成本限制尚未覆盖全部私家车。</li>
+                    <li><strong>通用机器人雏形：</strong> 结合 VLA（视觉-语言-动作）模型，机器人在工厂和仓储场景中完成更多非结构化操作，但仍侧重标准化任务。</li>
+                </ul>
+            </div>
+
+            <div class="module border-biz">
+                <div class="module-title text-biz">💰 个性化与人机共生</div>
+                <ul class="module-list">
+                    <li><strong>个性化课程设计：</strong> 教育 AI 实现真正的千人千面，教学路径、练习难度与反馈节奏高度个性化，由教师转向“总教练 + 监督人”。</li>
+                    <li><strong>企业智能体：</strong> AI 成为企业数字生态的主要“用户”和“接口”，在运营、客服、开发等环节中以 Agent 形态对接系统与流程。</li>
+                </ul>
+            </div>
+        </div>
+        <div class="arrow-connector">➜</div>
+    </div>
+
+    <!-- 第三阶段：2030+ -->
+    <div class="stage-col">
+        <div class="stage-header">
+            <span class="year-label">2030+ (Vision)</span>
+            <div class="openai-badge lvl-4">Level 4-5: Innovators &amp; Organizers（高不确定性）</div>
+            <div class="stage-desc">
+                创新者与组织者的远景阶段：假设在部分领域，AI 能主导发明创造并承担组织运行中的核心编排角色。
+                时间点与实现路径存在巨大不确定性，本列为情景假设而非确定性时间表。
+            </div>
+        </div>
+        <div class="swimlanes">
+            <div class="module border-algo">
+                <div class="module-title text-algo">✨ AGI（通用智能）远景</div>
+                <ul class="module-list">
+                    <li><strong>新科学发现：</strong> 在少数前沿领域，AI 有可能独立提出新的物理 / 数学猜想，并与人类科学家协同完成验证，成为创新链条中的主力角色之一。</li>
+                    <li><strong>受控自我进化：</strong> AI 系统在严格安全边界与治理框架下，具备自动重构部分模型与代码以优化效率的能力，但关键约束仍由人类与监管机制设定。</li>
+                </ul>
+            </div>
+
+            <div class="module border-quantum">
+                <div class="module-title text-quantum">🌌 后硅基时代愿景</div>
+                <ul class="module-list">
+                    <li><strong>量子-AGI 混合系统：</strong> 在远景设想中，量子计算与 AGI 深度融合，针对指数级复杂度问题形成全新算力范式，但对现实世界的时间点仍高度不确定。</li>
+                    <li><strong>全球算力-能源网络：</strong> 能源与算力深度绑定，AI 优化新型能源（包括但不限于核聚变）的生产与分配，并为大规模智能体系统提供按需算力。</li>
+                </ul>
+            </div>
+
+            <div class="module border-phy">
+                <div class="module-title text-phy">🦾 物理终端智能体网络</div>
+                <ul class="module-list">
+                    <li><strong>智能体物联（IoT + AI）：</strong> 万物皆 Agent，关键物理终端（如仓储设备、家电、基础设施）之间可自主协商资源，例如冰箱直接向超市或平台 AI 发出补货请求。</li>
+                    <li><strong>高自动化物流：</strong> 干线运输与“最后一公里”配送高度自动化，人类更多承担异常处理与系统治理角色。</li>
+                </ul>
+            </div>
+
+            <div class="module border-biz">
+                <div class="module-title text-biz">🌐 合成经济（Synthetic Economy）</div>
+                <ul class="module-list">
+                    <li><strong>组织重塑试验：</strong> 试验性出现由 AI 驱动运营的组织形态，例如高度自动化的 DAO 或“AI 运营公司”，在人类与监管机构监督下运行。</li>
+                    <li><strong>商业模式迁移：</strong> 从“人找服务”逐步演化为“AI 代理人之间的服务撮合”，人类更多定义目标、约束与价值观，而非直接操作流程。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

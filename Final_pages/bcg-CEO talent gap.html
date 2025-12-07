@@ -1,0 +1,1120 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>AI 人才战略蓝图（2025–2027）</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        :root {
+            --bg-main: #FFFFFF;
+            --text-main: #222222;
+            --text-sub: #666666;
+            --border-light: #E5E7EB;
+            --accent-blue: #1D4ED8;
+            --accent-blue-deep: #0B1F3B;
+            --accent-green: #16A34A;
+            --muted-bg: #F5F5F5;
+            --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.14);
+            --radius-xl: 22px;
+            --radius-md: 12px;
+            --slide-w: 1280px;
+            --slide-h: 720px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC",
+                         "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+        }
+
+        /* 顶部栏 */
+        .top-bar {
+            width: 100%;
+            max-width: calc(var(--slide-w) + 80px);
+            padding: 20px 40px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-sub);
+        }
+
+        .top-bar-left span {
+            margin-right: 10px;
+        }
+
+        .top-badge {
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid #E0E7FF;
+            background: #EEF2FF;
+            color: #3730A3;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        /* 顶部右侧简单 LOGO 区块 */
+        .brand-mark {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .brand-square {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            background: var(--accent-blue-deep);
+        }
+
+        .brand-text {
+            font-size: 12px;
+            color: #4B5563;
+        }
+
+        /* 画布外壳，保证不漂移 */
+        .stage {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 10px 16px 32px;
+        }
+
+        .slide-wrapper {
+            width: var(--slide-w);
+            height: var(--slide-h);
+            max-width: 100%;
+            max-height: calc(100vh - 120px);
+            background: radial-gradient(circle at top left, #F9FAFB 0, #FFFFFF 45%, #F3F4F6 100%);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            padding: 28px 36px 28px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* 统一标题区，高度固定，对齐一致 */
+        .slide-header {
+            flex: 0 0 auto;
+            padding-bottom: 18px;
+            margin-bottom: 18px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+        }
+
+        .slide-kicker {
+            font-size: 12px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #9CA3AF;
+            margin-bottom: 6px;
+        }
+
+        .slide-title-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .slide-title {
+            font-size: 26px;
+            font-weight: 650;
+            letter-spacing: 0.02em;
+            color: #111827;
+        }
+
+        .slide-subtitle {
+            font-size: 14px;
+            color: var(--text-sub);
+            text-align: right;
+        }
+
+        /* 内容区保证都在同一“标题线”下方 */
+        .slide-body {
+            flex: 1 1 auto;
+            display: none;
+            opacity: 0;
+            transform: translateX(28px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .slide-body.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* 常用布局组件 */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 24px;
+            height: 100%;
+        }
+
+        .pill-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            background: #EEF2FF;
+            color: #3730A3;
+            margin-right: 6px;
+            margin-bottom: 4px;
+        }
+
+        .pill-tag.green {
+            background: #ECFDF3;
+            color: #166534;
+        }
+
+        .pill-tag.gray {
+            background: #F3F4F6;
+            color: #4B5563;
+        }
+
+        .card {
+            background: #FFFFFF;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            padding: 14px 16px;
+            margin-bottom: 10px;
+        }
+
+        .card-header {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #111827;
+        }
+
+        .card-body {
+            font-size: 13px;
+            color: var(--text-sub);
+            line-height: 1.6;
+        }
+
+        .bullet-list {
+            margin: 0;
+            padding-left: 18px;
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text-sub);
+        }
+
+        .bullet-list li + li {
+            margin-top: 4px;
+        }
+
+        .summary-block {
+            background: var(--muted-bg);
+            border-radius: var(--radius-md);
+            padding: 10px 12px;
+            font-size: 13px;
+            color: #374151;
+            border: 1px dashed #D1D5DB;
+            margin-top: 6px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .kpi {
+            background: #111827;
+            color: #F9FAFB;
+            border-radius: 14px;
+            padding: 10px 12px;
+            font-size: 12px;
+        }
+
+        .kpi span {
+            display: block;
+        }
+
+        .kpi-label {
+            opacity: 0.7;
+        }
+
+        .kpi-value {
+            font-size: 16px;
+            font-weight: 650;
+            margin-top: 4px;
+        }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 6px;
+        }
+
+        .timeline-item {
+            background: #FFFFFF;
+            border-radius: 14px;
+            border: 1px solid #E5E7EB;
+            padding: 10px 12px;
+            font-size: 12px;
+        }
+
+        .timeline-phase {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #6B7280;
+            margin-bottom: 4px;
+        }
+
+        .timeline-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+
+        .timeline-list {
+            margin: 0;
+            padding-left: 16px;
+            font-size: 12px;
+            color: #6B7280;
+        }
+
+        .timeline-list li + li {
+            margin-top: 3px;
+        }
+
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .role-card {
+            background: #FFFFFF;
+            border-radius: 14px;
+            border: 1px solid #E5E7EB;
+            padding: 10px 12px;
+            font-size: 12px;
+        }
+
+        .role-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #111827;
+        }
+
+        .chip-row {
+            margin-top: 4px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .chip {
+            padding: 2px 8px;
+            border-radius: 999px;
+            border: 1px solid #E5E7EB;
+            font-size: 11px;
+            color: #4B5563;
+            background: #F9FAFB;
+        }
+
+        .path-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .path-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            border: 1px solid #E5E7EB;
+            padding: 8px 9px;
+            font-size: 11px;
+        }
+
+        .path-label {
+            font-weight: 600;
+            margin-bottom: 3px;
+            color: #111827;
+        }
+
+        .path-desc {
+            color: #6B7280;
+            line-height: 1.5;
+        }
+
+        /* 原来的纵向塔保留备用 */
+        .tower {
+            display: grid;
+            grid-template-rows: 1.1fr 1.1fr 1fr 0.9fr;
+            gap: 6px;
+            height: 100%;
+        }
+
+        .tower-level {
+            border-radius: 12px;
+            border: 1px solid #E5E7EB;
+            padding: 8px 10px;
+            background: linear-gradient(to right, #EEF2FF, #FFFFFF);
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .tower-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+
+        .tower-tagline {
+            font-size: 11px;
+            color: #6B7280;
+            margin-bottom: 4px;
+        }
+
+        .tower-list {
+            margin: 0;
+            padding-left: 14px;
+            font-size: 11px;
+            color: #6B7280;
+            line-height: 1.5;
+        }
+
+        /* 横向塔布局：L1-L4 横排 */
+        .tower-horizontal {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .tower-h-level {
+            border-radius: 14px;
+            border: 1px solid #E5E7EB;
+            padding: 10px 12px;
+            background: linear-gradient(to bottom right, #EEF2FF, #FFFFFF);
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            min-height: 150px;
+        }
+
+        .tower-h-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .tower-h-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .tower-h-tag {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 999px;
+            border: 1px solid rgba(37,99,235,0.35);
+            color: #1D4ED8;
+            background: #EFF6FF;
+        }
+
+        .tower-h-tag.green {
+            border-color: rgba(22,163,74,0.35);
+            color: #15803D;
+            background: #ECFDF3;
+        }
+
+        .tower-h-list {
+            margin: 0;
+            padding-left: 14px;
+            font-size: 11px;
+            color: #4B5563;
+            line-height: 1.6;
+        }
+
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0,1fr));
+            gap: 10px;
+            margin-top: 6px;
+        }
+
+        .risk-card {
+            background: #FEF2F2;
+            border-radius: 12px;
+            border: 1px solid #FECACA;
+            padding: 8px 10px;
+            font-size: 11px;
+            color: #7F1D1D;
+        }
+
+        .risk-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .risk-text {
+            line-height: 1.6;
+        }
+
+        /* 底部导航 */
+        .nav-bar {
+            width: 100%;
+            max-width: calc(var(--slide-w) + 80px);
+            padding: 6px 40px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-center {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-btn {
+            border-radius: 999px;
+            border: 1px solid #D1D5DB;
+            background: #FFFFFF;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-btn.primary {
+            background: #111827;
+            color: #F9FAFB;
+            border-color: #111827;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: default;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: #D1D5DB;
+        }
+
+        .dot.active {
+            background: #111827;
+            width: 18px;
+            border-radius: 999px;
+        }
+
+        @media (max-width: 1024px) {
+            .slide-wrapper {
+                padding: 20px 18px;
+            }
+
+            .slide-title {
+                font-size: 22px;
+            }
+
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .kpi-grid, .timeline, .role-grid, .path-grid, .risk-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .tower-horizontal {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .kpi-grid, .timeline, .role-grid, .path-grid, .risk-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tower-horizontal {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <span class="top-badge">AI Talent Blueprint</span>
+        <span>2025–2027 · AI 人才战略 · 内部讨论稿</span>
+    </div>
+    <div class="top-bar-right">
+        <div class="brand-mark">
+            <div class="brand-square"></div>
+            <div class="brand-text">BCG-inspired · Internal View</div>
+        </div>
+    </div>
+</div>
+
+<div class="stage">
+    <div class="slide-wrapper">
+        <!-- 统一标题区 -->
+        <div class="slide-header">
+            <div class="slide-kicker">AI-First Organization · Talent Strategy</div>
+            <div class="slide-title-row">
+                <div class="slide-title" id="slide-main-title">AI 人才战略蓝图（2025–2027）</div>
+                <div class="slide-subtitle" id="slide-sub-title">基于 BCG AI 人才缺口洞见</div>
+            </div>
+        </div>
+
+        <!-- Slide 0 封面页 -->
+        <div class="slide-body active" data-title="AI 人才战略蓝图（2025–2027）" data-sub="基于 BCG《How CEOs Can Close the New AI Talent Gap》">
+            <div style="display:flex;flex-direction:column;justify-content:center;height:100%;">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:24px;">
+                    <div>
+                        <div style="font-size:13px;color:#6B7280;margin-bottom:6px;">Group Internal · Draft for Discussion</div>
+                        <h1 style="font-size:34px;margin:4px 0 10px;color:#0B1120;font-weight:680;">
+                            AI 人才战略蓝图（2025–2027）
+                        </h1>
+                        <div style="font-size:18px;color:#4B5563;margin-bottom:22px;">
+                            从“人力组织”升级为“AI 能力体”
+                        </div>
+                        <div style="font-size:13px;color:#6B7280;line-height:1.8;">
+                            信息来源：<br>
+                            BCG · <span style="color:#1D4ED8;">How CEOs Can Close the New AI Talent Gap</span><br>
+                            （LinkedIn Pulse，结合内部视角重构）
+                        </div>
+                    </div>
+                    <div style="min-width:220px;display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <div style="width:44px;height:44px;border-radius:12px;background:#0B1F3B;display:flex;align-items:center;justify-content:center;color:#E5E7EB;font-weight:700;font-size:15px;">
+                                BCG
+                            </div>
+                            <div style="font-size:11px;color:#6B7280;max-width:160px;line-height:1.5;">
+                                本蓝图基于 BCG AI 人才缺口洞见，结合大型科技 / 金融组织实践再设计。
+                            </div>
+                        </div>
+                        <div class="card" style="margin-top:8px;width:100%;">
+                            <div class="card-header">使用场景</div>
+                            <div class="card-body">
+                                <ul class="bullet-list" style="font-size:12px;">
+                                    <li>集团 / BU 级 AI 转型战略沟通</li>
+                                    <li>HR / Tech / 合规三方对齐会</li>
+                                    <li>关键岗位与能力塔顶层设计工作坊</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:30px;font-size:12px;color:#9CA3AF;display:flex;justify-content:space-between;align-items:center;">
+                    <span>本材料为内部研讨稿，严禁外传，仅用于人才与组织规划讨论。</span>
+                    <span>组织与人才发展 · 2025</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 1 总览 -->
+        <div class="slide-body" data-title="AI 人才战略总览：6 大模块 × 21 个关键抓手" data-sub="终局是让组织持续产出 AI 能力">
+            <div class="two-col">
+                <div>
+                    <p style="font-size:14px;color:#4B5563;line-height:1.9;margin-top:4px;">
+                        终局不是“多招 AI 人”，而是让整个组织变成一条持续生产 AI 能力的价值链。
+                    </p>
+                    <ul class="bullet-list">
+                        <li>AI-First 工作方式：凡事先判定“AI 能做什么，人必须做什么”。</li>
+                        <li>三类关键角色：Empowered / Integrator / Builder，重构整体人才结构。</li>
+                        <li>AI 能力塔：从全员基础素养到工程与平台能力的分层体系。</li>
+                        <li>Upskilling 作为“能力生产线”，而不是一次性培训项目。</li>
+                        <li>HR × Tech × 合规三方共管，18 个月完成首轮组织升级。</li>
+                    </ul>
+                    <div class="summary-block">
+                        <strong>一句话战略：</strong>用三年时间，把 AI 能力嵌入每一条关键业务链、每一个关键岗位、每一次关键决策。
+                    </div>
+                </div>
+                <div>
+                    <div class="card">
+                        <div class="card-header">蓝图 6 大模块</div>
+                        <div class="card-body">
+                            <div class="chip-row">
+                                <span class="chip">组织定位</span>
+                                <span class="chip">岗位重构</span>
+                                <span class="chip">AI 能力塔</span>
+                                <span class="chip">人才生态</span>
+                                <span class="chip">Upskilling 生产线</span>
+                                <span class="chip">治理与路线图</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi-grid">
+                        <div class="kpi">
+                            <span class="kpi-label">关键岗位 AI 覆盖率</span>
+                            <span class="kpi-value">&gt; 70%</span>
+                        </div>
+                        <div class="kpi">
+                            <span class="kpi-label">AI Integrator 核心梯队</span>
+                            <span class="kpi-value">200–500 人</span>
+                        </div>
+                        <div class="kpi">
+                            <span class="kpi-label">18 个月内落地业务链</span>
+                            <span class="kpi-value">≥ 4–6 条</span>
+                        </div>
+                    </div>
+                    <div class="summary-block" style="margin-top:10px;">
+                        <strong>适用场景：</strong>集团级 AI 转型顶层设计、高层共识会、BG 级人才战略工作坊。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2 战略定位 -->
+        <div class="slide-body" data-title="组织定位：从“人才组织”到“AI 能力体”" data-sub="先定“我们要成为什么样的 AI 组织”">
+            <div class="two-col">
+                <div>
+                    <span class="pill-tag">战略定位</span>
+                    <h3 style="font-size:18px;margin:10px 0 6px;">从“人头预算”到“能力预算”</h3>
+                    <ul class="bullet-list">
+                        <li><strong>AI-First 工作方式：</strong>所有流程设计、岗位设计、系统设计，默认优先考虑 AI 角色。</li>
+                        <li><strong>人机协同分工：</strong>人负责判断与创造，AI 负责分析与生成，规则负责稳定执行。</li>
+                        <li><strong>能力预算优先：</strong>每年固定比例预算用于 AI 能力塔、Upskilling 与平台建设。</li>
+                        <li><strong>“业务链”为核心：</strong>人、流程、技术围绕几条关键业务链重构，而不是职能各自为政。</li>
+                    </ul>
+                    <div class="summary-block">
+                        <strong>硬指标：</strong>在财年计划中单列“AI 能力投资项”，并与业务价值绑定（收入、效率、风险）。
+                    </div>
+                </div>
+                <div>
+                    <div class="card">
+                        <div class="card-header">三大原则</div>
+                        <div class="card-body">
+                            <ul class="bullet-list" style="font-size:13px;">
+                                <li>业务价值优先，不做“为 AI 而 AI”的形象工程。</li>
+                                <li>人才结构先动起来，组织结构再升级，而不是反过来。</li>
+                                <li>用清晰的“角色演进故事”安抚组织情绪，避免被动抵抗。</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card" style="margin-top:8px;">
+                        <div class="card-header">典型问题</div>
+                        <div class="card-body">
+                            <ul class="bullet-list" style="font-size:13px;">
+                                <li>“我们未来三年想成为什么样的 AI 组织？”</li>
+                                <li>“哪些业务链必须在 18 个月内显著 AI 化？”</li>
+                                <li>“人力成本指标如何和 AI 产出重新绑定？”</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3 三类关键角色 -->
+        <div class="slide-body" data-title="三类关键角色：Empowered / Integrator / Builder" data-sub="重构整体人才结构，而不是只加一个 AI 部门">
+            <span class="pill-tag green">人才结构</span>
+            <div class="role-grid">
+                <div class="role-card">
+                    <div class="role-title">AI Empowered（赋能者）</div>
+                    <div style="font-size:11px;color:#6B7280;line-height:1.6;">
+                        业务、运营、产品、职能等大部分岗位。会用 AI 完成日常分析、撰写、优化。
+                    </div>
+                    <div class="chip-row">
+                        <span class="chip">占比 60–70%</span>
+                        <span class="chip">全员 Upskilling 重点</span>
+                    </div>
+                </div>
+                <div class="role-card">
+                    <div class="role-title">AI Integrator（融合者）</div>
+                    <div style="font-size:11px;color:#6B7280;line-height:1.6;">
+                        懂业务、懂流程、懂 AI 工具，负责把 AI 嵌入关键流程与场景，是“人机协同设计师”。
+                    </div>
+                    <div class="chip-row">
+                        <span class="chip">目标 200–500 人</span>
+                        <span class="chip">项目制培养</span>
+                        <span class="chip">关键中枢</span>
+                    </div>
+                </div>
+                <div class="role-card">
+                    <div class="role-title">AI Builder（构建者）</div>
+                    <div style="font-size:11px;color:#6B7280;line-height:1.6;">
+                        模型工程、Agent 架构、自动化平台与数据治理的核心技术人群。
+                    </div>
+                    <div class="chip-row">
+                        <span class="chip">占比 5–10%</span>
+                        <span class="chip">稀缺 & 高杠杆</span>
+                    </div>
+                </div>
+            </div>
+            <div class="summary-block" style="margin-top:10px;">
+                <strong>关键决策：</strong>每个 BG/BU 必须给出未来 3 年 Empowered / Integrator / Builder 的目标人数与结构演进路径。
+            </div>
+        </div>
+
+        <!-- Slide 4 岗位重构路径 -->
+        <div class="slide-body" data-title="岗位重构：五种典型路径" data-sub="不重构岗位，就无法释放 AI 价值">
+            <span class="pill-tag">岗位重构</span>
+            <div class="path-grid">
+                <div class="path-card">
+                    <div class="path-label">替代型</div>
+                    <div class="path-desc">
+                        低价值、强规则、重复性任务整体移交给 AI / 自动化，例如报表汇总、基础查询等。
+                    </div>
+                </div>
+                <div class="path-card">
+                    <div class="path-label">增效型</div>
+                    <div class="path-desc">
+                        人 + AI 协同提升质量与效率，例如客服、运营、内容撰写等。
+                    </div>
+                </div>
+                <div class="path-card">
+                    <div class="path-label">重定义型</div>
+                    <div class="path-desc">
+                        岗位中例行性工作占比大幅下降，更多时间用于分析、判断、创新。
+                    </div>
+                </div>
+                <div class="path-card">
+                    <div class="path-label">融合型</div>
+                    <div class="path-desc">
+                        产生跨职能新角色：运营+数据+AI、产品+风控+AI 等复合岗位。
+                    </div>
+                </div>
+                <div class="path-card">
+                    <div class="path-label">跃迁型</div>
+                    <div class="path-desc">
+                        通过系统培养，让部分员工升级为 AI Integrator 或 Builder，完成职涯跃迁。
+                    </div>
+                </div>
+            </div>
+            <div class="summary-block" style="margin-top:10px;">
+                <strong>落地要求：</strong>至少选定 10 个关键岗位，给出具体的“从现状 → 五种路径之一”的重构方案与时间表。
+            </div>
+        </div>
+
+        <!-- Slide 5 AI 能力塔：横向 L1-L4 -->
+        <div class="slide-body" data-title="AI 能力塔：从全员素养到工程能力" data-sub="L1–L4 横向分层，一眼讲清楚谁该具备什么能力">
+            <span class="pill-tag green">AI 能力塔</span>
+            <p style="font-size:14px;color:#4B5563;line-height:1.8;margin-top:8px;">
+                能力建设不再“一刀切”。不同层级、不同角色对应不同 AI 能力要求，用四层横向能力塔讲清楚：
+                <strong>L1 全员素养，L2 业务流程应用，L3 跨域协同，L4 工程与平台。</strong>
+            </p>
+            <div class="tower-horizontal">
+                <div class="tower-h-level">
+                    <div class="tower-h-header">
+                        <div class="tower-h-title">L1 · 基础素养</div>
+                        <div class="tower-h-tag">全员</div>
+                    </div>
+                    <ul class="tower-h-list">
+                        <li>理解生成式 AI 基本概念与核心能力边界。</li>
+                        <li>掌握结构化 Prompt 表达方式。</li>
+                        <li>能在日常工作中安全地使用 AI 工具。</li>
+                        <li>具备基本的数据隐私、安全与合规意识。</li>
+                    </ul>
+                </div>
+                <div class="tower-h-level">
+                    <div class="tower-h-header">
+                        <div class="tower-h-title">L2 · 流程级应用</div>
+                        <div class="tower-h-tag">业务主力</div>
+                    </div>
+                    <ul class="tower-h-list">
+                        <li>能识别本岗位 3–5 个高价值 AI 应用场景。</li>
+                        <li>用 AI 辅助分析、撰写、决策与复盘。</li>
+                        <li>在局部流程中嵌入 AI，提升效率与质量。</li>
+                        <li>能对 AI 输出做出可靠的业务判断与校验。</li>
+                    </ul>
+                </div>
+                <div class="tower-h-level">
+                    <div class="tower-h-header">
+                        <div class="tower-h-title">L3 · 跨域协同</div>
+                        <div class="tower-h-tag green">AI Integrator</div>
+                    </div>
+                    <ul class="tower-h-list">
+                        <li>围绕业务目标诊断流程，拆解可 AI 化环节。</li>
+                        <li>设计人机协同 SOP，明确“人 / AI / 规则”分工。</li>
+                        <li>能用项目语言与技术、业务双方高效沟通。</li>
+                        <li>理解关键指标与数据逻辑，推动持续优化。</li>
+                    </ul>
+                </div>
+                <div class="tower-h-level">
+                    <div class="tower-h-header">
+                        <div class="tower-h-title">L4 · 工程与平台</div>
+                        <div class="tower-h-tag green">AI Builder</div>
+                    </div>
+                    <ul class="tower-h-list">
+                        <li>掌握模型工程、RAG/Agent 等核心技术栈。</li>
+                        <li>能设计与落地端到端 AI / 自动化解决方案。</li>
+                        <li>具备平台化思维，复用能力而不是一次性项目。</li>
+                        <li>负责性能、成本、稳定性与风险的综合平衡。</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-block">
+                <strong>使用方式：</strong>每个岗位必须被映射到 L1–L4 中的一个主层级，并定义对应的“必备能力清单 + 评估标准”。
+            </div>
+        </div>
+
+        <!-- Slide 6 人才生态与获取 -->
+        <div class="slide-body" data-title="AI 人才生态：不再只是“多招几个人”" data-sub="从招聘导向转向能力生态">
+            <span class="pill-tag">人才生态</span>
+            <div class="two-col">
+                <div>
+                    <h3 style="font-size:17px;margin:8px 0 6px;">外部生态：从“抢人”到“共建”</h3>
+                    <ul class="bullet-list">
+                        <li>高校与研究机构：共建 AI 课程、实验室、实战项目。</li>
+                        <li>行业联盟与开源社区：参与标准制定与最佳实践沉淀。</li>
+                        <li>合作企业：围绕共性场景（风控、营销、客服等）共建解决方案。</li>
+                    </ul>
+                    <h3 style="font-size:17px;margin:12px 0 6px;">内部生态：从“岗位”到“机会”</h3>
+                    <ul class="bullet-list">
+                        <li>AI 实战项目池，匹配高潜人才参与关键项目。</li>
+                        <li>跨团队轮岗与兼职机制，打通业务与技术、总部与一线。</li>
+                        <li>将“解决复杂问题能力”纳入关键岗位选拔标准。</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="card">
+                        <div class="card-header">核心关注人群</div>
+                        <div class="card-body">
+                            <ul class="bullet-list" style="font-size:13px;">
+                                <li>200–500 名 AI Integrator 中枢梯队。</li>
+                                <li>一批有潜力向 Builder 跃迁的工程师。</li>
+                                <li>一线业务中愿意尝试 AI 的“种子选手”。</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="summary-block">
+                        <strong>策略底线：</strong>品牌与薪酬是基本盘，真正能留住 AI 人才的是成就感、自由度和持续成长曲线。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7 Upskilling 生产线 -->
+        <div class="slide-body" data-title="AI Upskilling：从培训项目到能力生产线" data-sub="分层分群，项目驱动">
+            <span class="pill-tag green">能力生产线</span>
+            <ul class="bullet-list">
+                <li><strong>Step 1 · 全员 AI 入门营：</strong>3 小时在线 + 岗位场景小练习，解决“敢用、会用”的问题。</li>
+                <li><strong>Step 2 · 岗位级 AI 训练营：</strong>按业务链设计“AI 场景包 + 操作指令书”，做到每岗有实战。</li>
+                <li><strong>Step 3 · AI Integrator 认证：</strong>通过项目、交付成果与复盘进行评估，而不是靠考试。</li>
+                <li><strong>Step 4 · Builder Fast-Track：</strong>对重点工程师进行模型工程、Agent 架构等深度培养。</li>
+                <li><strong>Step 5 · AI Leadership Program：</strong>面向 VP/总监/总裁，重塑决策方式与资源配置逻辑。</li>
+            </ul>
+            <div class="summary-block" style="margin-top:10px;">
+                <strong>要求：</strong>每个阶段都必须绑定具体业务项目与价值指标，否则一律视为“仪式性培训”。
+            </div>
+        </div>
+
+        <!-- Slide 8 治理体系 -->
+        <div class="slide-body" data-title="治理框架：HR × Tech × 合规三方共管" data-sub="没有治理，所有蓝图都是幻灯片">
+            <span class="pill-tag gray">治理体系</span>
+            <div class="two-col">
+                <div>
+                    <h3 style="font-size:17px;margin:8px 0 6px;">三层治理结构</h3>
+                    <ul class="bullet-list">
+                        <li><strong>战略层（CEO）：</strong>AI 能力预算、人才结构目标、关键业务链优先级。</li>
+                        <li><strong>执行层（CHRO × CIO × CRO/法务）：</strong>岗位重构蓝图、人机协同 SOP、技能体系与认证、AI 使用红线。</li>
+                        <li><strong>业务层（BG/BU）：</strong>业务链 AI 覆盖率、关键岗位 AI 使用率、效率/质量/风险改善指标。</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="risk-grid">
+                        <div class="risk-card">
+                            <div class="risk-title">风险 1：培训变成“走过场”</div>
+                            <div class="risk-text">
+                                没有岗位重构与项目绑定，再多培训都是表演。解决方案：每个学习模块必须挂靠实际项目。
+                            </div>
+                        </div>
+                        <div class="risk-card">
+                            <div class="risk-title">风险 2：领导层各唱各的调</div>
+                            <div class="risk-text">
+                                HR、Tech、合规各自推进，最终形成碎片化系统。解决方案：三方共管委员会 + 季度复盘。
+                            </div>
+                        </div>
+                        <div class="risk-card">
+                            <div class="risk-title">风险 3：员工恐慌无人回应</div>
+                            <div class="risk-text">
+                                没有“未来角色故事”，只会放大焦虑。解决方案：清晰说明“岗位演进路径与成长机会”。
+                            </div>
+                        </div>
+                        <div class="risk-card">
+                            <div class="risk-title">风险 4：只拉品牌、不改工作</div>
+                            <div class="risk-text">
+                                品牌和薪酬拉来的人才，发现没有有挑战的工作，很快就会离开。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9 18 个月路线图 -->
+        <div class="slide-body" data-title="18 个月路线图：从试点到规模化" data-sub="时间、优先级、硬指标都要摆上台面">
+            <span class="pill-tag">实施路线图</span>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-phase">0–3 个月</div>
+                    <div class="timeline-title">战略与设计期</div>
+                    <ul class="timeline-list">
+                        <li>CEO 定调 AI-First 组织愿景。</li>
+                        <li>明确三类角色的目标结构。</li>
+                        <li>完成 10 大关键岗位重构蓝图。</li>
+                        <li>搭建 AI 能力塔与 Upskilling 整体架构。</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-phase">4–9 个月</div>
+                    <div class="timeline-title">能力与流程搭建期</div>
+                    <ul class="timeline-list">
+                        <li>全员 AI 入门训练覆盖 80%以上员工。</li>
+                        <li>首批 2–3 条业务链落地 AI 场景包。</li>
+                        <li>AI Integrator Fast-Track 启动。</li>
+                        <li>制定并落地 AI 使用边界与合规规范。</li>
+                    </ul>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-phase">10–18 个月</div>
+                    <div class="timeline-title">规模化与固化期</div>
+                    <ul class="timeline-list">
+                        <li>关键业务链 AI 覆盖率 &gt; 70%。</li>
+                        <li>形成 200–500 人 Integrator 中枢梯队。</li>
+                        <li>AI 工作方式成为默认选项。</li>
+                        <li>年度“AI 价值创造复盘”制度化。</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="summary-block" style="margin-top:10px;">
+                <strong>高层会议用一句话：</strong>18 个月时间，把 AI 变成组织的肌肉，而不是幻灯片里的口号。
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="nav-bar">
+    <div class="nav-left">
+        <span>AI 人才战略蓝图 · 10 页</span>
+    </div>
+    <div class="nav-center" id="dots-container">
+        <!-- dots 动态填充 -->
+    </div>
+    <div class="nav-right">
+        <button class="nav-btn" id="btn-prev" onclick="prevSlide()">
+            ← 上一页
+        </button>
+        <button class="nav-btn primary" id="btn-next" onclick="nextSlide()">
+            下一页 →
+        </button>
+    </div>
+</div>
+
+<script>
+    const bodies = Array.from(document.querySelectorAll('.slide-body'));
+    const mainTitle = document.getElementById('slide-main-title');
+    const subTitle = document.getElementById('slide-sub-title');
+    const dotsContainer = document.getElementById('dots-container');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    let current = 0;
+
+    function renderDots() {
+        dotsContainer.innerHTML = '';
+        bodies.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.className = 'dot' + (idx === current ? ' active' : '');
+            dot.onclick = () => goToSlide(idx);
+            dotsContainer.appendChild(dot);
+        });
+    }
+
+    function syncHeader() {
+        const body = bodies[current];
+        mainTitle.textContent = body.getAttribute('data-title') || '';
+        subTitle.textContent = body.getAttribute('data-sub') || '';
+    }
+
+    function updateNavButtons() {
+        btnPrev.disabled = current === 0;
+        btnNext.disabled = current === bodies.length - 1;
+    }
+
+    function goToSlide(index) {
+        if (index < 0 || index >= bodies.length) return;
+        bodies[current].classList.remove('active');
+        current = index;
+        bodies[current].classList.add('active');
+        syncHeader();
+        renderDots();
+        updateNavButtons();
+    }
+
+    function nextSlide() {
+        if (current < bodies.length - 1) {
+            goToSlide(current + 1);
+        }
+    }
+
+    function prevSlide() {
+        if (current > 0) {
+            goToSlide(current - 1);
+        }
+    }
+
+    // 键盘导航
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') nextSlide();
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+    });
+
+    // 初始化
+    renderDots();
+    syncHeader();
+    updateNavButtons();
+</script>
+
+</body>
+</html>
