@@ -1,0 +1,544 @@
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise AI Transformation Strategy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
+    
+    <style>
+        /* =========================================
+           McKinsey & Strategy Integration Style System
+           ========================================= */
+        :root {
+            --deep-navy: #051C2C;   /* Main Brand Color */
+            --electric-blue: #00A9F4; /* Action/Highlight */
+            --cool-grey: #F4F6F8;   /* Backgrounds */
+            --slate: #596B78;       /* Secondary Text */
+            --charcoal: #222222;    /* Primary Text */
+            --border-color: #D1D5DB;
+        }
+
+        body { font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #fff; }
+        
+        /* Grid & Layout System */
+        .reveal .slides section { 
+            text-align: left; 
+            padding: 40px; 
+            height: 100%;
+            box-sizing: border-box;
+        }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        .grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+        
+        /* Typography - The "Expensive" Look */
+        .kicker {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--slate);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            display: inline-block;
+            border-bottom: 2px solid var(--electric-blue);
+            padding-bottom: 2px;
+        }
+
+        .reveal h2 {
+            font-family: 'Georgia', serif; /* Serif for authority */
+            font-size: 32px;
+            color: var(--deep-navy);
+            line-height: 1.1;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .reveal h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--deep-navy);
+            margin-bottom: 10px;
+            text-transform: none;
+        }
+
+        .reveal p, .reveal li, .reveal table {
+            font-size: 16px; /* Smaller font for higher density */
+            line-height: 1.5;
+            color: var(--charcoal);
+        }
+
+        /* Components */
+        .card {
+            background: #fff;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-top: 4px solid var(--deep-navy);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            height: 100%;
+        }
+
+        .highlight-box {
+            background-color: var(--cool-grey);
+            padding: 15px;
+            border-left: 3px solid var(--electric-blue);
+        }
+
+        /* Data Visualization Styles */
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #eee;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+        .data-row:last-child { border-bottom: none; }
+        
+        .big-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--electric-blue);
+            display: block;
+        }
+        
+        .caption {
+            font-size: 12px;
+            color: var(--slate);
+            margin-top: 5px;
+        }
+
+        /* Process Arrows */
+        .process-step {
+            background: var(--deep-navy);
+            color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            position: relative;
+            font-size: 14px;
+        }
+        .process-step::after {
+            content: "▼";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--deep-navy);
+        }
+        .process-step:last-child::after { display: none; }
+
+        /* Footer */
+        .footer-source {
+            position: absolute;
+            bottom: 10px;
+            left: 40px;
+            font-size: 10px;
+            color: #999;
+            font-style: italic;
+        }
+        
+        .page-number {
+            position: absolute;
+            bottom: 10px;
+            right: 40px;
+            font-size: 12px;
+            color: var(--deep-navy);
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Slide 1: Cover -->
+            <section data-background-color="#051C2C">
+                <div style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                    <div style="background: var(--electric-blue); width: 80px; height: 4px; margin-bottom: 40px;"></div>
+                    <h1 style="color: white; font-family: 'Georgia', serif; font-size: 52px; margin-bottom: 20px; line-height: 1.2;">
+                        The AI Revolution:<br>Strategic Operationalization
+                    </h1>
+                    <h3 style="color: #AAB7C4; font-weight: 300; font-size: 24px; margin-top: 0;">
+                        How Microsoft Digital IT is Responding with an<br>AI Center of Excellence (CoE)
+                    </h3>
+                    
+                    <div style="margin-top: 80px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px; display: flex; gap: 50px;">
+                        <div>
+                            <span style="color: var(--electric-blue); font-size: 12px; text-transform: uppercase;">Topic</span><br>
+                            <span style="color: white; font-size: 16px;">Enterprise AI Transformation</span>
+                        </div>
+                        <div>
+                            <span style="color: var(--electric-blue); font-size: 12px; text-transform: uppercase;">Date</span><br>
+                            <span style="color: white; font-size: 16px;">November 2025</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 2: Executive Summary -->
+            <section>
+                <span class="kicker">Executive Summary</span>
+                <h2>构建系统化 CoE 能力是跨越生成式 AI "试点陷阱" 的关键</h2>
+                
+                <div class="grid-2-1" style="height: 65%;">
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <div class="highlight-box">
+                            <h3>Context (背景)</h3>
+                            <p>生成式 AI (GenAI) 的崛起不仅是技术升级，更是工作范式的转移。企业正面临"Shadow AI"（影子AI）泛滥、数据碎片化以及合规风险不受控的三重压力。</p>
+                        </div>
+                        <div class="highlight-box">
+                            <h3>Complication (挑战)</h3>
+                            <p>传统的去中心化 IT 模式导致资源浪费和安全隐患。缺乏统一的战略（Strategy）和治理（Governance），企业无法从零散的 PoC（概念验证）走向规模化价值交付。</p>
+                        </div>
+                        <div class="highlight-box" style="background: #EBF8FF; border-left-color: #051C2C;">
+                            <h3>Resolution (方案)</h3>
+                            <p>Microsoft IT 建立了一个跨职能的 <strong>AI 卓越中心 (CoE)</strong>，通过四大支柱（战略、架构、路线图、文化）统一管理，实现了从"增强"到"重塑"的飞跃。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- KPI / Value Dashboard -->
+                    <div class="card" style="background: var(--deep-navy); color: white; border: none;">
+                        <h3 style="color: white; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 10px;">Strategic Value</h3>
+                        <div style="margin-top: 20px;">
+                            <span style="display: block; font-size: 12px; opacity: 0.7;">SPEED TO MARKET</span>
+                            <span style="font-size: 32px; font-weight: bold; color: var(--electric-blue);">2.5x</span>
+                            <p style="font-size: 13px; margin: 5px 0 20px 0; color: #ccc;">Faster deployment of AI capabilities via unified architecture.</p>
+                            
+                            <span style="display: block; font-size: 12px; opacity: 0.7;">RISK MITIGATION</span>
+                            <span style="font-size: 32px; font-weight: bold; color: var(--electric-blue);">100%</span>
+                            <p style="font-size: 13px; margin: 5px 0 20px 0; color: #ccc;">Compliance coverage for all deployed AI solutions.</p>
+                            
+                            <span style="display: block; font-size: 12px; opacity: 0.7;">PRODUCTIVITY</span>
+                            <span style="font-size: 32px; font-weight: bold; color: var(--electric-blue);">~20%</span>
+                            <p style="font-size: 13px; margin: 5px 0 0 0; color: #ccc;">Efficiency gain in high-touch internal processes.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-source">Source: Microsoft Inside Track; McKinsey Analysis</div>
+            </section>
+
+            <!-- Slide 3: The Paradigm Shift -->
+            <section>
+                <span class="kicker">Strategic Context</span>
+                <h2>从“渐进式增强”到“根本性重塑”的范式转移</h2>
+                <p style="margin-bottom: 30px;">AI CoE 的核心使命是推动思维模式的升级，而非仅仅部署工具。</p>
+                
+                <div style="display: flex; align-items: stretch; gap: 0; margin-top: 40px; height: 300px;">
+                    <!-- Left: Old Way -->
+                    <div style="flex: 1; background: #F4F6F8; padding: 30px; position: relative;">
+                        <div style="position: absolute; top: -15px; left: 20px; background: #999; color: white; padding: 5px 10px; font-size: 12px; font-weight: bold;">TRADITIONAL IT</div>
+                        <h3 style="color: #666;">AI Augmentation (增强)</h3>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 20px;">"Adding AI to existing processes"</p>
+                        <ul style="font-size: 14px; color: #666; padding-left: 20px;">
+                            <li style="margin-bottom: 10px;">在 Word 中增加拼写检查</li>
+                            <li style="margin-bottom: 10px;">孤立的工具优化</li>
+                            <li style="margin-bottom: 10px;">关注局部效率提升</li>
+                            <li><strong>Result:</strong> Incremental Gains</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Middle: Arrow -->
+                    <div style="width: 60px; background: linear-gradient(90deg, #F4F6F8 0%, #051C2C 100%); display: flex; align-items: center; justify-content: center;">
+                        <span style="color: white; font-size: 24px;">➔</span>
+                    </div>
+                    
+                    <!-- Right: New Way -->
+                    <div style="flex: 1; background: #051C2C; padding: 30px; position: relative;">
+                        <div style="position: absolute; top: -15px; left: 20px; background: var(--electric-blue); color: white; padding: 5px 10px; font-size: 12px; font-weight: bold;">AI COE APPROACH</div>
+                        <h3 style="color: white;">AI Transformation (重塑)</h3>
+                        <p style="font-size: 14px; color: #AAB7C4; margin-bottom: 20px;">"Redesigning processes for AI"</p>
+                        <ul style="font-size: 14px; color: white; padding-left: 20px;">
+                            <li style="margin-bottom: 10px;">自动生成初稿，重写创作流程</li>
+                            <li style="margin-bottom: 10px;">端到端 (End-to-End) 流程再造</li>
+                            <li style="margin-bottom: 10px;">创造全新的用户体验</li>
+                            <li><strong>Result:</strong> Exponential Value</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; padding: 15px; border: 1px dashed var(--deep-navy); font-size: 14px;">
+                    <strong>关键思考 (Key Question):</strong> 如果去掉了所有历史包袱，在拥有 AI 能力的今天，我们是否还会以现在的步骤来设计这个业务流程？
+                </div>
+            </section>
+
+            <!-- Slide 4: The 4 Pillars Framework -->
+            <section>
+                <span class="kicker">Operational Framework</span>
+                <h2>支撑企业级 AI 转型的四大核心支柱 (Four Pillars)</h2>
+                <p style="font-size: 16px; margin-bottom: 30px; color: #666;">CoE 通过这四个维度的协同，确保技术落地与业务战略的紧密对齐。</p>
+
+                <div class="grid-2" style="gap: 20px;">
+                    <!-- Pillar 1 -->
+                    <div class="card" style="border-top-color: var(--deep-navy);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h3>1. Strategy (战略)</h3>
+                            <span style="font-size: 30px; color: #eee;">01</span>
+                        </div>
+                        <div style="height: 2px; background: #eee; margin: 10px 0;"></div>
+                        <ul style="list-style: none; padding: 0; font-size: 14px;">
+                            <li style="margin-bottom: 8px;"><strong>Vision Definition:</strong> 明确 "AI First" 的愿景与边界。</li>
+                            <li style="margin-bottom: 8px;"><strong>Value Assessment:</strong> 建立基于 ROI 的项目筛选漏斗。</li>
+                            <li style="color: var(--electric-blue);"><em>Focus: High Value, High Feasibility.</em></li>
+                        </ul>
+                    </div>
+
+                    <!-- Pillar 2 -->
+                    <div class="card" style="border-top-color: var(--deep-navy);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h3>2. Architecture (架构)</h3>
+                            <span style="font-size: 30px; color: #eee;">02</span>
+                        </div>
+                        <div style="height: 2px; background: #eee; margin: 10px 0;"></div>
+                        <ul style="list-style: none; padding: 0; font-size: 14px;">
+                            <li style="margin-bottom: 8px;"><strong>Unified Stack:</strong> 统一的模型层与编排层 (Orchestration)。</li>
+                            <li style="margin-bottom: 8px;"><strong>Data Governance:</strong> 打破数据孤岛，确保数据质量。</li>
+                            <li style="color: var(--electric-blue);"><em>Focus: Scalability & Interoperability.</em></li>
+                        </ul>
+                    </div>
+
+                    <!-- Pillar 3 -->
+                    <div class="card" style="border-top-color: var(--deep-navy);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h3>3. Roadmap (路线图)</h3>
+                            <span style="font-size: 30px; color: #eee;">03</span>
+                        </div>
+                        <div style="height: 2px; background: #eee; margin: 10px 0;"></div>
+                        <ul style="list-style: none; padding: 0; font-size: 14px;">
+                            <li style="margin-bottom: 8px;"><strong>Portfolio Management:</strong> 构想 -> 孵化 -> 运营化。</li>
+                            <li style="margin-bottom: 8px;"><strong>KPI Tracking:</strong> 持续监控采用率与业务影响。</li>
+                            <li style="color: var(--electric-blue);"><em>Focus: Agile Delivery & Measurement.</em></li>
+                        </ul>
+                    </div>
+
+                    <!-- Pillar 4 -->
+                    <div class="card" style="border-top-color: var(--deep-navy);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h3>4. Culture (文化)</h3>
+                            <span style="font-size: 30px; color: #eee;">04</span>
+                        </div>
+                        <div style="height: 2px; background: #eee; margin: 10px 0;"></div>
+                        <ul style="list-style: none; padding: 0; font-size: 14px;">
+                            <li style="margin-bottom: 8px;"><strong>Skilling:</strong> 全员 AI 素养培训与提示词工程教育。</li>
+                            <li style="margin-bottom: 8px;"><strong>Change Management:</strong> 鼓励实验，容忍失败。</li>
+                            <li style="color: var(--electric-blue);"><em>Focus: Adoption & Responsible AI.</em></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 5: Deep Dive - Architecture -->
+            <section>
+                <span class="kicker">Technical Enablement</span>
+                <h2>架构深潜：构建安全、可互操作的 AI 技术堆栈</h2>
+                <div class="grid-2-1">
+                    <div style="background: #F8F9FA; padding: 20px; border: 1px solid #ddd;">
+                        <h4 style="color: var(--slate); font-size: 14px; text-transform: uppercase; margin-bottom: 15px;">Target Architecture Layers</h4>
+                        
+                        <!-- Layer 1 -->
+                        <div style="background: white; padding: 10px; margin-bottom: 10px; border-left: 4px solid #00A9F4; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                            <strong style="font-size: 14px;">User Experience Layer</strong>
+                            <p style="font-size: 12px; margin: 0; color: #666;">Copilots embedded in Microsoft 365, Dynamics, Custom Apps</p>
+                        </div>
+                        
+                        <!-- Layer 2 -->
+                        <div style="background: white; padding: 10px; margin-bottom: 10px; border-left: 4px solid #051C2C; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                            <strong style="font-size: 14px;">Orchestration & Semantic Layer</strong>
+                            <p style="font-size: 12px; margin: 0; color: #666;">Semantic Kernel, Prompt Flow, Context Management</p>
+                        </div>
+
+                        <!-- Layer 3 -->
+                        <div style="background: white; padding: 10px; margin-bottom: 10px; border-left: 4px solid #051C2C; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                            <strong style="font-size: 14px;">Model & AI Services Layer</strong>
+                            <p style="font-size: 12px; margin: 0; color: #666;">Azure OpenAI (GPT-4), Fine-tuned Models, Vector Search</p>
+                        </div>
+
+                        <!-- Layer 4 -->
+                        <div style="background: white; padding: 10px; border-left: 4px solid #596B78; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                            <strong style="font-size: 14px;">Data & Trust Layer</strong>
+                            <p style="font-size: 12px; margin: 0; color: #666;">Microsoft Graph, Dataverse, Security & Governance Guardrails</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 style="font-size: 18px;">Core Design Principles</h3>
+                        <ul style="font-size: 15px; color: #444; margin-top: 20px;">
+                            <li style="margin-bottom: 15px;">
+                                <strong>Secure by Design:</strong> 安全不是外挂，而是内嵌于架构层（如 Tenant 隔离）。
+                            </li>
+                            <li style="margin-bottom: 15px;">
+                                <strong>Reusable Components:</strong> 避免重复造轮子，CoE 提供标准的 API 和 SDK。
+                            </li>
+                            <li style="margin-bottom: 15px;">
+                                <strong>Human in the Loop:</strong> 架构上必须保留人工审核与干预的接口。
+                            </li>
+                        </ul>
+                        <div style="margin-top: 30px; background: #EBF8FF; padding: 15px; font-size: 13px;">
+                            "架构的一致性是消除技术债务、实现 AI 规模化扩展的先决条件。"
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 6: Governance & Responsible AI -->
+            <section>
+                <span class="kicker">Risk & Governance</span>
+                <h2>负责任 AI (RAI)：将伦理原则转化为可执行的流程</h2>
+                <p style="margin-bottom: 30px;">治理不是创新的刹车，而是高速公路上的护栏。</p>
+
+                <div class="grid-2" style="align-items: center;">
+                    <div>
+                        <h3 style="font-size: 18px; margin-bottom: 20px;">RAI Implementation Flow</h3>
+                        <div class="process-step">
+                            <strong>1. Impact Assessment (评估)</strong><br>
+                            <span style="font-size: 12px; opacity: 0.8;">立项阶段：评估用例对用户、隐私和社会的潜在影响。</span>
+                        </div>
+                        <div class="process-step">
+                            <strong>2. Technical Reviews (审查)</strong><br>
+                            <span style="font-size: 12px; opacity: 0.8;">开发阶段：红队测试 (Red Teaming)，漏洞扫描，偏见检测。</span>
+                        </div>
+                        <div class="process-step">
+                            <strong>3. Monitoring & Feedback (监控)</strong><br>
+                            <span style="font-size: 12px; opacity: 0.8;">运营阶段：持续监控模型漂移 (Drift) 和用户反馈。</span>
+                        </div>
+                    </div>
+
+                    <div style="background: #F4F6F8; padding: 30px; border-radius: 4px;">
+                        <h3 style="color: var(--deep-navy);">Microsoft 6大 AI 原则</h3>
+                        <div class="grid-2" style="font-size: 14px; margin-top: 20px;">
+                            <div>
+                                <ul style="list-style: none; padding: 0;">
+                                    <li style="padding: 5px 0; border-bottom: 1px solid #ddd;">1. Fairness (公平)</li>
+                                    <li style="padding: 5px 0; border-bottom: 1px solid #ddd;">2. Reliability (可靠)</li>
+                                    <li style="padding: 5px 0; border-bottom: 1px solid #ddd;">3. Privacy (隐私)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <ul style="list-style: none; padding: 0;">
+                                    <li style="padding: 5px 0; border-bottom: 1px solid #ddd;">4. Inclusiveness (包容)</li>
+                                    <li style="padding: 5px 0; border-bottom: 1px solid #ddd;">5. Transparency (透明)</li>
+                                    <li style="padding: 5px 0; border-bottom: 1px solid #ddd;">6. Accountability (问责)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px; font-size: 13px; color: #666;">
+                            <strong>实践：</strong> 集中管控标准（Centralized Standards），但允许业务部门在合规框架内自主创新（Federated Innovation）。
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 7: Case Study -->
+            <section>
+                <span class="kicker">Case Study: Customer Zero</span>
+                <h2>微软内部实战：利用 Copilot 重塑员工体验</h2>
+                <p>Microsoft Digital 充当"Customer Zero"（第零号客户），先行验证产品成熟度与业务价值。</p>
+
+                <div class="grid-3" style="margin-top: 40px;">
+                    <!-- Case 1 -->
+                    <div class="card">
+                        <div style="background: #EBF8FF; color: var(--deep-navy); padding: 5px 10px; display: inline-block; font-size: 12px; font-weight: bold; margin-bottom: 15px;">USE CASE: HR SERVICE</div>
+                        <h4 style="margin-bottom: 10px;">AskHR Virtual Assistant</h4>
+                        <p style="font-size: 14px; color: #666;">利用 GenAI 自动检索政策文档，通过自然语言回答员工复杂的福利问题。</p>
+                        <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">
+                            <span class="big-number">20%</span>
+                            <span class="caption">REDUCTION IN HR CASE VOLUME</span>
+                        </div>
+                    </div>
+
+                    <!-- Case 2 -->
+                    <div class="card">
+                        <div style="background: #EBF8FF; color: var(--deep-navy); padding: 5px 10px; display: inline-block; font-size: 12px; font-weight: bold; margin-bottom: 15px;">USE CASE: IT SUPPORT</div>
+                        <h4 style="margin-bottom: 10px;">Helpdesk Copilot</h4>
+                        <p style="font-size: 14px; color: #666;">辅助支持人员快速总结工单历史，推荐解决方案，并自动生成回复草稿。</p>
+                        <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">
+                            <span class="big-number">22%</span>
+                            <span class="caption">FASTER RESOLUTION TIME</span>
+                        </div>
+                    </div>
+
+                    <!-- Case 3 -->
+                    <div class="card">
+                        <div style="background: #EBF8FF; color: var(--deep-navy); padding: 5px 10px; display: inline-block; font-size: 12px; font-weight: bold; margin-bottom: 15px;">USE CASE: CODING</div>
+                        <h4 style="margin-bottom: 10px;">Developer Velocity</h4>
+                        <p style="font-size: 14px; color: #666;">在工程团队全面部署 GitHub Copilot，辅助代码编写、测试和文档生成。</p>
+                        <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">
+                            <span class="big-number">55%</span>
+                            <span class="caption">INCREASE IN CODING SPEED</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 8: Strategic Recommendations -->
+            <section>
+                <span class="kicker">Strategic Playbook</span>
+                <h2>给 C-Level 高管的行动建议 (Actionable Recommendations)</h2>
+                
+                <div style="display: flex; gap: 30px; height: 70%;">
+                    <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div class="data-row">
+                            <strong style="color: var(--deep-navy);">1. Start with Why (从痛点出发)</strong>
+                            <span style="color: #666; width: 60%;">不要为了 AI 而 AI。寻找那些"高摩擦"、数据密集型的流程进行优先改造。</span>
+                        </div>
+                        <div class="data-row">
+                            <strong style="color: var(--deep-navy);">2. Invest in People (人才为先)</strong>
+                            <span style="color: #666; width: 60%;">技术易得，文化难建。将 30% 的预算用于技能培训 (Skilling) 和变革管理。</span>
+                        </div>
+                        <div class="data-row">
+                            <strong style="color: var(--deep-navy);">3. Centralize Standards (统一标准)</strong>
+                            <span style="color: #666; width: 60%;">通过 CoE 建立统一的技术底座和治理红线，避免"技术债"。</span>
+                        </div>
+                        <div class="data-row">
+                            <strong style="color: var(--deep-navy);">4. Decentralize Innovation (边缘创新)</strong>
+                            <span style="color: #666; width: 60%;">赋能业务部门 (LOB) 在安全边界内进行自主实验，激发一线活力。</span>
+                        </div>
+                        <div class="data-row" style="border-bottom: none;">
+                            <strong style="color: var(--deep-navy);">5. Think Big, Start Small (快速迭代)</strong>
+                            <span style="color: #666; width: 60%;">设定宏大愿景，但从 MVP 开始，验证价值后迅速复制推广 (Scale Fast)。</span>
+                        </div>
+                    </div>
+                    
+                    <div style="width: 300px; background: var(--deep-navy); padding: 30px; color: white;">
+                        <h3 style="color: white; margin-bottom: 20px;">Success Checklist</h3>
+                        <ul style="font-size: 14px; line-height: 2;">
+                            <li>☑ Defined AI North Star</li>
+                            <li>☑ Established CoE Charter</li>
+                            <li>☑ Data Estate Modernized</li>
+                            <li>☑ Responsible AI Policy Live</li>
+                            <li>☑ Workforce Skilling Plan</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 9: Closing -->
+            <section data-background-color="#051C2C">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center;">
+                    <h2 style="color: white; border: none; font-size: 48px; margin-bottom: 20px;">Thank You</h2>
+                    <p style="color: #AAB7C4; font-size: 20px; margin-bottom: 40px;">Driving Intelligent Transformation</p>
+                    <div style="width: 100px; height: 2px; background: var(--electric-blue);"></div>
+                    <p style="color: #596B78; font-size: 12px; margin-top: 40px;">Confidential & Proprietary | Based on Microsoft Digital Insights</p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            center: false,
+            hash: true,
+            transition: 'slide',
+            width: 1280,
+            height: 720,
+            margin: 0.08,
+            slideNumber: true
+        });
+    </script>
+</body>
+</html>
+```
