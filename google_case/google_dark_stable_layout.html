@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>Google 2025 AI 复兴复盘</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<style>
+        :root {
+            --bg-deep: #050914;
+            --bg-panel: rgba(13, 25, 48, 0.96);
+            --bg-panel-soft: rgba(18, 32, 64, 0.96);
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --accent-blue: #2d8cff;
+            --accent-cyan: #13c2c2;
+            --accent-purple: #7356ff;
+            --accent-red: #ff4d4f;
+            --accent-gold: #f4a940;
+            --text-main: #f5f7fb;
+            --text-muted: #9ba6c3;
+            --text-soft: #7f8aa5;
+            --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.65);
+            --radius-lg: 18px;
+            --radius-md: 12px;
+            --radius-pill: 999px;
+            --slide-w: 1280px;
+            --slide-h: 720px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+                "Segoe UI", "PingFang SC", "Hiragino Sans GB",
+                "Microsoft YaHei", sans-serif;
+            background: radial-gradient(circle at top, #101b3a 0, #020310 55%, #000 100%);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            overflow: hidden;
+        }
+
+        .deck-shell {
+            display: flex;
+            width: 100%;
+            max-width: 1620px;
+            height: 100vh;
+            padding: 20px;
+            gap: 18px;
+        }
+
+        /* 左侧导航栏 */
+        .sidebar {
+            width: 260px;
+            min-width: 240px;
+            background: linear-gradient(160deg, rgba(9, 18, 40, 0.98), rgba(6, 11, 25, 0.98));
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+            box-shadow: var(--shadow-soft);
+            padding: 18px 16px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        .brand-logo {
+            width: 28px;
+            height: 28px;
+            border-radius: 10px;
+            background: conic-gradient(
+                from 210deg,
+                #2d8cff,
+                #13c2c2,
+                #f4a940,
+                #7356ff,
+                #2d8cff
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(45, 140, 255, 0.7);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-logo::after {
+            content: "";
+            position: absolute;
+            inset: 3px;
+            border-radius: 8px;
+            background: radial-gradient(circle at top left, #1b2a4d, #050915);
+        }
+
+        .brand-logo-dot {
+            position: relative;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 20%, #ffffff, #2d8cff);
+        }
+
+        .brand-text-main {
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+        }
+
+        .brand-text-sub {
+            font-size: 11px;
+            color: var(--text-soft);
+        }
+
+        .tag-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            background: radial-gradient(circle at top left, rgba(45, 140, 255, 0.28), rgba(11, 19, 35, 0.9));
+            border: 1px solid rgba(60, 120, 255, 0.4);
+            font-size: 11px;
+            color: var(--text-main);
+        }
+
+        .tag-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(19, 194, 194, 0.9);
+        }
+
+        .sidebar-section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--text-soft);
+            margin-top: 6px;
+            margin-bottom: 4px;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+            padding-right: 4px;
+        }
+
+        .nav-item {
+            border-radius: 10px;
+            padding: 9px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.18s ease-out;
+            border: 1px solid transparent;
+        }
+
+        .nav-item::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 10px;
+            background: linear-gradient(
+                120deg,
+                rgba(45, 140, 255, 0.0),
+                rgba(19, 194, 194, 0.4),
+                rgba(115, 86, 255, 0.7)
+            );
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: -1;
+        }
+
+        .nav-item:hover {
+            background: radial-gradient(circle at top left, rgba(45, 140, 255, 0.08), rgba(16, 28, 64, 0.98));
+            border-color: rgba(60, 120, 255, 0.65);
+            transform: translateY(-1px);
+        }
+
+        .nav-item.active {
+            background: radial-gradient(circle at top left, rgba(45, 140, 255, 0.16), rgba(11, 18, 40, 0.98));
+            border-color: rgba(60, 120, 255, 0.85);
+            box-shadow: 0 0 22px rgba(45, 140, 255, 0.8);
+        }
+
+        .nav-item.active::before {
+            opacity: 0.25;
+        }
+
+        .nav-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+        }
+
+        .nav-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .nav-index {
+            font-size: 11px;
+            color: var(--accent-cyan);
+            opacity: 0.9;
+        }
+
+        .nav-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .sidebar-footer {
+            margin-top: 4px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .hint {
+            font-size: 10px;
+            color: var(--text-soft);
+        }
+
+        .shortcut {
+            display: inline-flex;
+            gap: 4px;
+            align-items: center;
+            font-size: 10px;
+            color: var(--text-soft);
+        }
+
+        .shortcut kbd {
+            padding: 2px 6px;
+            border-radius: 6px;
+            border: 1px solid rgba(128, 137, 166, 0.6);
+            font-size: 9px;
+            font-family: inherit;
+            background: rgba(5, 11, 26, 0.9);
+        }
+
+        /* 右侧幻灯片区 */
+        .slide-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+        }
+
+        .slide-stage {
+            position: relative;
+            width: 100%;
+            max-width: var(--slide-w);
+            aspect-ratio: 16 / 9;
+            background: radial-gradient(circle at top left, #182748, #060b18 42%, #020310 100%);
+            border-radius: 26px;
+            border: 1px solid rgba(135, 154, 211, 0.25);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            padding: 26px 30px 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .slide-badge {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--accent-cyan);
+        }
+
+        .slide-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 11px;
+            color: var(--text-soft);
+        }
+
+        .slide-meta-pill {
+            padding: 3px 8px;
+            border-radius: var(--radius-pill);
+            border: 1px solid rgba(108, 127, 199, 0.7);
+            background: rgba(8, 16, 40, 0.9);
+        }
+
+        .slide-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin-top: 4px;
+            gap: 14px;
+        }
+        .slide-headline {
+            margin-bottom: 2px;
+        }
+        .slide-columns {
+            flex: 1;
+            display: flex;
+            gap: 22px;
+        }
+
+        .slide-body {
+            flex: 1.4;
+            padding-right: 10px;
+        }
+
+        .slide-aside {
+            flex: 1;
+            max-width: 40%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .slide-title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .slide-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .pill {
+            font-size: 11px;
+            padding: 3px 9px;
+            border-radius: 999px;
+            border: 1px solid rgba(128, 149, 220, 0.7);
+            background: rgba(13, 24, 52, 0.92);
+            color: var(--text-muted);
+        }
+
+        .pill.strong {
+            border-color: rgba(45, 140, 255, 0.9);
+            color: var(--accent-cyan);
+            background: radial-gradient(circle at top left, rgba(45, 140, 255, 0.4), rgba(10, 18, 40, 0.98));
+        }
+
+        .key-number {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+
+        .key-number-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .card {
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(116, 132, 199, 0.4);
+            background: radial-gradient(circle at top left, rgba(32, 53, 104, 0.6), rgba(7, 12, 30, 0.98));
+            padding: 10px 11px;
+        }
+
+        .card.soft {
+            background: radial-gradient(circle at top, rgba(32, 53, 104, 0.35), rgba(6, 11, 28, 0.96));
+        }
+
+        .card-header {
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-tag {
+            font-size: 10px;
+            color: var(--accent-cyan);
+        }
+
+        .card-body {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .bullet-list {
+            list-style: none;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-top: 4px;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 14px;
+        }
+
+        .bullet-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+        }
+
+        .bullet-list li + li {
+            margin-top: 2px;
+        }
+
+        .inline-label {
+            font-size: 11px;
+            color: var(--text-soft);
+        }
+
+        .inline-label strong {
+            color: var(--accent-cyan);
+            font-weight: 500;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-top: 6px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 8px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .timeline-time {
+            color: var(--accent-cyan);
+            min-width: 60px;
+        }
+
+        .timeline-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-top: 4px;
+            background: var(--accent-blue);
+            box-shadow: 0 0 10px rgba(45, 140, 255, 0.9);
+        }
+
+        .timeline-text {
+            flex: 1;
+        }
+
+        /* 底部控制条 */
+        .slide-footer {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: var(--text-soft);
+        }
+
+        .progress-bar {
+            position: relative;
+            width: 160px;
+            height: 4px;
+            border-radius: 999px;
+            background: rgba(77, 97, 168, 0.5);
+            overflow: hidden;
+        }
+
+        .progress-inner {
+            position: absolute;
+            inset: 0;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+        }
+
+        .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn {
+            border-radius: 999px;
+            border: 1px solid rgba(126, 143, 214, 0.75);
+            background: rgba(6, 13, 30, 0.9);
+            color: var(--text-main);
+            font-size: 11px;
+            padding: 4px 10px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.15s ease-out;
+        }
+
+        .nav-btn span.icon {
+            font-size: 13px;
+        }
+
+        .nav-btn:hover {
+            border-color: rgba(45, 140, 255, 1);
+            background: radial-gradient(circle at top left, rgba(45, 140, 255, 0.18), rgba(8, 15, 35, 0.96));
+            transform: translateY(-1px);
+        }
+
+        .nav-btn:active {
+            transform: translateY(0);
+        }
+
+        .page-indicator {
+            font-size: 11px;
+            color: var(--text-soft);
+            min-width: 70px;
+            text-align: right;
+        }
+
+        /* 每页 slide */
+        .slide {
+            display: none;
+            height: 100%;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 适度缩放以适配小屏幕 */
+        @media (max-width: 1380px) {
+            .deck-shell {
+                padding: 14px;
+            }
+            .sidebar {
+                display: none;
+            }
+            .slide-stage {
+                border-radius: 18px;
+                padding: 18px 18px 16px;
+            }
+            .slide-title {
+                font-size: 22px;
+            }
+            .slide-main {
+                flex-direction: column;
+            }
+            .slide-aside {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="deck-shell">
+<!-- 左侧导航 -->
+<aside class="sidebar">
+<div>
+<div class="brand">
+<div class="brand-logo">
+<div class="brand-logo-dot"></div>
+</div>
+<div>
+<div class="brand-text-main">Google AI 复兴复盘</div>
+<div class="brand-text-sub">2023-2025 组织与AI战略重构</div>
+</div>
+</div>
+<div class="tag-chip">
+<span class="tag-dot"></span>
+<span>AI 原生组织 · 战时转型 </span>
+</div>
+</div>
+<div>
+<div class="sidebar-section-title">Outline</div>
+<ul class="nav-list" id="navList">
+<li class="nav-item active" data-slide="0">
+<div class="nav-title-row">
+<span class="nav-title">封面 &amp; 关键问题</span>
+<span class="nav-index">01</span>
+</div>
+<div class="nav-desc">Google 如何从“AI 失利者”回到牌桌中央？</div>
+</li>
+<li class="nav-item" data-slide="1">
+<div class="nav-title-row">
+<span class="nav-title">组织变革：从分散到一体化作战</span>
+<span class="nav-index">02</span>
+</div>
+<div class="nav-desc">Brain + DeepMind 雷霆合并，重构指挥体系</div>
+</li>
+<li class="nav-item" data-slide="2">
+<div class="nav-title-row">
+<span class="nav-title">The Great Merger：终结双雄内耗</span>
+<span class="nav-index">03</span>
+</div>
+<div class="nav-desc">结束“赛马文化”，统一路线与算力资源</div>
+</li>
+<li class="nav-item" data-slide="3">
+<div class="nav-title-row">
+<span class="nav-title">研产一体：STO + 铁三角编组</span>
+<span class="nav-index">04</span>
+</div>
+<div class="nav-desc">从科研论文导向到产品落地导向</div>
+</li>
+<li class="nav-item" data-slide="4">
+<div class="nav-title-row">
+<span class="nav-title">去肥增肌：层级收缩与资源聚焦</span>
+<span class="nav-index">05</span>
+</div>
+<div class="nav-desc">“Removing layers”＋Kill Projects</div>
+</li>
+<li class="nav-item" data-slide="5">
+<div class="nav-title-row">
+<span class="nav-title">人才策略（上）：激进猎取</span>
+<span class="nav-index">06</span>
+</div>
+<div class="nav-desc">2.7B 人才收购与薪酬特区</div>
+</li>
+<li class="nav-item" data-slide="6">
+<div class="nav-title-row">
+<span class="nav-title">人才策略（下）：职业隔离</span>
+<span class="nav-index">07</span>
+</div>
+<div class="nav-desc">反竞价、长期锁定与竞业壁垒</div>
+</li>
+<li class="nav-item" data-slide="7">
+<div class="nav-title-row">
+<span class="nav-title">文化重塑：战时实用主义</span>
+<span class="nav-index">08</span>
+</div>
+<div class="nav-desc">从 Risk-Averse 到 Risk-Smart</div>
+</li>
+<li class="nav-item" data-slide="8">
+<div class="nav-title-row">
+<span class="nav-title">阵痛与撕裂：变革代价</span>
+<span class="nav-index">09</span>
+</div>
+<div class="nav-desc">Old Google vs New Google 的冲突</div>
+</li>
+<li class="nav-item" data-slide="9">
+<div class="nav-title-row">
+<span class="nav-title">OD Insights：对大象转身的启示</span>
+<span class="nav-index">10</span>
+</div>
+<div class="nav-desc">Founder Mode、势能与哑铃化组织</div>
+</li>
+</ul>
+</div>
+<div class="sidebar-footer">
+<div class="hint">提示：支持 <strong>左右方向键</strong> 切换页面。</div>
+<div class="shortcut">
+<span>导航：</span>
+<kbd>←</kbd> <kbd>→</kbd>
+<span>/ 点击左侧目录</span>
+</div>
+</div>
+</aside>
+<!-- 右侧舞台 -->
+<main class="slide-wrapper">
+<section class="slide-stage">
+<header class="slide-header">
+<div class="slide-badge">Google · AI Transformation Review</div>
+<div class="slide-meta">
+<div class="slide-meta-pill">机密 · 内部讨论草案</div>
+<div>2023-2025</div>
+</div>
+</header>
+<!-- Slides 容器 -->
+<div id="slidesContainer" style="flex:1; position:relative;">
+<!-- Slide 0 封面 + 关键问题 -->
+<section class="slide active">
+<div class="slide-main"><div class="slide-headline"><h1 class="slide-title">Google 2025 AI 复兴复盘</h1><div class="slide-subtitle">
+                                从“被 OpenAI 逼到墙角”，到重新打出 Gemini 与 DeepMind 组合拳，Google
+                                用两年时间完成了一次高烈度的组织与文化重构。
+                            </div></div><div class="slide-columns"><div class="slide-body">
+
+
+<div class="pill-row">
+<span class="pill strong">核心问题：大象如何在 AI 战场上重新起跑？</span>
+<span class="pill">组织模式：从分散联邦到 Integrated Combat</span>
+<span class="pill">人才策略：极端不均匀智力分布下的攻防战</span>
+<span class="pill">文化重塑：从学术理想主义到战时实用主义</span>
+</div>
+<ul class="bullet-list">
+<li><strong>起点：</strong>Bard 首战失利 → 不是技术落后，而是组织架构与决策机制失灵。</li>
+<li><strong>外部压力：</strong>OpenAI 以 &lt;1000 人的小团队，在大模型与产品节奏上全面压制。</li>
+<li><strong>核心应对：</strong>雷霆式重组 Google DeepMind，聚焦 Gemini 主航道，层级收缩、资源回收。</li>
+<li><strong>复盘视角：</strong>组织、人才、文化、机制四个维度，理解“大象转身”的打法与代价。</li>
+</ul>
+</div><aside class="slide-aside">
+<div class="card soft">
+<div class="card-header">
+<span>三大 Guiding Questions</span>
+<span class="card-tag">Framing</span>
+</div>
+<div class="card-body">
+<ol style="padding-left:14px; margin: 4px 0; line-height:1.7;">
+<li>Google 在 AI 战场上<strong>真正缺的是什么</strong>？技术、组织还是文化？</li>
+<li>它如何利用自身规模与生态，构建对初创公司的<strong>降维打击</strong>？</li>
+<li>对其他大体量科技/金融企业，Google 的这轮 AI 复兴带来哪些<strong>OD 启示</strong>？</li>
+</ol>
+</div>
+</div>
+<div class="card">
+<div class="card-header">
+<span>结论先行（Executive Summary）</span>
+<span class="card-tag">1 slide version</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>这是一次以 <strong>“打败 GPT”</strong> 为唯一北极星的战时重组。</li>
+<li>从“多中心学术联合体”→“单线指挥的一体化作战部队”。</li>
+<li>用<strong>极端人才策略</strong>和<strong>去层级化</strong>，为 AI 研发与落地打通快速通道。</li>
+</ul>
+</div>
+</div>
+</aside></div></div>
+</section>
+<!-- Slide 1 组织总体变革 -->
+<section class="slide">
+<div class="slide-main"><div class="slide-headline"><h2 class="slide-title">1. 组织变革：从“分散联邦”到“一体化作战”</h2><div class="slide-subtitle">
+                                OpenAI 的小团队敏捷性，放大了 Google 多中心结构的所有弱点：信息割裂、算力分散、路线内耗。
+                            </div></div><div class="slide-columns"><div class="slide-body">
+
+
+<div class="grid-2">
+<div class="card soft">
+<div class="card-header">
+<span>过去：分散联邦制</span>
+<span class="card-tag">Bard 失利背后</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>数十个 AI 团队分散在 Search、Ads、Android、Cloud 等不同 BU。</li>
+<li>Google Brain vs DeepMind：地理分隔（山景城 vs 伦敦）＋文化差异（工程派 vs 学术派）。</li>
+<li>“带有敌意的赛马”消耗的是算力和顶尖人才，而非形成合力。</li>
+</ul>
+</div>
+</div>
+<div class="card soft">
+<div class="card-header">
+<span>现在：Integrated Combat</span>
+<span class="card-tag">一体化作战</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>以 <strong>Google DeepMind</strong> 为 AI 中枢，统一模型研发与产品落地节奏。</li>
+<li>Gemini 应用团队直接划归 DeepMind，打通“研究→产品→用户”的闭环。</li>
+<li>以单一北极星指标：<strong>“打败 GPT”</strong> 统一不同 BU 的优先级。</li>
+</ul>
+</div>
+</div>
+</div>
+<div style="margin-top: 10px;">
+<div class="inline-label">
+<strong>OD 视角：</strong>从“多中心学术联盟”向“战时联合司令部”转型，
+                                    核心是<strong>权力与资源的实质性集中</strong>，而不是简单的“挂同一个牌子”。
+                                </div>
+</div>
+</div><aside class="slide-aside">
+<div class="card">
+<div class="card-header">
+<span>结构性痛点 → 组织设计回应</span>
+<span class="card-tag">Design Logic</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li><strong>痛点 1：</strong>研究与产品割裂，模型无法及时进入 Search / Android。</li>
+<li><strong>痛点 2：</strong>路线之争消耗顶尖科学家注意力，决策缓慢。</li>
+<li><strong>痛点 3：</strong>Moonshot 项目林立，资源分散、缺乏集中火力。</li>
+</ul>
+<div style="margin-top:6px; font-size:11px; color:var(--text-soft);">
+<strong>对应手段：</strong>DeepMind 中枢化、STO 机制、Kill Projects、层级收缩。
+                                    </div>
+</div>
+</div>
+<div class="card soft">
+<div class="card-header">
+<span>从视角看这次调整</span>
+<span class="card-tag">OD Lens</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>典型的<strong>“危机驱动的大规模 operating model 重构”</strong>。</li>
+<li>本质是：用 AI 作为战略中枢，反向重构组织，而不是把 AI 当“功能部门”。</li>
+</ul>
+</div>
+</div>
+</aside></div></div>
+</section>
+<!-- Slide 2 Great Merger -->
+<section class="slide">
+<div class="slide-main"><div class="slide-headline"><h2 class="slide-title">1.1 终结“双雄内耗”：The Great Merger</h2><div class="slide-subtitle">
+                                Brain（Transformer 发源地）与 DeepMind（AlphaGo 团队）的合并，是这轮 AI 复兴的
+                                “外科手术”。真正改变的不是 Logo，而是权力结构与指挥权。
+                            </div></div><div class="slide-columns"><div class="slide-body">
+
+
+<div class="card soft" style="margin-bottom:10px;">
+<div class="card-header">
+<span>合并前：敌对赛马的两座山头</span>
+<span class="card-tag">Problem Statement</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>Brain：工程派，偏大规模系统实现，贴近 TPU 和产品团队。</li>
+<li>DeepMind：学术派，偏 long-term research，AlphaGo、AlphaFold 等“赢得口碑不赚现金”的项目。</li>
+<li>算力与人才被拆成两套体系，路线争论多于联合攻坚。</li>
+</ul>
+</div>
+</div>
+<div class="grid-2">
+<div class="card">
+<div class="card-header">
+<span>雷霆手段</span>
+<span class="card-tag">2023-2024</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>Sundar Pichai 直接出手，强行合并为 <strong>Google DeepMind</strong>。</li>
+<li>Demis Hassabis 获得 AI 中枢的<strong>绝对指挥权</strong>，结束路线之争。</li>
+<li>Jeff Dean 转任首席科学家，专注算法与 TPU 基建的长期结合，平稳安置“技术元老”。</li>
+</ul>
+</div>
+</div>
+<div class="card">
+<div class="card-header">
+<span>组织与权力上的含义</span>
+<span class="card-tag">Implication</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>用一次性强干预，打破“两个中心”的历史惯性，避免长期扯皮。</li>
+<li>通过<strong>科学家角色重塑</strong>（从 BU 老大 → 首席科学家），实现体面退位与知识传承。</li>
+<li>以 DeepMind 的科研声誉作为旗帜，重新点燃内部 AI 自豪感。</li>
+</ul>
+</div>
+</div>
+</div>
+</div><aside class="slide-aside">
+<div class="card soft">
+<div class="card-header">
+<span>“合并”不是简单加总</span>
+<span class="card-tag">设计要义</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li><strong>权力统一：</strong>谁说了算必须极度清晰。</li>
+<li><strong>叙事统一：</strong>从“我们 vs 他们”到“我们对 GPT”。</li>
+<li><strong>资源统一：</strong>算力、数据和人才预算必须聚焦在 Gemini 主航道。</li>
+</ul>
+</div>
+</div>
+<div class="card">
+<div class="card-header">
+<span>可借鉴点（对其他大公司）</span>
+<span class="card-tag">Playbook</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>在 AI 这种<strong>非连续性创新</strong>赛道，中枢必须唯一。</li>
+<li>不要指望“自然协同”，必须通过组织大手术创造成熟的协同结构。</li>
+</ul>
+</div>
+</div>
+</aside></div></div>
+</section>
+<!-- Slide 3 STO -->
+<section class="slide">
+<div class="slide-main"><div class="slide-headline"><h2 class="slide-title">1.2 研产融合：STO + RS/RE/PM 铁三角</h2><div class="slide-subtitle">
+                                从“研究院做完论文扔给产品部”到“Single Thread Owner 统筹的一体化攻坚”，Google
+                                在 AI 时代重写了自己的研发生产关系。
+                            </div></div><div class="slide-columns"><div class="slide-body">
+
+
+<div class="card soft" style="margin-bottom:8px;">
+<div class="card-header">
+<span>From 线性接力 → To 闭环共创</span>
+<span class="card-tag">Operating Model Shift</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>过去：Research → 抛给 Product → 再本地化，节奏错位、责任不清。</li>
+<li>现在：以<strong>Single Thread Owner（STO）</strong> 为轴，打通研究、工程与产品。</li>
+</ul>
+</div>
+</div>
+<div class="grid-2">
+<div class="card">
+<div class="card-header">
+<span>STO 机制</span>
+<span class="card-tag">Hassabis as STO</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>Hassabis 作为横跨 Research &amp; Product 的 <strong>“唯一责任人”</strong>。</li>
+<li>DeepMind 可以向各产品线派驻“技术政委”，确保模型演进对齐业务北极星。</li>
+<li>AI-in-the-loop：模型迭代直接在 Search、Android、Workspace 中做实验闭环。</li>
+</ul>
+</div>
+</div>
+<div class="card">
+<div class="card-header">
+<span>RS + RE + PM 铁三角</span>
+<span class="card-tag">Squad Design</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li><strong>RS（Research Scientist）：</strong>设计 Gemini 等核心架构与算法。</li>
+<li><strong>RE（Research Engineer）：</strong>负责大规模分布式训练与系统实现。</li>
+<li><strong>PM：</strong>直接对接 Cloud / Ads / 终端客户场景，确保“生而为用”。</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="inline-label" style="margin-top:10px;">
+<strong>要点：</strong>把以前“流水线式”的分工改成<strong>跨职能混编小队</strong>，
+                                让算法设计、工程实现与市场需求在同一个迭代节奏内对齐。
+                            </div>
+</div><aside class="slide-aside">
+<div class="card soft">
+<div class="card-header">
+<span>大规模实验闭环</span>
+<span class="card-tag">AI-in-the-loop</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>通过 Search / YouTube / Android 的海量流量，快速验证模型迭代收益。</li>
+<li>将安全性、偏见控制、性能指标<strong>内嵌在实验设计</strong>中，而不是事后审批。</li>
+</ul>
+</div>
+</div>
+<div class="card">
+<div class="card-header">
+<span>对其他企业的启示</span>
+<span class="card-tag">Design Insight</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>AI 时代的“研产分离”会被放大为严重缺陷。</li>
+<li>需要一个真正有权的 <strong>STO / CPO</strong>，用“一条线逻辑”统筹资源。</li>
+</ul>
+</div>
+</div>
+</aside></div></div>
+</section>
+<!-- Slide 4 去肥增肌 -->
+<section class="slide">
+<div class="slide-main"><div class="slide-headline"><h2 class="slide-title">1.3 去肥增肌：De-layering &amp; 资源聚焦</h2><div class="slide-subtitle">
+                                AI 战时状态下，层级就是摩擦，项目就是分心。Google 用多轮裁撤与 Kill Projects，为
+                                Gemini 主航道“清场”。
+                            </div></div><div class="slide-columns"><div class="slide-body">
+
+
+<div class="grid-2">
+<div class="card soft">
+<div class="card-header">
+<span>“Removing layers” 的含义</span>
+<span class="card-tag">结构收缩</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>2023-2025 多轮裁员，Sundar 公开提出 <strong>“Removing layers”</strong>。</li>
+<li>压缩中间管理层，减少“传话筒”，提高决策速度。</li>
+<li>AI 相关组织的审批链路显著缩短，靠近“一线代码与模型”。</li>
+</ul>
+</div>
+</div>
+<div class="card soft">
+<div class="card-header">
+<span>Kill Projects &amp; 资源回收</span>
+<span class="card-tag">Focus</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>关停 Area 120 等创新孵化器（曾是 20% 时间文化的象征）。</li>
+<li>大量 Moonshot 项目被收缩，将算力与人才回收到 Gemini / Cloud AI 主线。</li>
+<li>从“广撒网创新”转向“集中火力打 AI 基础设施与平台能力”。</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="inline-label" style="margin-top: 10px;">
+<strong>取舍逻辑：</strong>在 AI 冲刺窗口期，<strong>“重点做对几件事”</strong> 比
+                                “做很多有趣的事” 更重要——这是对过去 Google 创新文化的一次反直觉修正。
+                            </div>
+</div><aside class="slide-aside">
+<div class="card">
+<div class="card-header">
+<span>示意：层级与动能（概念图）</span>
+<span class="card-tag">Metaphor</span>
+</div>
+<div class="card-body">
+<div class="timeline">
+<div class="timeline-item">
+<div class="timeline-time">2022</div>
+<div class="timeline-dot"></div>
+<div class="timeline-text">层级多、项目散，创新多但战线过长。</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-time">2023</div>
+<div class="timeline-dot"></div>
+<div class="timeline-text">开始裁撤与合并，AI 组织开始收拢。</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-time">2024-25</div>
+<div class="timeline-dot"></div>
+<div class="timeline-text">Gemini / DeepMind 成为资源重心，执行速度显著提升。</div>
+</div>
+</div>
+</div>
+</div>
+<div class="card soft">
+<div class="card-header">
+<span>给大公司的一句话建议</span>
+</div>
+<div class="card-body">
+<div class="inline-label">
+<strong>先决定“不做什么”</strong>，再讨论 AI 做什么。  
+                                        没有资源收缩的 AI 战略，最后都会变成 PPT 战略。
+                                    </div>
+</div>
+</div>
+</aside></div></div>
+</section>
+<!-- Slide 5 人才策略上 -->
+<section class="slide">
+<div class="slide-main"><div class="slide-headline"><h2 class="slide-title">2.1 人才进攻：Acqui-hiring 与薪酬特区</h2><div class="slide-subtitle">
+                                在 AI 时代，Google 承认：<strong>一个 Noam Shazeer 的价值 &gt; 1000 个 L5 工程师。</strong>
+                                因此必须创造非常规交易结构与激励制度，去赢回关键智力。
+                            </div></div><div class="slide-columns"><div class="slide-body">
+
+
+<div class="card soft" style="margin-bottom:8px;">
+<div class="card-header">
+<span>标志性事件：2.7B 许可 + 人才回归</span>
+<span class="card-tag">Noam Shazeer</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>通过向 Character.ai 支付约 <strong>$2.7B 技术许可费</strong>，伴随 Noam Shazeer 回归 Google。</li>
+<li>实质上是一笔“<strong>人才收购（Acqui-hiring）+ 技术许可</strong>”的组合交易。</li>
+<li>向市场释放信号：Google 愿意为关键 AI 人才支付“创始人级”价格。</li>
+</ul>
+</div>
+</div>
+<div class="grid-2">
+<div class="card">
+<div class="card-header">
+<span>Bimodal Compensation</span>
+<span class="card-tag">薪酬双轨制</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>普通职级（Lx）保留原有人事体系和薪酬带。</li>
+<li>对顶级 AI 科学家和极少数“技术创始人型”人才，设立<strong>薪酬特区</strong>：</li>
+<li style="margin-left:10px;">
+                                                • 对标创业者的股权回报  
+                                                • 独立算力与团队配置预算  
+                                            </li>
+</ul>
+</div>
+</div>
+<div class="card">
+<div class="card-header">
+<span>为什么必须这么做？</span>
+<span class="card-tag">智力分布假设</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>AI 研发的产出分布极度不均匀，<strong>顶尖 1% 的决定性作用</strong>被放大。</li>
+<li>在 OpenAI / Anthropic / 初创公司高薪强吸引下，传统薪酬体系已失去竞争力。</li>
+<li>不承认“人才的极端不均匀性”，就是在策略上自欺。</li>
+</ul>
+</div>
+</div>
+</div>
+</div><aside class="slide-aside">
+<div class="card soft">
+<div class="card-header">
+<span>对 HR / OD 的挑战</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>从“公平性逻辑”到“关键性逻辑”：  
+                                            不再用统一薪酬规则覆盖所有人。
+                                        </li>
+<li>内部沟通上，要解释：这是围绕 AI 北极星的<strong>战时特殊安排</strong>。</li>
+</ul>
+</div>
+</div>
+<div class="card">
+<div class="card-header">
+<span>可以借鉴的机制设计</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>为极少数 AI 关键人才设置 <strong>“Founder-like track”</strong>。</li>
+<li>绑定长期留任与具体技术里程碑，而非只绑定年限。</li>
+</ul>
+</div>
+</div>
+</aside></div></div>
+</section>
+<!-- Slide 6 人才策略下 -->
+<section class="slide">
+<div class="slide-main"><div class="slide-headline"><h2 class="slide-title">2.2 人才防御：职业隔离与流失壁垒</h2><div class="slide-subtitle">
+                                进攻之外，Google 在关键人才防御上也下了重注：反竞价、长期锁定、竞业限制，形成多重“护城河”。
+                            </div></div><div class="slide-columns"><div class="slide-body">
+
+
+<div class="grid-2">
+<div class="card soft">
+<div class="card-header">
+<span>防御手段组合</span>
+<span class="card-tag">Defensive Play</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li><strong>反竞价机制：</strong>关键领域 RS / Engineer 收到竞对 Offer 时，自动触发 ~1.2x Package 反竞价，并追加期权。</li>
+<li><strong>长期留任奖：</strong>设置 3-5 年时间锁的大额股票，用沉没成本锁定顶尖科学家。</li>
+<li><strong>薪酬对标：</strong>整体薪酬水平对标甚至略高于 Meta / OpenAI。</li>
+</ul>
+</div>
+</div>
+<div class="card soft">
+<div class="card-header">
+<span>职业隔离 &amp; 竞业限制</span>
+<span class="card-tag">Career Isolation</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>对核心离职人员实行更长的 Garden Leave 和脱密期，延迟知识泄露窗口。</li>
+<li>法律层面强化竞业限制，形成“物理隔离”。</li>
+<li>心理层面通过使命叙事与内部机会，减少“出走诱因”。</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="inline-label" style="margin-top: 10px;">
+<strong>关键信息：</strong>Google 在 AI 人才上同时采用了<strong>防御性（留住）</strong>和
+                                <strong>进攻性（买回 / 抢人）</strong>双模策略，把顶尖人才当作核心战略资产而非“高级员工”。
+                            </div>
+</div><aside class="slide-aside">
+<div class="card">
+<div class="card-header">
+<span>对其他企业的思考题</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>你是否清楚识别出公司内部那 <strong>“Top 1% 的AI关键人才”</strong>？</li>
+<li>他们的激励设计是否明显<strong>有别于</strong>普通高绩效员工？</li>
+<li>你是否为他们设计了<strong>留任＋流失双向预案</strong>？</li>
+</ul>
+</div>
+</div>
+</aside></div></div>
+</section>
+<!-- Slide 7 文化重塑 -->
+<section class="slide">
+<div class="slide-main"><div class="slide-headline"><h2 class="slide-title">3. 文化重塑：从学术理想主义到战时实用主义</h2><div class="slide-subtitle">
+                                真正困难的不是调整 Org Chart，而是对 Google 基因的“编辑”：从 Risk-Averse
+                                变为 Risk-Smart。
+                            </div></div><div class="slide-columns"><div class="slide-body">
+
+
+<div class="grid-2">
+<div class="card soft">
+<div class="card-header">
+<span>3.1 风险观逆转</span>
+<span class="card-tag">Risk-Smart</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>发布门槛从“完美无瑕”→“快速上线 + 持续迭代”。</li>
+<li>AI Red Teaming（红队测试）：用 AI 对抗 AI，加速安全审查，替代表后长周期人工流程。</li>
+<li>接受“边跑边修”的战时常态，将治理内嵌到研发流程，而非外置为审批关卡。</li>
+</ul>
+</div>
+</div>
+<div class="card soft">
+<div class="card-header">
+<span>3.2 创始人回归：Founder Mode</span>
+<span class="card-tag">Sergey Brin</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>Sergey Brin 回到总部，一线督战、参与 Code Review 和战略会。</li>
+<li>用<strong>创始人权威</strong>突破中层官僚惯性，为激进决策提供政治保护。</li>
+<li>向全员释放信号：这不是一轮普通产品升级，而是关乎生存的战役。</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="grid-2" style="margin-top:8px;">
+<div class="card">
+<div class="card-header">
+<span>3.3 激励与 OKR 节奏</span>
+<span class="card-tag">Performance System</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>在关注论文与学术影响力之外，强化<strong>产品与商业转化</strong>的权重。</li>
+<li>AGI 特种部队（task force）拥有更灵活的激励与晋升节奏。</li>
+<li>OKR 从半年制 → 双月 / 单周 Review，匹配 AI 迭代节奏。</li>
+</ul>
+</div>
+</div>
+<div class="card">
+<div class="card-header">
+<span>3.4 身份重塑与叙事</span>
+<span class="card-tag">Narrative Shift</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>从“开源先锋”转向“技术壁垒构建者”：不再无条件公开核心细节。</li>
+<li>重新强调自身是 Transformer 发明者与 TPU 自研者，夺回 AI 基础设施叙事权。</li>
+<li>内部情绪从“我们被赶超了”转向“我们在用系统性手段反击”。</li>
+</ul>
+</div>
+</div>
+</div>
+</div><aside class="slide-aside">
+<div class="card soft">
+<div class="card-header">
+<span>文化层面的关键 trade-off</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>自由探索 vs 战时聚焦</li>
+<li>完美主义 vs 快速迭代</li>
+<li>学术声誉 vs 商业成果</li>
+</ul>
+<div class="inline-label" style="margin-top:6px;">
+                                        这次转型本质上是对过去“Google 式理想主义”的有意识“收紧”，从而换取在 AI 战场上的速度与执行力。
+                                    </div>
+</div>
+</div>
+</aside></div></div>
+</section>
+<!-- Slide 8 Friction -->
+<section class="slide">
+<div class="slide-main"><div class="slide-headline"><h2 class="slide-title">4. 变革的代价与阵痛：Old vs New Google</h2><div class="slide-subtitle">
+                                任何“大象转身”都有撕裂。Google 内部明显出现了 Old Google 与 New Google 的文化冲突。
+                            </div></div><div class="slide-columns"><div class="slide-body">
+
+
+<div class="card soft" style="margin-bottom:8px;">
+<div class="card-header">
+<span>内部撕裂的典型表现</span>
+<span class="card-tag">Symptoms</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>老员工怀念过去自由、宽松、自下而上的创新氛围，觉得公司变得功利、短视。</li>
+<li>新一代 AI 团队则更拥抱“战时文化”，认为高压是重新夺回领先的必要代价。</li>
+<li>对“裁员 + Kill Projects”存在情感性反弹，尤其是曾象征 Google 精神的项目被关停时。</li>
+</ul>
+</div>
+</div>
+<div class="grid-2">
+<div class="card">
+<div class="card-header">
+<span>对比：Old Google</span>
+<span class="card-tag">Past</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>自由探索、20% 时间、底层创新驱动。</li>
+<li>决策慢但相对包容，强调“不作恶”的大公司责任感。</li>
+<li>AI 更多是长远科研与理想主义舞台。</li>
+</ul>
+</div>
+</div>
+<div class="card">
+<div class="card-header">
+<span>对比：New Google</span>
+<span class="card-tag">Present</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>一体化指挥、高压执行、速度优先。</li>
+<li>裁撤层级、聚焦少数 AI 主航道，强调商业兑现。</li>
+<li>AI 成为战略中枢，而非边缘的科研实验室。</li>
+</ul>
+</div>
+</div>
+</div>
+</div><aside class="slide-aside">
+<div class="card">
+<div class="card-header">
+<span>OD 视角：如何看待这种撕裂？</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>这种冲突是<strong>必然</strong>，也是组织真正改变的信号。</li>
+<li>关键是：  
+                                            • 是否有清晰、诚实的内部叙事  
+                                            • 是否给不同群体留有“体面退出”或“重新加入新叙事”的路径
+                                        </li>
+<li>如果所有人都“很舒服”，通常意味着转型并不真实。</li>
+</ul>
+</div>
+</div>
+</aside></div></div>
+</section>
+<!-- Slide 9 OD Insights -->
+<section class="slide">
+<div class="slide-main"><div class="slide-headline"><h2 class="slide-title">5. OD Insights：大象转身的 4 点深度洞察</h2><div class="slide-subtitle">
+                                用组织与变革的视角，总结这次 Google AI 复兴对大型科技 / 金融企业的启示。
+                            </div></div><div class="slide-columns"><div class="slide-body">
+
+
+<div class="grid-2">
+<div class="card soft">
+<div class="card-header">
+<span>5.1 Founder Mode &gt; Manager Mode</span>
+<span class="card-tag">非连续创新</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>职业经理人倾向于避险与守成，适合“稳态运营”。</li>
+<li>在 AI 这种非连续性创新时刻，需要创始人 / 创始人型领导的冒险精神来打破官僚惰性。</li>
+<li>对大公司而言，可以通过<strong>“引入或授权 Founder Mode”</strong>来临时切换组织逻辑。</li>
+</ul>
+</div>
+</div>
+<div class="card soft">
+<div class="card-header">
+<span>5.2 势能效应：大象不是不能跑，只是需要重构</span>
+<span class="card-tag">Scale Advantage</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>Google 并未模仿 OpenAI 的小团队模式，而是找到自己的<strong>规模优势</strong>：</li>
+<li style="margin-left:10px;">TPU 基建 + Android 生态 + Search / YouTube 分发。</li>
+<li>一旦组织重组完成，这种势能对初创公司构成<strong>降维打击</strong>。</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="grid-2" style="margin-top:8px;">
+<div class="card">
+<div class="card-header">
+<span>5.3 哑铃化组织：超级大脑 + 极致执行</span>
+<span class="card-tag">未来形态</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>通过去肥增肌与 AI 赋能，中层传话筒被挤压。</li>
+<li>组织形态趋向于：  
+                                                • 上端：少数顶级模型团队与架构师（Super Brain）  
+                                                • 下端：大量工程团队 + AI Agents（Extreme Execution）
+                                            </li>
+<li>这是未来 AI 原生企业的一种雏形。</li>
+</ul>
+</div>
+</div>
+<div class="card">
+<div class="card-header">
+<span>5.4 治理与速度的辩证法</span>
+<span class="card-tag">“带刹车跑高速”</span>
+</div>
+<div class="card-body">
+<ul class="bullet-list">
+<li>速度 ≠ 鲁莽。关键在于把治理嵌入研发流程本身（如 Red Teaming、Eval、对齐测试）。</li>
+<li>不要让合规与风控部门成为“外置拦截器”，而是成为研发流程的一部分。</li>
+<li>这样才能在保证安全底线的前提下，持续推高迭代节奏。</li>
+</ul>
+</div>
+</div>
+</div>
+</div><aside class="slide-aside">
+<div class="card soft">
+<div class="card-header">
+<span>给管理层的一句收束话</span>
+</div>
+<div class="card-body">
+<div class="inline-label">
+                                        Google 的这次 AI 复兴，<strong>不是靠一个产品赢回来的</strong>，而是靠一次
+                                        <strong>组织＋人才＋文化的综合手术</strong>。  
+                                        如果只学产品、不动组织，最后只会是“看上去在转型”。
+                                    </div>
+</div>
+</div>
+</aside></div></div>
+</section>
+</div>
+<!-- 底部控制条 -->
+<footer class="slide-footer">
+<div class="footer-left">
+<span>Google AI 复兴复盘 </span>
+<div class="progress-bar">
+<div class="progress-inner" id="progressInner"></div>
+</div>
+</div>
+<div class="footer-right">
+<button class="nav-btn" id="prevBtn">
+<span class="icon">←</span><span>上一页</span>
+</button>
+<button class="nav-btn" id="nextBtn">
+<span>下一页</span><span class="icon">→</span>
+</button>
+<div class="page-indicator" id="pageIndicator">01 / 10</div>
+</div>
+</footer>
+</section>
+</main>
+</div>
+<script>
+(function () {
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const navItems = Array.from(document.querySelectorAll(".nav-item"));
+    const progressInner = document.getElementById("progressInner");
+    const pageIndicator = document.getElementById("pageIndicator");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    let currentIndex = 0;
+    const total = slides.length;
+
+    function updateView(index) {
+        if (index < 0 || index >= total) return;
+        currentIndex = index;
+
+        slides.forEach((s, i) => {
+            s.classList.toggle("active", i === currentIndex);
+        });
+        navItems.forEach((n, i) => {
+            n.classList.toggle("active", i === currentIndex);
+        });
+
+        const percent = ((currentIndex + 1) / total) * 100;
+        progressInner.style.width = percent + "%";
+        pageIndicator.textContent =
+            String(currentIndex + 1).padStart(2, "0") +
+            " / " +
+            String(total).padStart(2, "0");
+    }
+
+    navItems.forEach((item) => {
+        item.addEventListener("click", () => {
+            const idx = parseInt(item.getAttribute("data-slide"), 10);
+            updateView(idx);
+        });
+    });
+
+    prevBtn.addEventListener("click", () => {
+        updateView(Math.max(0, currentIndex - 1));
+    });
+
+    nextBtn.addEventListener("click", () => {
+        updateView(Math.min(total - 1, currentIndex + 1));
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") {
+            updateView(Math.min(total - 1, currentIndex + 1));
+        } else if (e.key === "ArrowLeft") {
+            updateView(Math.max(0, currentIndex - 1));
+        }
+    });
+
+    // 初始状态
+    updateView(0);
+})();
+</script>
+</body>
+</html>
