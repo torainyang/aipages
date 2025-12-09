@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>麦肯锡报告：构建核心技术领导力</title>
+    <style>
+        /* 麦肯锡核心视觉规范 */
+        :root {
+            --mck-blue-dark: #003366;
+            --mck-blue-mid: #0056A6;
+            --mck-blue-light: #E6F0F9;
+            --mck-gray-dark: #333333;
+            --mck-gray-mid: #666666;
+            --mck-gray-light: #F5F7FA;
+            --mck-white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+        }
+
+        body {
+            background-color: var(--mck-gray-light);
+            color: var(--mck-gray-dark);
+            line-height: 1.5;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* 幻灯片容器 - 麦肯锡标准布局 */
+        .slide {
+            min-height: 100vh;
+            width: 100vw;
+            padding: 80px 100px 60px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        /* 固定报告标题栏 */
+        .report-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--mck-white);
+            border-bottom: 1px solid #ddd;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 100px;
+        }
+
+        .report-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--mck-blue-dark);
+        }
+
+        .slide-indicator {
+            display: flex;
+            gap: 8px;
+        }
+
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #ddd;
+            transition: all 0.3s ease;
+        }
+
+        .indicator-dot.active {
+            background-color: var(--mck-blue-mid);
+            transform: scale(1.2);
+        }
+
+        /* 幻灯片内容区域 */
+        .slide-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 30px;
+            right: 100px;
+            font-size: 14px;
+            color: var(--mck-gray-mid);
+        }
+
+        /* 麦肯锡风格标题 */
+        .mck-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--mck-blue-dark);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .mck-subtitle {
+            font-size: 20px;
+            color: var(--mck-blue-mid);
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        /* 结论框 - 金字塔原理体现 */
+        .key-takeaway {
+            background-color: var(--mck-blue-light);
+            border-left: 4px solid var(--mck-blue-mid);
+            padding: 20px;
+            margin: 30px 0;
+            font-size: 18px;
+            color: var(--mck-blue-dark);
+        }
+
+        /* 麦肯锡矩阵/图表容器 */
+        .mck-matrix {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .matrix-cell {
+            background-color: var(--mck-white);
+            border: 1px solid #e0e0e0;
+            padding: 25px;
+        }
+
+        .cell-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--mck-blue-dark);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--mck-blue-light);
+        }
+
+        /* 列表样式 */
+        .mck-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .mck-list li {
+            margin-bottom: 12px;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .mck-list li:before {
+            content: "•";
+            color: var(--mck-blue-mid);
+            font-size: 20px;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        /* 案例研究框 */
+        .case-study {
+            background-color: var(--mck-white);
+            border: 1px solid #e0e0e0;
+            padding: 25px;
+            margin: 25px 0;
+            position: relative;
+        }
+
+        .case-tag {
+            display: inline-block;
+            background-color: var(--mck-blue-light);
+            color: var(--mck-blue-mid);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* 导航按钮 */
+        .nav-btn {
+            position: fixed;
+            bottom: 40px;
+            background-color: var(--mck-blue-mid);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 12px rgba(0, 86, 166, 0.3);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--mck-blue-dark);
+            transform: translateY(-2px);
+        }
+
+        #prev-btn {
+            left: 40px;
+        }
+
+        #next-btn {
+            right: 40px;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 60px 30px 40px;
+            }
+            
+            .report-header {
+                padding: 0 30px;
+            }
+            
+            .mck-title {
+                font-size: 24px;
+            }
+            
+            .mck-matrix {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-btn {
+                bottom: 20px;
+            }
+            
+            #prev-btn {
+                left: 20px;
+            }
+            
+            #next-btn {
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 固定报告标题栏 -->
+    <div class="report-header">
+        <div class="report-title">构建面向数字时代的核心技术领导力</div>
+        <div class="slide-indicator">
+            <div class="indicator-dot active" data-slide="0"></div>
+            <div class="indicator-dot" data-slide="1"></div>
+            <div class="indicator-dot" data-slide="2"></div>
+            <div class="indicator-dot" data-slide="3"></div>
+            <div class="indicator-dot" data-slide="4"></div>
+            <div class="indicator-dot" data-slide="5"></div>
+            <div class="indicator-dot" data-slide="6"></div>
+        </div>
+    </div>
+
+    <!-- 幻灯片 1: 封面 -->
+    <section class="slide" id="slide-1">
+        <div class="slide-content">
+            <h1 class="mck-title">构建面向数字时代的核心技术领导力</h1>
+            <p class="mck-subtitle">从"业务管理者"到"技术翻译者"的战略转型</p>
+            
+            <div class="key-takeaway">
+                核心结论：技术领导力的本质是"应用力"与"翻译力"，可通过系统性方法构建，以驱动组织在AI与数字化时代的价值创造[1](@ref)[2](@ref)。
+            </div>
+            
+            <div style="margin-top: 50px; color: var(--mck-gray-mid);">
+                <p>基于对嘉信理财董事总经理 Neesha Hathi 的深度访谈分析</p>
+                <p style="margin-top: 10px; font-size: 14px;">报告日期：2025年12月9日 | 麦肯锡方法论应用</p>
+            </div>
+        </div>
+        <div class="slide-number">1</div>
+    </section>
+
+    <!-- 幻灯片 2: 执行摘要 -->
+    <section class="slide" id="slide-2">
+        <div class="slide-content">
+            <h2 class="mck-title">执行摘要</h2>
+            <p class="mck-subtitle">技术领导力转型的核心洞察与行动框架</p>
+            
+            <div class="mck-matrix">
+                <div class="matrix-cell">
+                    <div class="cell-title">重新定义"懂技术"</div>
+                    <p>从"技术专家"思维转向"技术应用者"思维，核心是<b>将技术洞察应用于解决商业问题的能力</b>，而非掌握编程技能[2](@ref)。</p>
+                </div>
+                
+                <div class="matrix-cell">
+                    <div class="cell-title">领导者的新角色</div>
+                    <p>充当<b>商业与技术对话的"翻译者"</b>，连接技术方案与业务需求，建立决策可信度并驱动创新[1](@ref)。</p>
+                </div>
+            </div>
+            
+            <div class="key-takeaway">
+                21世纪的领导力需要远见、敏捷性以及激励和赋能他人的能力。应对商业趋势就像试图降落一架飞机，"但我突然发现几乎没有数据或仪表来操控。"[1](@ref)
+            </div>
+            
+            <ul class="mck-list">
+                <li><b>可复制的构建路径：</b>通过亲身实践、系统学习、不耻下问、深入细节四大纪律性习惯培养技术直觉</li>
+                <li><b>价值实现机制：</b>将技术投资转化为清晰的商业价值（效率提升、体验创新）</li>
+                <li><b>最终产出：</b>获得董事会与团队的双重信任，建立"快速失败，更快学习"的文化[1](@ref)</li>
+            </ul>
+        </div>
+        <div class="slide-number">2</div>
+    </section>
+
+    <!-- 幻灯片 3: 问题诊断 -->
+    <section class="slide" id="slide-3">
+        <div class="slide-content">
+            <h2 class="mck-title">问题诊断：传统领导力在数字时代的核心挑战</h2>
+            <p class="mck-subtitle">多数业务领导者因"技术应用力"缺失，无法将技术潜能转化为商业成果</p>
+            
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 40px; margin: 30px 0;">
+                <div>
+                    <h3 style="color: var(--mck-blue-mid); margin-bottom: 15px;">三大核心挑战</h3>
+                    <ul class="mck-list">
+                        <li><b>沟通失效：</b>无法与技术团队有效对话，导致需求传达失真与资源错配</li>
+                        <li><b>决策盲点：</b>因不了解技术实现的可能与约束，在战略决策中错失机遇或低估风险</li>
+                        <li><b>可信度赤字：</b>在高管层讨论技术投资时，因缺乏细节支撑而难以捍卫提案</li>
+                    </ul>
+                    
+                    <div class="key-takeaway" style="margin-top: 30px;">
+                        技术理解与业务理解的脱节，已成为组织捕获数字价值的主要瓶颈；提升"技术应用力"是领导力升级的关键任务。
+                    </div>
+                </div>
+                
+                <div style="background-color: var(--mck-white); padding: 20px; border: 1px solid #e0e0e0;">
+                    <h4 style="color: var(--mck-blue-dark); margin-bottom: 15px;">领导力工厂衡量指标</h4>
+                    <p style="font-size: 14px; margin-bottom: 10px;">一家科技公司使用的KPI包括：</p>
+                    <ul style="font-size: 14px; padding-left: 20px;">
+                        <li>员工发展时间量变化</li>
+                        <li>360度反馈分数</li>
+                        <li>客户满意度分数</li>
+                        <li>员工满意度分数</li>
+                    </ul>
+                    <p style="font-size: 12px; color: var(--mck-gray-mid); margin-top: 15px;">来源：麦肯锡领导力工厂研究[1](@ref)</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">3</div>
+    </section>
+
+    <!-- 幻灯片 4: 解决方案框架 -->
+    <section class="slide" id="slide-4">
+        <div class="slide-content">
+            <h2 class="mck-title">解决方案：构建技术领导力的四大纪律性习惯</h2>
+            <p class="mck-subtitle">通过系统性习惯，将"技术应用力"转化为可执行的领导力行为</p>
+            
+            <div class="mck-matrix">
+                <div class="matrix-cell">
+                    <div class="cell-title">1. 亲身实践</div>
+                    <p><b>行动：</b>在工作与生活中主动使用前沿技术（如生成式AI工具）[1](@ref)。</p>
+                    <p><b>目的：</b>获得一手体验，形成对技术能力与局限性的直觉判断。</p>
+                    <p style="font-size: 14px; color: var(--mck-gray-mid); margin-top: 10px; font-style: italic;">"你只有开始使用它并理解如何应用，才能真正知道它能做什么。"</p>
+                </div>
+                
+                <div class="matrix-cell">
+                    <div class="cell-title">2. 系统学习</div>
+                    <p><b>行动：</b>针对关键领域（如网络安全、数据架构）进行结构化课程学习。</p>
+                    <p><b>目的：</b>建立系统化知识框架，超越碎片化认知。</p>
+                    <p style="font-size: 14px; color: var(--mck-gray-mid); margin-top: 10px; font-style: italic;">"我决定参加一个30小时的网络安全课程，这是一个深入学习的绝佳机会。"</p>
+                </div>
+                
+                <div class="matrix-cell">
+                    <div class="cell-title">3. 不耻下问</div>
+                    <p><b>行动：</b>在团队中营造安全氛围，勇于提出"基础"问题。</p>
+                    <p><b>目的：</b>加速学习曲线，并激励团队进行知识澄清与共享。</p>
+                    <p style="font-size: 14px; color: var(--mck-gray-mid); margin-top: 10px; font-style: italic;">"一些领导者，尤其是那些职业生涯较长的，害怕承认自己不知道的事情。"</p>
+                </div>
+                
+                <div class="matrix-cell">
+                    <div class="cell-title">4. 深入细节（最高杠杆点）</div>
+                    <p><b>行动：</b>每周固定时间参与技术评审会，追踪项目关键决策。</p>
+                    <p><b>目的：</b><b>区分概念性理解与实践性理解</b>，培养做出精准商业与技术权衡的判断力。</p>
+                </div>
+            </div>
+            
+            <div class="key-takeaway" style="margin-top: 30px;">
+                实验和学习文化对于领导力发展至关重要——但必须积极追求。建立"快速失败，更快学习"的文化有助于鼓励个人和团队创新和成长[1](@ref)。
+            </div>
+        </div>
+        <div class="slide-number">4</div>
+    </section>
+
+    <!-- 幻灯片 5: 价值验证案例 -->
+    <section class="slide" id="slide-5">
+        <div class="slide-content">
+            <h2 class="mck-title">价值验证：从技术洞察到商业成果的案例实证</h2>
+            <p class="mck-subtitle">"技术应用力"如何直接驱动商业价值：效率提升与体验创新双案例</p>
+            
+            <div class="case-study">
+                <span class="case-tag">效率提升案例</span>
+                <h3 style="color: var(--mck-blue-dark); margin-bottom: 15px;">OpenView Gateway API项目</h3>
+                <p><b>业务问题：</b>RIA客户跨系统手动处理数据，流程低效、易错、难扩展。</p>
+                <p><b>技术方案：</b>创建标准化API接口，实现数据自动交换。</p>
+                <p><b>商业价值：</b>运营效率显著提升，错误率下降，为客户创造可衡量的新价值。</p>
+                <div style="background-color: var(--mck-blue-light); padding: 15px; margin-top: 15px; border-radius: 4px;">
+                    <b>关键洞察：</b>对业务、客户需求以及技术可能性的深入理解，使我们能够抓住这个机会。
+                </div>
+            </div>
+            
+            <div class="case-study">
+                <span class="case-tag">体验创新案例</span>
+                <h3 style="color: var(--mck-blue-dark); margin-bottom: 15px;">财富顾问服务数字化</h3>
+                <p><b>业务问题：</b>传统电话交易确认模式无法规模化，制约增长。</p>
+                <p><b>技术方案：</b>引入推送通知技术，逐步替代电话流程。</p>
+                <p><b>商业价值：</b>在保留服务核心价值的前提下，大幅提升顾问产能与客户体验，实现服务规模化。</p>
+                <div style="background-color: var(--mck-blue-light); padding: 15px; margin-top: 15px; border-radius: 4px;">
+                    <b>关键洞察：</b>扎实的技术基础与深厚的业务知识相结合，能帮助识别为客户创新的新机会。
+                </div>
+            </div>
+            
+            <div class="key-takeaway" style="margin-top: 30px;">
+                以客户为中心的文化，如亚马逊和苹果的文化，依赖持续的反馈循环来不断学习和改进[1](@ref)。技术领导力并非抽象概念，其价值可直接体现在解决具体的业务瓶颈与开启新的增长模式上。
+            </div>
+        </div>
+        <div class="slide-number">5</div>
+    </section>
+
+    <!-- 幻灯片 6: 实施路径 -->
+    <section class="slide" id="slide-6">
+        <div class="slide-content">
+            <h2 class="mck-title">实施蓝图：非技术背景领导者的个人转型路径</h2>
+            <p class="mck-subtitle">从"被迫学习"到"主动赋能"的三个关键阶段</p>
+            
+            <div style="display: flex; justify-content: space-between; margin: 40px 0; position: relative;">
+                <div style="flex: 1; padding-right: 20px;">
+                    <div style="background-color: var(--mck-white); padding: 25px; border-top: 4px solid var(--mck-blue-mid); height: 100%;">
+                        <h3 style="color: var(--mck-blue-dark); margin-bottom: 15px;">阶段一：触发与启蒙</h3>
+                        <p><b>情景：</b>在技术公司担任非技术职能（如财务、营销），为理解产品而被迫学习。</p>
+                        <p><b>关键转变：</b>意识到<b>理解"如何构建"是做好本职工作的前提</b>。</p>
+                    </div>
+                </div>
+                
+                <div style="flex: 1; padding: 0 10px;">
+                    <div style="background-color: var(--mck-white); padding: 25px; border-top: 4px solid var(--mck-blue-mid); height: 100%;">
+                        <h3 style="color: var(--mck-blue-dark); margin-bottom: 15px;">阶段二：系统化构建</h3>
+                        <p><b>情景：</b>职责扩展至管理技术产品线或数字化项目。</p>
+                        <p><b>关键行动：</b>从关注"客户要什么"延伸到深究"如何构建、支持与演进"。</p>
+                    </div>
+                </div>
+                
+                <div style="flex: 1; padding-left: 20px;">
+                    <div style="background-color: var(--mck-white); padding: 25px; border-top: 4px solid var(--mck-blue-mid); height: 100%;">
+                        <h3 style="color: var(--mck-blue-dark); margin-bottom: 15px;">阶段三：内化与赋能</h3>
+                        <p><b>情景：</b>担任首席数字官等领导职务，负责技术战略。</p>
+                        <p><b>关键行为：</b>通过<b>持续深入设计研讨会与工程团队工作</b>，将技术直觉内化为战略决策的一部分。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="key-takeaway">
+                技术领导力的培养是一个<b>循序渐进的旅程</b>，通常由岗位职责的进化所驱动，而非一蹴而就。首席执行官及其团队应高度关注培养下一代领导者，使其具备在充满挑战的时代中表现出色并蓬勃发展的独特技能和能力[1](@ref)。
+            </div>
+        </div>
+        <div class="slide-number">6</div>
+    </section>
+
+    <!-- 幻灯片 7: 核心建议 -->
+    <section class="slide" id="slide-7">
+        <div class="slide-content">
+            <h2 class="mck-title">核心建议与后续行动</h2>
+            <p class="mck-subtitle">立即采取的三大行动，启动您的技术领导力转型</p>
+            
+            <div class="mck-matrix" style="margin-top: 40px;">
+                <div class="matrix-cell">
+                    <div class="cell-title">行动一：诊断差距</div>
+                    <p>在您的下一个技术相关会议中，记录下所有未完全理解的技术术语或决策逻辑，并制定学习计划。</p>
+                    <div style="background-color: var(--mck-blue-light); padding: 10px; margin-top: 15px; font-size: 14px;">
+                        <b>预期产出：</b>个人技术知识差距清单与90天学习路线图
+                    </div>
+                </div>
+                
+                <div class="matrix-cell">
+                    <div class="cell-title">行动二：深度参与</div>
+                    <p>在未来一个月内，每周固定2小时，全程参与一个核心技术项目的迭代评审会，并追问三个"为什么"。</p>
+                    <div style="background-color: var(--mck-blue-light); padding: 10px; margin-top: 15px; font-size: 14px;">
+                        <b>预期产出：</b>对至少一个技术项目有实践性理解，建立与工程团队的信任关系
+                    </div>
+                </div>
+                
+                <div class="matrix-cell">
+                    <div class="cell-title">行动三：重塑沟通</div>
+                    <p>在准备下一次技术投资汇报时，<b>首先撰写结论页</b>，标题必须是一个完整的行动句，然后反向填充支撑数据。</p>
+                    <div style="background-color: var(--mck-blue-light); padding: 10px; margin-top: 15px; font-size: 14px;">
+                        <b>预期产出：</b>符合金字塔原理的技术投资提案，显著提升高管层沟通效率
+                    </div>
+                </div>
+                
+                <div class="matrix-cell">
+                    <div class="cell-title">长期成功要素</div>
+                    <p>利用核心技术——生成式AI、智能体AI、高级分析等——来加速学习和领导力发展。这些技术可以扩大工厂的覆盖范围并压缩其学习周期[1](@ref)。</p>
+                    <div style="background-color: var(--mck-blue-light); padding: 10px; margin-top: 15px; font-size: 14px;">
+                        <b>关键：</b>精简决策流程，重新定义决策权以专注于少数负责人[1](@ref)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="key-takeaway" style="margin-top: 40px;">
+                成为懂技术的领导者不是要成为技术专家，而是要成为<b>技术的有效应用者</b>和<b>商业价值的连接者</b>。最终目标是建立足够的技术可信度，既能与技术团队深入交流，又能向董事会和高管清晰阐述技术投资的商业价值。
+            </div>
+        </div>
+        <div class="slide-number">7</div>
+    </section>
+
+    <!-- 导航按钮 -->
+    <button class="nav-btn" id="prev-btn">‹</button>
+    <button class="nav-btn" id="next-btn">›</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            const indicators = document.querySelectorAll('.indicator-dot');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            let currentSlide = 0;
+            
+            // 更新指示器状态
+            function updateIndicators() {
+                indicators.forEach((indicator, index) => {
+                    if (index === currentSlide) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+            }
+            
+            // 滚动到指定幻灯片
+            function goToSlide(slideIndex) {
+                if (slideIndex < 0) slideIndex = 0;
+                if (slideIndex >= slides.length) slideIndex = slides.length - 1;
+                
+                currentSlide = slideIndex;
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+                updateIndicators();
+            }
+            
+            // 指示器点击事件
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    goToSlide(index);
+                });
+            });
+            
+            // 上一页/下一页按钮事件
+            prevBtn.addEventListener('click', () => {
+                goToSlide(currentSlide - 1);
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                goToSlide(currentSlide + 1);
+            });
+            
+            // 键盘导航支持
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                    goToSlide(currentSlide - 1);
+                } else if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+                    goToSlide(currentSlide + 1);
+                } else if (e.key === 'Home') {
+                    goToSlide(0);
+                } else if (e.key === 'End') {
+                    goToSlide(slides.length - 1);
+                }
+            });
+            
+            // 滚动检测当前幻灯片
+            let isScrolling = false;
+            window.addEventListener('scroll', () => {
+                if (isScrolling) return;
+                
+                isScrolling = true;
+                setTimeout(() => {
+                    let closestSlide = 0;
+                    let closestDistance = Infinity;
+                    
+                    slides.forEach((slide, index) => {
+                        const rect = slide.getBoundingClientRect();
+                        const distance = Math.abs(rect.top);
+                        
+                        if (distance < closestDistance) {
+                            closestDistance = distance;
+                            closestSlide = index;
+                        }
+                    });
+                    
+                    if (closestSlide !== currentSlide) {
+                        currentSlide = closestSlide;
+                        updateIndicators();
+                    }
+                    
+                    isScrolling = false;
+                }, 100);
+            });
+            
+            // 初始化
+            updateIndicators();
+            
+            // 添加触摸滑动支持
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            document.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = touchStartX - touchEndX;
+                
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        // 向左滑动，下一页
+                        goToSlide(currentSlide + 1);
+                    } else {
+                        // 向右滑动，上一页
+                        goToSlide(currentSlide - 1);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
